@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  location: 1
+  current_holder_id: 
+  player: one
+
+two:
+  location: 1
+  current_holder_id: 
+  player: two
