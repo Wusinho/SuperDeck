@@ -89,6 +89,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_27_234039) do
   create_table "players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "game_id", null: false
+    t.integer "life", default: 20
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_players_on_game_id"
@@ -98,6 +99,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_27_234039) do
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "nick_name"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
