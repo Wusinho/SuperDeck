@@ -2,6 +2,13 @@
 
   <%= input_field(f, :name, 'Nombre', '', :text) %>
 
+  <%= f.fields_for :game_configuration do |game_config_form| %>
+    <%= game_config_form.label :quantity_players %>
+    <%= game_config_form.number_field :quantity_players %>
+
+    <%= game_config_form.label :deck_size %>
+    <%= game_config_form.number_field :deck_size %>
+  <% end %>
 
   <%= f.submit 'Crear', class: 'btn btn-secondary' %>
 <% end %>

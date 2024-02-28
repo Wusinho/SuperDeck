@@ -10,7 +10,6 @@ class CreatePlayerCards < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    # This adds a foreign key from player_cards to players for the current_holder_id column
     add_foreign_key :player_cards, :players, column: :current_holder_id
   end
 end
