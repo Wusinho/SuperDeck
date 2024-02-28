@@ -1,0 +1,32 @@
+@import "color_pallette";
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $primario,
+  "warning": $primario_warning,
+  "danger": $primario_danger,
+  "light": $gris_a,
+  "dark": $gris_b,
+  "background-str": $background-str,
+  "light-b": #e9ecef,
+  "masculino": #457b9d,
+  "femenino": #ffc8dd,
+   "not_used": #02c39a,
+   "menor": #c7f9cc,
+   "adulto": #fe6d73,
+   "mayor": #00bbf9,
+   "general": #ffcb77,
+   "discapacitado": #bad7f2,
+) !default;
+
+//$navbar-light-color:                $primario_danger !default;
+//$navbar-light-hover-color:          $primario_danger !default;
+//$navbar-light-active-color:         $primario_danger !default;
+//$navbar-light-disabled-color:       $primario_danger !default;
+//$navbar-light-icon-color:           $primario_danger !default;
+//$navbar-light-toggler-icon-bg:      $primario_warning !default;
+//$navbar-light-toggler-border-color: $primario_danger !default;
+$navbar-light-brand-color: $primario_alto !default;
+//$navbar-light-brand-hover-color:    $primario_danger !default;;

@@ -1,0 +1,15 @@
+@import "color_pallette";
+
+.error__message {
+  background-color: $primario_warning;
+  color: white;
+  position: absolute;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: error-slide-in 2s;
+  animation-timing-function: ease;
+  z-index: 9999;
+}

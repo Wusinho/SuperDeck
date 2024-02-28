@@ -11,4 +11,6 @@ if Rails.env.development?
   password = '123456'
   AdminUser.create!(email: 'heber@gmail.com', password: password, password_confirmation: password)
   User.create!(email: 'heber@gmail.com', password: password, password_confirmation: password, nick_name: 'Pro')
+  User.create!(email: 'player_0@gmail.com', password: password, password_confirmation: password, nick_name: 'Pro')
+  User.create!(email: 'player_1@gmail.com', password: password, password_confirmation: password, nick_name: 'Pro')
 end

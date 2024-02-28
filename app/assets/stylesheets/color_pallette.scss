@@ -1,0 +1,33 @@
+$lighten_percentage: 20%;
+$darken_percentage: 5%;
+
+// Colores primarios
+$primario: #457b9d;
+$primario_medio: #0a9396;
+$primario_medio_bajo: #94d2bd;
+$primario_bajo: #e9d8a6;
+
+$primario_alto: #003566;
+$primary: #06afbe;
+$secondary: #8ecae6;
+$success: $primario_medio_bajo;
+$background-str: #eef5f9;
+
+$primario_warning: #ee9b00;
+$primario_danger: #ae2012;
+
+$gris_a: #fff;
+$gris_b: #2f333e;
+$gris_c: #f5ebe0;
+$gris_d: #e3d5ca;
+$gris_e: #d5bdaf;
+
+$box_shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+  rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+  rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+$color_contrast_ligh: lighten($gris_c, $darken_percentage);
+$color_contrast: darken($primario_medio, $darken_percentage);
+$color_light_purple: #f1eeff;
+$color_title: #754d42;
+$transition_time: 5s;
