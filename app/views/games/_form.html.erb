@@ -1,0 +1,7 @@
+<%= form_with(model: game, url: resource_path(game)) do |f| %>
+
+  <%= input_field(f, :name, 'Nombre', '', :text) %>
+
+
+  <%= f.submit 'Crear', class: 'btn btn-secondary' %>
+<% end %>

@@ -1,0 +1,41 @@
+@import "color_pallette";
+
+.td-width {
+  width: 140px;
+}
+
+.td-truncate {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+table tr th {
+  color: $primario_alto !important;
+}
+
+.logos {
+  width: 25px;
+  border-radius: 50%;
+}
+
+.circle_btn {
+  background-color: $primary;
+  border-radius: 50%;
+  color: white;
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  text-decoration: none;
+}
+
+.danger_circle_btn {
+  background-color: $primario_danger;
+  border-radius: 50%;
+  color: white;
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  text-decoration: none;
+}

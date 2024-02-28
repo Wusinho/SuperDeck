@@ -1,0 +1,23 @@
+<%= card_format_plus(@model) do%>
+  <%= model_panel(:game) do %>
+    <table class="table table-sm align-middle my-1 table-striped">
+      <thead>
+      <tr>
+        <th class="scope">name</th>
+        <th class="scope">owner</th>
+        <th class="scope">options</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @resources.each do |resource| %>
+        <tr>
+          <td class="min-h-20"><%= resource.name %></td>
+          <td class="min-h-20"><%= resource.owner.nick_name %></td>
+          <td class="min-h-20">
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>

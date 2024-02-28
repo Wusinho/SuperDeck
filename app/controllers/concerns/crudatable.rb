@@ -1,6 +1,5 @@
 module Crudatable
   extend ActiveSupport::Concern
-  include Pagy::Backend
 
   included do
     before_action :set_resource, only: %i[show edit update destroy]
