@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :posts
   get 'home_pages/index'
   devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
