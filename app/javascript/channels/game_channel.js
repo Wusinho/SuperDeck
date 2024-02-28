@@ -16,11 +16,10 @@ import consumer from "channels/consumer"
 // });
 
 
-const game = (game_id, container_id) => consumer.subscriptions.create(
+const game = (game_id) => consumer.subscriptions.create(
     {
       channel: "GameChannel",
       game_id: game_id,
-      container_id: container_id,
     },
     {
       connected() {
@@ -33,7 +32,7 @@ const game = (game_id, container_id) => consumer.subscriptions.create(
 
       received(data) {
         let div = document.createElement('div')
-        console.log(data)
+        console.log(data.view)
         // div.innerHTML = data.element
         // container.prepend(div)
         // Called when there's incoming data on the websocket for this channel

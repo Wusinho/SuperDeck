@@ -7,9 +7,7 @@ class GamesController < ApplicationController
     end
     player = Player.where(user_id: current_user.id, game_id: @resource.id).first
     ActionCable.server.broadcast("game_#{@resource.id}", {
-      player: ApplicationController.render(
-        partial: 'players/player', locals: { player: player }
-      )
+      view: ApplicationController.render(partial: 'players/player', locals: { player: player })
     })
   end
 
