@@ -6,4 +6,8 @@ class Game < ApplicationRecord
   accepts_nested_attributes_for :game_configuration
 
   validates_presence_of :name
+
+  def use_in_game?(current_user)
+    players.where("user_id = ?", current_user).present?
+  end
 end
