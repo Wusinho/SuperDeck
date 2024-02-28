@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_27_234039) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_28_000717) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -41,6 +41,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_27_234039) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "card_actions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player_card_id", null: false
+    t.integer "action"
+    t.boolean "discard"
+    t.string "viewers", default: [], array: true
+    t.string "decider", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_card_id"], name: "index_card_actions_on_player_card_id"
+  end
+
   create_table "cards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "mana_cost"
@@ -66,6 +77,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_27_234039) do
 
   create_table "games", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
+    t.boolean "active", default: true
     t.uuid "owner_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -90,6 +102,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_27_234039) do
     t.uuid "user_id", null: false
     t.uuid "game_id", null: false
     t.integer "life", default: 20
+    t.integer "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_players_on_game_id"
@@ -109,6 +122,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_27_234039) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "card_actions", "player_cards"
   add_foreign_key "game_configurations", "games"
   add_foreign_key "games", "users", column: "owner_id"
   add_foreign_key "player_cards", "cards"

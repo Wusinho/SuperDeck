@@ -4,6 +4,7 @@ class CreatePlayers < ActiveRecord::Migration[7.1]
       t.references :user, null: false, foreign_key: true, type: :uuid
       t.references :game, null: false, foreign_key: true, type: :uuid
       t.integer :life, default: 20
+      t.integer :order
 
       t.timestamps
     end
