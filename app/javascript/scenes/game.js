@@ -2,7 +2,6 @@ import CardHandler from "../helpers/CardHandler"
 import DeckHandler from "../helpers/DeckHandler";
 import InteractiveHandler from "../helpers/InteractiveHandler";
 import UIHandler from "../helpers/UIHandler";
-import Phaser from "phaser"
 import GameHandler from "../helpers/GameHandler";
 
 export default class Game extends Phaser.Game {
