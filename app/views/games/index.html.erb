@@ -19,7 +19,7 @@
             </td>
           <% end %>
           <td>
-            <%= button_to 'Join', game_path(resource) %>
+            <%= link_to 'Join', game_path(resource), data: { turbo: false } %>
           </td>
         </tr>
       <% end %>

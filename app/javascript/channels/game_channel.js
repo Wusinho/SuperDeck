@@ -23,6 +23,8 @@ const game = (game_id) => consumer.subscriptions.create(
     },
     {
       connected() {
+        console.log('CONNECTING')
+        console.log(this)
         // Called when the subscription is ready for use on the server
       },
 
@@ -32,10 +34,7 @@ const game = (game_id) => consumer.subscriptions.create(
 
       received(data) {
         let div = document.createElement('div')
-        console.log(data.view)
-        // div.innerHTML = data.element
-        // container.prepend(div)
-        // Called when there's incoming data on the websocket for this channel
+        console.log(data)
       }
     });
 

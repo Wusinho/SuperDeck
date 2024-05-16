@@ -6,15 +6,7 @@ class GamesController < ApplicationController
     unless @resource.use_in_game?(current_user)
       Player.create(user_id: current_user.id, game_id: @resource.id)
     end
-    player = Player.where(user_id: current_user.id, game_id: @resource.id).first
-    p '-'*100
-    p "game_#{@resource.id}"
-    p '-'*100
-    ActionCable.server.broadcast("game_#{@resource.id}", {
-      element: ApplicationController.render(partial: 'players/player', locals: { player: player }),
-                                         container_id: dom_id(@resource)
-
-    })
+    ActionCable.server.broadcast("game_#{@resource.id}", @resource.players )
   end
 
   def new
