@@ -1,25 +1,43 @@
 import { Controller } from "@hotwired/stimulus"
 import Phaser from "phaser"
 import Game from "../scenes/game"
+import Example from "../scenes/example"
+import gameChannel from "../channels/game_channel";
+import game_channel from "../channels/game_channel";
 
 // https://www.youtube.com/watch?v=QjrVfAvxQ6w CONTINUE WATCHING
 
 // Connects to data-controller="phaser-game"
 export default class extends Controller {
   connect() {
+    // game_channel(123);
+    // this.player = new Phaser("player", {})
+
+    // this.current_player = this.element.dataset.user_id
     this.createGame();
   }
 
   createGame(){
     const config = {
         type: Phaser.AUTO,
-        width: 1500,
+        width: 1100,
         height: 1000,
-        parent: this.element,
-        scene: [
-          Game
-        ]
+        scene: Game
       };
+
+    // const config = {
+    //   type: Phaser.AUTO,
+    //   width: 800,
+    //   height: 600,
+    //   physics: {
+    //     default: 'arcade',
+    //     arcade: {
+    //       gravity: { y: 200 }
+    //     }
+    //   },
+    //   scene: Example
+    // };
+
     new Phaser.Game(config)
   }
 

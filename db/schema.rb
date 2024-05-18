@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_28_000717) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_18_205441) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -66,6 +66,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_28_000717) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "deck_cards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "deck_id", null: false
+    t.uuid "card_id", null: false
+    t.integer "position", null: false
+    t.boolean "drawn", default: false, null: false
+    t.boolean "played", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_deck_cards_on_card_id"
+    t.index ["deck_id"], name: "index_deck_cards_on_deck_id"
+  end
+
+  create_table "decks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "game_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_decks_on_game_id"
+  end
+
   create_table "game_configurations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "quantity_players", default: 2
     t.integer "deck_size", default: 200
@@ -85,17 +104,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_28_000717) do
   end
 
   create_table "player_cards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "location", default: 0
     t.uuid "current_holder_id"
     t.uuid "player_id"
-    t.uuid "game_id", null: false
     t.uuid "card_id", null: false
+    t.boolean "drawn", default: false, null: false
+    t.integer "zone", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["card_id"], name: "index_player_cards_on_card_id"
     t.index ["current_holder_id"], name: "index_player_cards_on_current_holder_id"
-    t.index ["game_id"], name: "index_player_cards_on_game_id"
     t.index ["player_id"], name: "index_player_cards_on_player_id"
+    t.index ["zone"], name: "index_player_cards_on_zone"
   end
 
   create_table "players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -123,10 +142,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_28_000717) do
   end
 
   add_foreign_key "card_actions", "player_cards"
+  add_foreign_key "deck_cards", "cards"
+  add_foreign_key "deck_cards", "decks"
+  add_foreign_key "decks", "games"
   add_foreign_key "game_configurations", "games"
   add_foreign_key "games", "users", column: "owner_id"
   add_foreign_key "player_cards", "cards"
-  add_foreign_key "player_cards", "games"
   add_foreign_key "player_cards", "players"
   add_foreign_key "player_cards", "players", column: "current_holder_id"
   add_foreign_key "players", "games"

@@ -3,6 +3,8 @@ class Game < ApplicationRecord
   has_many :players
   has_many :users, through: :players
   has_one :game_configuration, dependent: :destroy
+  has_one :deck, dependent: :destroy
+  accepts_nested_attributes_for :deck
   accepts_nested_attributes_for :game_configuration
 
   validates_presence_of :name

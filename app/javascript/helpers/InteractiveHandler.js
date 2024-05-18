@@ -2,6 +2,7 @@ export default class InteractiveHandler {
 	constructor(scene) {
 		// requet to server
 		scene.dealCards.on('pointerDown', () => {
+			console.log('dealcard')
 			scene.socket.emit('dealCards', scene.socket.id);
 			scene.dealCards.disableInteractive();
 		})

@@ -1,10 +1,8 @@
 class PlayerCard < ApplicationRecord
   belongs_to :player
-  belongs_to :current_holder, class_name: 'Player', optional: true
-
-  enum location: {deck: 0, hand: 1, in_game: 2, graveyard: 3 }
-
-  validates :location, presence: true
+  has_one :current_holder, class_name: 'Player', optional: true
+  belongs_to :card
+  enum zone: {hand: 0, playzone: 1, graveyard: 2, exile: 3 }
 
   def assign_to(new_holder)
     update(current_holder: new_holder)
