@@ -6,14 +6,14 @@ class Deck < ApplicationRecord
   after_create :initialize_deck
 
   def initialize_deck
-    self.cards.each_with_index do |card, index|
-      self.deck_cards.create(card_id: card.id, position: index + 1, deck_id: self.id)
+    Card.all.each_with_index do |card, index|
+      DeckCard.create(card_id: card.id, position: index + 1, deck_id: self.id)
     end
   end
 
   def add_card(card)
     position = self.deck_cards.count + 1
-    self.deck_cards.create(card_id: card.id, position: index + 1, deck_id: self.id)
+    self.deck_cards.create(card_id: card.id, position: position, deck_id: self.id)
   end
 
   def remove_card(card)
@@ -27,7 +27,7 @@ class Deck < ApplicationRecord
   def draw_card
     deck_card = self.deck_cards.where(drawn: false).order(:position).first
     if deck_card
-      deck_card.update(drawn: true, drawn_at: Time.current)
+      deck_card.update(drawn: true)
       deck_card.card
     end
   end
