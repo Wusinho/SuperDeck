@@ -8,11 +8,9 @@ module ApplicationHelper
     end
   end
 
-  def full_screen_div(custom_classes = '', id = '', data_controller = '', &block)
+  def full_screen_div(custom_classes = '', id = '', &block)
     combined_classes = "full_screen #{custom_classes}".strip
-    content_tag(:div, class: combined_classes, id: id, data: {
-      controller: data_controller
-    }) do
+    content_tag(:div, class: combined_classes, id: id) do
       capture(&block)
     end
   end

@@ -13,4 +13,16 @@ if Rails.env.development?
   User.create!(email: 'heber@gmail.com', password: password, password_confirmation: password, nick_name: 'Pro')
   User.create!(email: 'player_0@gmail.com', password: password, password_confirmation: password, nick_name: 'Pro')
   User.create!(email: 'player_1@gmail.com', password: password, password_confirmation: password, nick_name: 'Pro')
+
+
+  20.times do |i|
+    Card.create(name: "Card #{i}",
+                mana_cost: 3,
+                colors: 'W',
+                types: 'Creature',
+                text: 'fdsfasff'
+
+                )
+
+  end
 end

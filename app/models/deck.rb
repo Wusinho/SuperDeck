@@ -7,13 +7,13 @@ class Deck < ApplicationRecord
 
   def initialize_deck
     self.cards.each_with_index do |card, index|
-      self.deck_cards.create(card: card, position: index + 1, decked_at: Time.current)
+      self.deck_cards.create(card_id: card.id, position: index + 1, deck_id: self.id)
     end
   end
 
   def add_card(card)
     position = self.deck_cards.count + 1
-    self.deck_cards.create(card: card, position: position, decked_at: Time.current)
+    self.deck_cards.create(card_id: card.id, position: index + 1, deck_id: self.id)
   end
 
   def remove_card(card)

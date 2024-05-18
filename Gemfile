@@ -71,3 +71,4 @@ gem 'activeadmin', '~> 3.2'
 gem "sassc-rails"
 gem 'bootstrap', '~> 5.3.1'
 gem 'font-awesome-sass', '~> 6.3.0'
+gem 'faker', '~> 3.3', '>= 3.3.1'

@@ -9,7 +9,13 @@ class Game < ApplicationRecord
 
   validates_presence_of :name
 
+  after_create :create_deck
+
   def use_in_game?(current_user)
     players.where("user_id = ?", current_user).present?
+  end
+
+  def create_deck
+    Deck.create(game: self)
   end
 end
