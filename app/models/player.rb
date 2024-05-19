@@ -5,7 +5,7 @@ class Player < ApplicationRecord
   has_many :cards, through: :player_cards
 
   def add_card_to_hand(card)
-    self.player_cards.create(card: card, zone: 'hand', drawn: true)
+    self.player_cards.create(card_id: card.id, zone: 'hand', drawn: true)
   end
 
   def move_card_to_zone(card, zone)

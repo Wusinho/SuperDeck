@@ -8,6 +8,15 @@ class User < ApplicationRecord
   has_many :players
   has_many :games, through: :players
 
+  def current_game
+    games.find_by(active: true)
+  end
+
+  def player
+    current_game.players.find_by(user_id: self.id)
+  end
+
+
   def self.ransackable_attributes(auth_object = nil)
     # List of all attributes you want to be searchable
     super - %w[encrypted_password reset_password_token password_reset_token owner]

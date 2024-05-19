@@ -1,6 +1,5 @@
 class PlayerCard < ApplicationRecord
   belongs_to :player
-  has_one :current_holder, class_name: 'Player', optional: true
   belongs_to :card
   enum zone: {hand: 0, playzone: 1, graveyard: 2, exile: 3 }
 

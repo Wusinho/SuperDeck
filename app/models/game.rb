@@ -8,11 +8,23 @@ class Game < ApplicationRecord
   accepts_nested_attributes_for :game_configuration
 
   validates_presence_of :name
-
   after_create :create_deck
 
   def use_in_game?(current_user)
     players.where("user_id = ?", current_user).present?
+  end
+
+  def current_player
+    players.find_by(turn_order: current_turn)
+  end
+
+  def draw_card
+    deck.draw_card
+  end
+
+  def next_turn
+    self.current_turn = (current_turn + 1) % players.count
+    save
   end
 
   def create_deck
