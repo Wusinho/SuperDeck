@@ -10,9 +10,12 @@ const gameChannel = consumer.subscriptions.create("GameChannel", {
   },
 
   received(data) {
-    console.log('RECEIVED')
+    // console.log('RECEIVED')
     // console.log(data)
     // Called when there's incoming data on the websocket for this channel
+    if (window.uiHandler) {
+      window.uiHandler.handleCardReceived(data);
+    }
   },
 
 });

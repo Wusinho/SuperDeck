@@ -16,7 +16,6 @@ class User < ApplicationRecord
     current_game.players.find_by(user_id: self.id)
   end
 
-
   def self.ransackable_attributes(auth_object = nil)
     # List of all attributes you want to be searchable
     super - %w[encrypted_password reset_password_token password_reset_token owner]

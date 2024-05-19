@@ -19,6 +19,7 @@ export default class Game extends Phaser.Scene {
 		this.load.image('magentaBoolean', this.defaultImage );
 		this.load.image('cyanPing', this.defaultImage );
 		this.load.image('magentaPing', this.defaultImage );
+		this.load.image('defaultCardSprite', this.defaultImage );
 	}
 
 	create(){

@@ -16,12 +16,12 @@ class GameChannel < ApplicationCable::Channel
 
   def draw_card(data)
     # p '*'*100
-    # p 'DRAW_CARD'
+    p 'DRAW_CARD'
     # game = current_user.current_game
-    #
-    # card = game.draw_card
-    # current_user.player.add_card_to_hand(card)
-    ActionCable.server.broadcast("game_channel", data)
+    # game.draw_card
+    # cards = current_user.player.cards
+    card = Card.last
+    ActionCable.server.broadcast("game_channel", card)
   end
 
   def unsubscribed

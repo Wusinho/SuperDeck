@@ -1,58 +1,33 @@
+import consumer from "channels/consumer";
+
 export default class SocketHandler {
 	constructor(scene) {
-
-		scene.socket = {}
-
-		scene.socket.on('connect', () => {
-			console.log('Connected!');
-			// scene.socket.emit('dealDeck', scene.socket.id);
+		this.scene = scene;
+		this.gameChannel = consumer.subscriptions.create({
+			channel: "GameChannel",
+			game_id: scene.gameId,
+		}, {
+			connected: this.onConnected.bind(this),
+			disconnected: this.onDisconnected.bind(this),
+			received: this.onReceived.bind(this),
 		});
+	}
 
-		scene.on('firstTurn', ()=> {
-			console.log('firstTurn turn')
-			scene.GameHandler.changeGameState();
-		})
+	onConnected() {
+		console.log('Connected to GameChannel');
+	}
 
-		scene.on('changeGameState', (gameState) => {
-			scene.GameHandler.changeGameState(gameState);
-			if ( gameState === 'Initializing') {
-				scene.DeckHandler.dealCard(1000, 860, 'cardBack','playerCard')
-				scene.DeckHandler.dealCard(1000, 135, 'cardBack','opponentCard')
-				scene.dealCards.setInteractive();
-				scene.dealCards.setColor('#00ffff')
-			}
-		})
+	onDisconnected() {
+		console.log('Disconnected from GameChannel');
+	}
 
-		scene.on('dealCards', (cards, socketId) => {
-			console.log(cards);
+	onReceived(data) {
+		console.log('Data received:', data);
+		// Handle data received from the server
+		// this.scene.handleGameData(data);
+	}
 
-			// make if stattement whos turn it is
-
-			// arranging cards one next to the other
-
-
-			// if (socketId === scene.socket.id){
-			// 	for (let i in cards) {
-			// 		let card = scene.GameHandler.playerHand.push(scene.DeckHandler.dealCard(155 + (i * 155), 860, cards[i], 'playerCard'));
-			//
-			// 	}
-			// } else {
-			// 	for (let i in cards) {
-			// 		let card = scene.GameHandler.playerHand.push(scene.DeckHandler.dealCard(155 + (i * 155), 135, 'cardBack','opponentCard'));
-			// 	}
-			// }
-
-		})
-
-		scene.on('cardPlayed', (cardName, socketId) => {
-			console.log(cardName)
-
-			if (socketId === scene.socket.id) {
-				scene.GameHandler.opponentHand.shift().destroy();
-				scene.DeckHandler.dealCard(scene.dropZone.x, scene.dropZone.y, cardName, 'opponentCard');
-			} else {
-
-			}
-		})
+	send(data) {
+		this.gameChannel.perform("draw_card", data);
 	}
 }

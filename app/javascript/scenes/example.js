@@ -1,6 +1,4 @@
 import Phaser from "phaser";
-import gameChannel from "../channels/game_channel";
-import game_channel from "../channels/game_channel";
 
 export default class Example extends Phaser.Scene {
 	constructor() {

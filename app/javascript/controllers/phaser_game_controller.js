@@ -2,8 +2,6 @@ import { Controller } from "@hotwired/stimulus"
 import Phaser from "phaser"
 import Game from "../scenes/game"
 import Example from "../scenes/example"
-import gameChannel from "../channels/game_channel";
-import game_channel from "../channels/game_channel";
 
 // https://www.youtube.com/watch?v=QjrVfAvxQ6w CONTINUE WATCHING
 
