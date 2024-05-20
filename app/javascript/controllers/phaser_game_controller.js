@@ -18,8 +18,8 @@ export default class extends Controller {
   createGame(){
     const config = {
         type: Phaser.AUTO,
-        width: 1100,
-        height: 1000,
+        width: 1200,
+        height: 1250,
         scene: Game
       };
 
