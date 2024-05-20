@@ -20,6 +20,7 @@ class GameChannel < ApplicationCable::Channel
     # game = current_user.current_game
     # game.draw_card
     # cards = current_user.player.cards
+    # cards = [Card.all.limit(7)]
     card = Card.last
     ActionCable.server.broadcast("game_channel", card)
   end

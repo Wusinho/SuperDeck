@@ -3,12 +3,12 @@ import SocketHandler from "./SocketHandler";
 
 export default class UIHandler {
 	constructor(scene) {
-		this.zoneHandler = new ZoneHandler(scene);
+		// this.zoneHandler = new ZoneHandler(scene);
 		this.scene = scene;
 		this.socketHandler = new SocketHandler(scene);
 		window.uiHandler = this; // Make this instance accessible globally
 
-		this.buildZones();
+		// this.buildZones();
 		this.buildPlayerAreas();
 		this.buildGameText();
 
@@ -23,13 +23,13 @@ export default class UIHandler {
 	buildPlayerAreas = () => {
 		this.scene.playerHandArea = this.scene.add.rectangle(470, 860, 850, 230);
 		this.scene.playerHandArea.setStrokeStyle(4, 0xff68b4);
-		this.scene.playerDeckArea = this.scene.add.rectangle(1000, 860, 155, 215);
-		this.scene.playerDeckArea.setStrokeStyle(3, 0x00fff);
+		this.scene.playerCementery = this.scene.add.rectangle(1000, 860, 155, 215);
+		this.scene.playerCementery.setStrokeStyle(3, 0x00fff);
 
 		this.scene.opponentHandArea = this.scene.add.rectangle(470, 135, 850, 230);
 		this.scene.opponentHandArea.setStrokeStyle(4, 0xff68b4);
-		this.scene.opponentDeckArea = this.scene.add.rectangle(1000, 135, 155, 215);
-		this.scene.opponentDeckArea.setStrokeStyle(3, 0x00fff);
+		this.scene.opponentCementery = this.scene.add.rectangle(1000, 135, 155, 215);
+		this.scene.opponentCementery.setStrokeStyle(3, 0x00fff);
 	};
 
 	buildGameText = () => {
@@ -51,8 +51,9 @@ export default class UIHandler {
 	};
 
 	addCardToHand = (cardData) => {
-		const cardX = this.scene.playerHandArea.x + (this.scene.playerHandArea.width / 2);
-		const cardY = this.scene.playerHandArea.y - 50;
+		// Calculate the position to start from the left side of playerHandArea
+		const handAreaX = this.scene.playerHandArea.x - (this.scene.playerHandArea.width / 2);
+		const handAreaY = this.scene.playerHandArea.y;
 
 		// Use the provided image_url or a default sprite key
 		const spriteKey = cardData.image_url ? "remoteCardImage" : "defaultCardSprite";
@@ -61,32 +62,50 @@ export default class UIHandler {
 		if (cardData.image_url) {
 			this.scene.load.image("remoteCardImage", cardData.image_url);
 			this.scene.load.once("complete", () => {
-				this.createCardSprite(cardX, cardY, spriteKey, cardData.name);
+				this.createCardSprite(handAreaX, handAreaY, spriteKey, cardData.name);
 			});
 			this.scene.load.start();
 		} else {
-			this.createCardSprite(cardX, cardY, spriteKey, cardData.name);
+			this.createCardSprite(handAreaX, handAreaY, spriteKey, cardData.name);
 		}
 	};
 
 	createCardSprite = (x, y, spriteKey, cardName) => {
-		const card = this.scene.add.sprite(x, y, spriteKey).setInteractive();
-		this.scene.input.setDraggable(card);
+		// Create the card sprite
+
+		const card = this.scene.add.sprite(0, 0, spriteKey).setInteractive();
+
+		card.displayWidth = x + 100;
+		card.displayHeight = 240;
+		card.setOrigin(0.5);
+
+		// Add a white border around the card
+		const border = this.scene.add.rectangle(0, 0, this.cardWidth, this.cardHeight);
+		border.setStrokeStyle(2, 0xffffff);
+		border.setOrigin(0.5);
 
 		// Add card name text
 		const cardText = this.scene.add.text(0, 0, cardName, {
-			fontSize: "14px",
-			fill: "#fff",
-			fontFamily: "Arial",
-		}).setOrigin(0.5);
+			fontSize: '14px',
+			fill: '#fff',
+			fontFamily: 'Arial'
+		}).setOrigin(0.5, 1.5);
 
-		// Group the card and text together
-		const cardContainer = this.scene.add.container(x, y, [card, cardText]);
-		cardContainer.setSize(card.width, card.height);
+		// Group the card, border, and text together
+		const cardContainer = this.scene.add.container(x + 70, y, [border, card, cardText]);
+		// console.log(this.cardWidth, this.cardHeight)
+		// cardContainer.setSize(this.cardWidth, this.cardHeight);
+
+		// Calculate new position for the card to be added next
+		// const cardCount = this.scene.playerHandArea.list.length;
+		// const newX = x + (this.cardWidth + 10) * cardCount;
+		//
+		// cardContainer.setPosition(newX, y);
 		// this.scene.input.setDraggable(cardContainer);
 
-		console.log("Card added to hand area:", cardContainer);
+		// console.log("Card added to hand area:", cardContainer);
 	};
+
 
 	dealCards = () => {
 		// Your logic to deal cards goes here

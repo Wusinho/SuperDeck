@@ -6,7 +6,6 @@ export default class SocketHandler {
 		this.gameChannel = consumer.subscriptions.create(
 			{
 				channel: "GameChannel",
-				game_id: scene.gameId,
 			},
 			{
 				connected: this.onConnected.bind(this),
