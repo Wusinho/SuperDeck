@@ -50,29 +50,25 @@ export default class UIHandler {
 			this.addCardToHand(data);
 	};
 
-	addCardToHand = (cardData) => {
-		// Calculate the position to start from the left side of playerHandArea
+	addCardToHand = (cards) => {
 		const handAreaX = this.scene.playerHandArea.x - (this.scene.playerHandArea.width / 2);
 		const handAreaY = this.scene.playerHandArea.y;
+		for (let i in cards) {
+			const spriteKey = cards[i].image_url ? "remoteCardImage" : "defaultCardSprite";
 
-		// Use the provided image_url or a default sprite key
-		const spriteKey = cardData.image_url ? "remoteCardImage" : "defaultCardSprite";
-
-		// If using a remote image, load it
-		if (cardData.image_url) {
-			this.scene.load.image("remoteCardImage", cardData.image_url);
-			this.scene.load.once("complete", () => {
-				this.createCardSprite(handAreaX, handAreaY, spriteKey, cardData.name);
-			});
-			this.scene.load.start();
-		} else {
-			this.createCardSprite(handAreaX, handAreaY, spriteKey, cardData.name);
+				if (cards[i].image_url) {
+					this.scene.load.image("remoteCardImage", cards[i].image_url);
+					this.scene.load.once("complete", () => {
+						this.createCardSprite(handAreaX, handAreaY, spriteKey, cards[i].name, i);
+					});
+					this.scene.load.start();
+				} else {
+					this.createCardSprite(handAreaX, handAreaY, spriteKey, cards[i].name, i);
+				}
 		}
 	};
 
-	createCardSprite = (x, y, spriteKey, cardName) => {
-		// Create the card sprite
-
+	createCardSprite = (x, y, spriteKey, cardName, i) => {
 		const card = this.scene.add.sprite(0, 0, spriteKey).setInteractive();
 
 		card.displayWidth = x + 100;
@@ -91,19 +87,8 @@ export default class UIHandler {
 			fontFamily: 'Arial'
 		}).setOrigin(0.5, 1.5);
 
-		// Group the card, border, and text together
-		const cardContainer = this.scene.add.container(x + 70, y, [border, card, cardText]);
-		// console.log(this.cardWidth, this.cardHeight)
-		// cardContainer.setSize(this.cardWidth, this.cardHeight);
-
-		// Calculate new position for the card to be added next
-		// const cardCount = this.scene.playerHandArea.list.length;
-		// const newX = x + (this.cardWidth + 10) * cardCount;
-		//
-		// cardContainer.setPosition(newX, y);
-		// this.scene.input.setDraggable(cardContainer);
-
-		// console.log("Card added to hand area:", cardContainer);
+		let value = (x + 70+(115 * i))
+		this.scene.add.container(value, y, [border, card, cardText]);
 	};
 
 
