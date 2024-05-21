@@ -46,11 +46,7 @@ export default class UIHandler {
 	};
 
 	handleSocketReceived = (data) => {
-		if (data.user_id) {
-			console.log(data)
-		} else {
 			this.addCardToHand(data);
-		}
 	};
 
 	addCardToHand = (cards) => {

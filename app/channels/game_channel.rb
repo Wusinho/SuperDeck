@@ -9,16 +9,10 @@ class GameChannel < ApplicationCable::Channel
   def receive(data)
     p '*'*100
     p data
+    p 'RECEIVE FROM GAMECHANNEL'
     p '*'*100
     # ActionCable.server.broadcast("chat_#{params[:room]}", data)
     ActionCable.server.broadcast("game_channel", data)
-  end
-
-  def connected
-    p '*'*100
-    p 'connected'
-    player = current_user.player
-    ActionCable.server.broadcast("game_channel", player)
   end
 
   def draw_card(data)

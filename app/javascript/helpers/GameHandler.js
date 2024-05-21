@@ -1,5 +1,10 @@
+import BoardHandler from "./BoardHandler";
+import SocketHandler from "./SocketHandler";
+
 export default class GameHandler {
-	constructor() {
+	constructor(scene) {
+		this.boardHandler = new BoardHandler(scene);
+		scene.events.on("boardReceived", this.handleBoardReceived, this);
 		this.gameState = 'Initializing';
 		this.isMyTurn = false;
 		this.playerOne =  {
@@ -41,16 +46,7 @@ export default class GameHandler {
 			index: 4,
 		};
 
-		this.currentUser = {
-			username: '',
-			hand: [],
-			playzone: [],
-			graveyard: [],
-			exile: [],
-			gameOver: false,
-			index: '',
-			id: '',
-		}
+		this.currentUser = null
 
 		this.changeTurn = () =>{
 			this.isMyTurn = !this.isMyTurn;
@@ -61,4 +57,9 @@ export default class GameHandler {
 			console.log('Game State: ' + this.gameState);
 		}
 	}
+
+	handleBoardReceived(data) {
+		this.currentUser = data;
+	}
+
 }
