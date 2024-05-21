@@ -2,36 +2,54 @@ export default class GameHandler {
 	constructor() {
 		this.gameState = 'Initializing';
 		this.isMyTurn = false;
-		this.playerOne =  { hand: [],
+		this.playerOne =  {
+			username: '',
+			hand: [],
 			playzone: [],
 			graveyard: [],
 			exile: [],
 			gameOver: false,
-			index: 0
+			index: '',
 		};
-		this.playerTwo =  { hand: [],
+		this.playerTwo =  {
+			username: '',
+			hand: [],
 			playzone: [],
 			graveyard: [],
 			exile: [],
 			gameOver: false,
-			index: 1
-		};
-
-		this.playerThree =  { hand: [],
-			playzone: [],
-			graveyard: [],
-			exile: [],
-			gameOver: false,
-			index: 2
+			index: '',
 		};
 
-		this.playerFour =  { hand: [],
+		this.playerThree =  {
+			username: '',
+			hand: [],
 			playzone: [],
 			graveyard: [],
 			exile: [],
 			gameOver: false,
-			index: 3
+			index: '',
 		};
+
+		this.playerFour =  {
+			username: '',
+			hand: [],
+			playzone: [],
+			graveyard: [],
+			exile: [],
+			gameOver: false,
+			index: '',
+		};
+
+		this.currentUser = {
+			username: '',
+			hand: [],
+			playzone: [],
+			graveyard: [],
+			exile: [],
+			gameOver: false,
+			index: '',
+		}
 
 		this.changeTurn = () =>{
 			this.isMyTurn = !this.isMyTurn;
