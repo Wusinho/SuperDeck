@@ -8,10 +8,6 @@ import Example from "../scenes/example"
 // Connects to data-controller="phaser-game"
 export default class extends Controller {
   connect() {
-    // game_channel(123);
-    // this.player = new Phaser("player", {})
-
-    // this.current_player = this.element.dataset.user_id
     this.createGame();
   }
 
@@ -22,23 +18,7 @@ export default class extends Controller {
         height: 1250,
         scene: Game
       };
-
-    // const config = {
-    //   type: Phaser.AUTO,
-    //   width: 800,
-    //   height: 600,
-    //   physics: {
-    //     default: 'arcade',
-    //     arcade: {
-    //       gravity: { y: 200 }
-    //     }
-    //   },
-    //   scene: Example
-    // };
-
     new Phaser.Game(config)
   }
-
-
 }
 

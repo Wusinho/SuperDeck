@@ -14,6 +14,13 @@ class GameChannel < ApplicationCable::Channel
     ActionCable.server.broadcast("game_channel", data)
   end
 
+  def connected
+    p '*'*100
+    p 'connected'
+    player = current_user.player
+    ActionCable.server.broadcast("game_channel", player)
+  end
+
   def draw_card(data)
     # p '*'*100
     p 'DRAW_CARD'

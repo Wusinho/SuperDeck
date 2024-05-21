@@ -46,11 +46,15 @@ export default class UIHandler {
 	};
 
 	handleSocketReceived = (data) => {
-		console.log("Card received:", data);
+		if (data.user_id) {
+			console.log(data)
+		} else {
 			this.addCardToHand(data);
+		}
 	};
 
 	addCardToHand = (cards) => {
+		// console.log(cards)
 		const handAreaX = this.scene.playerHandArea.x - (this.scene.playerHandArea.width / 2);
 		const handAreaY = this.scene.playerHandArea.y;
 		for (let i in cards) {

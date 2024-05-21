@@ -9,7 +9,7 @@ export default class GameHandler {
 			graveyard: [],
 			exile: [],
 			gameOver: false,
-			index: '',
+			index: 1,
 		};
 		this.playerTwo =  {
 			username: '',
@@ -18,7 +18,7 @@ export default class GameHandler {
 			graveyard: [],
 			exile: [],
 			gameOver: false,
-			index: '',
+			index: 2,
 		};
 
 		this.playerThree =  {
@@ -28,7 +28,7 @@ export default class GameHandler {
 			graveyard: [],
 			exile: [],
 			gameOver: false,
-			index: '',
+			index: 3,
 		};
 
 		this.playerFour =  {
@@ -38,7 +38,7 @@ export default class GameHandler {
 			graveyard: [],
 			exile: [],
 			gameOver: false,
-			index: '',
+			index: 4,
 		};
 
 		this.currentUser = {
@@ -49,6 +49,7 @@ export default class GameHandler {
 			exile: [],
 			gameOver: false,
 			index: '',
+			id: '',
 		}
 
 		this.changeTurn = () =>{
