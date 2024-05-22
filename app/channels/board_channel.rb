@@ -11,8 +11,9 @@ class BoardChannel < ApplicationCable::Channel
   def connected
     p '*'*100
     p 'connected'
-    player = current_user.player
-    ActionCable.server.broadcast("board_channel", player)
+    current_player = current_user.player
+    players = current_user.current_game_players
+    ActionCable.server.broadcast("board_channel", [current_player, players])
   end
 
 end

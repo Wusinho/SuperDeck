@@ -10,6 +10,7 @@ export default class Game extends Phaser.Scene {
 	constructor() {
 		super('Game');
 		this.defaultImage = "https://res.cloudinary.com/wusinho1/image/upload/v1715968436/CyanCardBack_z7pnhq.png"
+		this.opponentCard = "https://res.cloudinary.com/wusinho1/image/upload/v1716331593/MagentaCardBack_xshnrm.png"
 	}
 
 	preload(){
@@ -20,6 +21,7 @@ export default class Game extends Phaser.Scene {
 		this.load.image('cyanPing', this.defaultImage );
 		this.load.image('magentaPing', this.defaultImage );
 		this.load.image('defaultCardSprite', this.defaultImage );
+		this.load.image('defaultOpponentSprite', this.opponentCard );
 	}
 
 	create(){
