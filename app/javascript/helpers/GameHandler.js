@@ -32,7 +32,7 @@ export default class GameHandler {
 		if ( this.currentUser === null) {
 			this.currentUser = data[0];
 			console.log(this.currentUser)
-			this.scene.currentUserName = this.create_text(50,1000, this.currentUser.id)
+			this.scene.currentUserName = this.create_text(50,1000, this.currentUser.username)
 				.setFontSize(14)
 				.setFontFamily("Arial")
 				.setInteractive();
@@ -52,24 +52,24 @@ export default class GameHandler {
 		if(this.currentUser.order === 3){
 			if (opponent.order === 1) {
 				this.topSite = opponent
-				this.scene.topSiteName = this.create_text(50,1000, opponent.id)
+				this.scene.topSiteName = this.create_text(50,1000, opponent.username)
 			} else if (opponent.order === 2) {
 				this.leftSite = opponent
-				this.scene.leftSiteName = this.create_text(50,200, opponent.id)
+				this.scene.leftSiteName = this.create_text(50,200, opponent.username)
 			} else {
 				this.rightSite = opponent
-				this.scene.rightSiteName = this.create_text(900,200, opponent.id)
+				this.scene.rightSiteName = this.create_text(900,200, opponent.username)
 			}
 		} else {
 			if ( this.currentUser.order - opponent.order === -1 ) {
 				this.rightSite = opponent
-				this.scene.rightSiteName = this.create_text(900,200, opponent.id)
+				this.scene.rightSiteName = this.create_text(900,200, opponent.username)
 			} else if (Math.abs(this.currentUser.order - opponent.order) === 2 ) {
 				this.topSite = opponent
-				this.scene.topSiteName = this.create_text(50,1000, opponent.id)
+				this.scene.topSiteName = this.create_text(50,1000, opponent.username)
 			} else {
 				this.leftSite = opponent
-				this.scene.leftSiteName = this.create_text(50,200, opponent.id)
+				this.scene.leftSiteName = this.create_text(50,200, opponent.username)
 			}
 		}
 	}

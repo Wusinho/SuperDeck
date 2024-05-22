@@ -122,7 +122,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_19_031107) do
     t.uuid "user_id", null: false
     t.uuid "game_id", null: false
     t.integer "life", default: 20
-    t.string "username", default: "", null: false
+    t.string "username"
     t.integer "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
