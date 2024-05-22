@@ -21,15 +21,27 @@ export default class UIHandler {
 	};
 
 	buildPlayerAreas = () => {
-		this.scene.playerHandArea = this.scene.add.rectangle(470, 1100, 850, 230);
-		this.scene.playerHandArea.setStrokeStyle(4, 0xff68b4);
-		this.scene.playerCementery = this.scene.add.rectangle(1000, 1100, 155, 215);
-		this.scene.playerCementery.setStrokeStyle(3, 0x00fff);
+		// TOP PLAYER
+		this.scene.currentUserHandArea = this.scene.add.rectangle(470, 1100, 850, 230);
+		this.scene.currentUserHandArea.setStrokeStyle(4, 0xff68b4);
+		this.scene.currentUserCementery = this.scene.add.rectangle(1000, 1100, 155, 215);
+		this.scene.currentUserCementery.setStrokeStyle(3, 0x00fff);
 
-		this.scene.opponentHandArea = this.scene.add.rectangle(470, 135, 850, 230);
-		this.scene.opponentHandArea.setStrokeStyle(4, 0xff68b4);
-		this.scene.opponentCementery = this.scene.add.rectangle(1000, 135, 155, 215);
-		this.scene.opponentCementery.setStrokeStyle(3, 0x00fff);
+
+		// LEFT PLAYER
+		this.scene.leftOpponentHandArea = this.scene.add.rectangle(120, 600, 230 , 800 )
+		this.scene.leftOpponentHandArea.setStrokeStyle(4, 0xff68b4);
+
+		// RIGHT USER
+
+		this.scene.rightOpponentHandArea = this.scene.add.rectangle(1020, 600, 230 , 800 )
+		this.scene.rightOpponentHandArea.setStrokeStyle(4, 0xff68b4);
+
+		// CURRENT USER
+		this.scene.topOpponentHandArea = this.scene.add.rectangle(470, 135, 850, 230);
+		this.scene.topOpponentHandArea.setStrokeStyle(4, 0xff68b4);
+		this.scene.topOpponentCementery = this.scene.add.rectangle(1000, 135, 155, 215);
+		this.scene.topOpponentCementery.setStrokeStyle(3, 0x00fff);
 	};
 
 	buildGameText = () => {
@@ -51,8 +63,8 @@ export default class UIHandler {
 
 	addCardToHand = (cards) => {
 		// console.log(cards)
-		const handAreaX = this.scene.playerHandArea.x - (this.scene.playerHandArea.width / 2);
-		const handAreaY = this.scene.playerHandArea.y;
+		const handAreaX = this.scene.currentUserHandArea.x - (this.scene.currentUserHandArea.width / 2);
+		const handAreaY = this.scene.currentUserHandArea.y;
 		for (let i in cards) {
 			const spriteKey = cards[i].image_url ? "remoteCardImage" : "defaultCardSprite";
 
