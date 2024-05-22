@@ -51,14 +51,20 @@ export default class GameHandler {
 				this.scene.topSiteName = this.create_text(900,70, opponent)
 			} else if (opponent.order === 2) {
 				this.leftSite = opponent
+				let cards = opponent.cards.hand
+				this.addCardsToCurrentUserHandY(cards,this.scene.leftOpponentHandArea.x, this.scene.leftOpponentHandArea.y, true)
 				this.scene.leftSiteName = this.create_text(30,135, opponent)
 			} else {
 				this.rightSite = opponent
+				let cards = opponent.cards.hand
+				this.addCardsToCurrentUserHandY(cards,this.scene.rightOpponentHandArea.x, this.scene.rightOpponentHandArea.y, true)
 				this.scene.rightSiteName = this.create_text(1050,135, opponent)
 			}
 		} else {
 			if ( this.currentUser.order - opponent.order === -1 ) {
 				this.rightSite = opponent
+				let cards = opponent.cards.hand
+				this.addCardsToCurrentUserHandY(cards,this.scene.rightOpponentHandArea.x, this.scene.rightOpponentHandArea.y, true)
 				this.scene.rightSiteName = this.create_text(1050,135, opponent)
 			} else if (Math.abs(this.currentUser.order - opponent.order) === 2 ) {
 				this.topSite = opponent
@@ -67,10 +73,40 @@ export default class GameHandler {
 				this.scene.topSiteName = this.create_text(900,70, opponent)
 			} else {
 				this.leftSite = opponent
+				let cards = opponent.cards.hand
+				this.addCardsToCurrentUserHandY(cards,this.scene.leftOpponentHandArea.x, this.scene.leftOpponentHandArea.y, true)
 				this.scene.leftSiteName = this.create_text(30,135, opponent)
 			}
 		}
 	}
+
+	createCardSpriteY = (x, y, spriteKey, cardName, i) => {
+		const card = this.scene.add.sprite(0, 0, spriteKey).setInteractive();
+
+		card.displayWidth = 240; // Set card width
+		card.displayHeight = 100; // Set card height
+		card.setOrigin(0.5);
+
+		// Rotate the card by 90 degrees to make it horizontal
+		// card.angle = 90;
+
+		// Add a white border around the card
+		const border = this.scene.add.rectangle(0, 0, this.cardHeight, this.cardWidth);
+		border.setStrokeStyle(2, 0xffffff);
+		border.setOrigin(0.5);
+		border.angle = 90; // Rotate the border to match the card
+
+		// Add card name text
+		const cardText = this.scene.add.text(0, 0, cardName, {
+			fontSize: '14px',
+			fill: '#fff',
+			fontFamily: 'Arial'
+		}).setOrigin(0.5, 1.5);
+
+		// Adjust the card position
+		let value = (y + 70 + (115 * i));
+		this.scene.add.container(x, value, [border, card, cardText]);
+	};
 
 	addCardsIfAny(cards, opponent = true){
 		if (cards){
@@ -79,7 +115,6 @@ export default class GameHandler {
 			this.addCardsToCurrentUserHand([], opponent);
 		}
 	}
-
 
 	create_text(x,y,opponent) {
 		this.players.push(opponent)
@@ -91,7 +126,18 @@ export default class GameHandler {
 
 		for (let i in cards) {
 			const spriteKey = opponent ? "defaultOpponentSprite" : "defaultCardSprite";
-			this.createCardSprite(handAreaX, y, spriteKey, cards[i].name, i);
+			const cardName = opponent ? "" : cards[i].name;
+			this.createCardSprite(handAreaX, y, spriteKey, cardName, i);
+		}
+	};
+
+	addCardsToCurrentUserHandY = (cards = [], x, y, opponent = true) => {
+		const handAreaY = y*0.17;
+
+		for (let i in cards) {
+			const spriteKey = opponent ? "defaultOpponentSprite" : "defaultCardSprite";
+			const cardName = opponent ? "" : cards[i].name;
+			this.createCardSpriteY(x, handAreaY, spriteKey, cardName, i);
 		}
 	};
 
