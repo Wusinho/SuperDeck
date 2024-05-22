@@ -8,6 +8,12 @@ class User < ApplicationRecord
   has_many :players
   has_many :games, through: :players
 
+  def draw_card_from_game
+    card = current_game.draw_card
+    PlayerCard.create(player_id: player.id, card_id: card.id)
+    card
+  end
+
   def current_game
     games.find_by(active: true)
   end

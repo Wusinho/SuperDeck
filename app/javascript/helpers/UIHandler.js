@@ -58,28 +58,49 @@ export default class UIHandler {
 	};
 
 	handleSocketReceived = (data) => {
-		let player = this.scene.GameHandler.players.filter(player => player.id === data[0])
-		// console.log( data)
-
-			// this.addCardToHand(data);
+		let playersCard = this.scene.GameHandler.players.filter(player => player.id === data[0].id)
+		let currentUser = this.scene.GameHandler.currentUser;
+			this.addCardToHand(data, playersCard[0], currentUser);
 	};
 
-	addCardToHand = (cards) => {
-		const handAreaX = this.scene.currentUserHandArea.x - (this.scene.currentUserHandArea.width / 2);
-		const handAreaY = this.scene.currentUserHandArea.y;
-		for (let i in cards) {
-			const spriteKey = cards[i].image_url ? "remoteCardImage" : "defaultCardSprite";
+	addCardToHand = (data, playersCard, currentUser) => {
+		let handAreaX;
+		let handAreaY;
+		let index;
+		let spriteKey;
 
-				if (cards[i].image_url) {
-					this.scene.load.image("remoteCardImage", cards[i].image_url);
-					this.scene.load.once("complete", () => {
-						this.createCardSprite(handAreaX, handAreaY, spriteKey, cards[i].name, i);
-					});
-					this.scene.load.start();
-				} else {
-					this.createCardSprite(handAreaX, handAreaY, spriteKey, cards[i].name, i);
-				}
+		if ( playersCard.id == currentUser.id ) {
+			handAreaX = this.scene.currentUserHandArea.x - (this.scene.currentUserHandArea.width / 2);
+			handAreaY = this.scene.currentUserHandArea.y;
+			index = currentUser.cards.hand.length;
+			currentUser.cards.hand.push(data[1])
+			spriteKey = "defaultCardSprite";
+		} else {
+			if ( Math.abs(playersCard.order - currentUser.order) ===2 ) {
+				handAreaX = this.scene.topOpponentHandArea.x - (this.scene.topOpponentHandArea.width / 2);
+				handAreaY = this.scene.topOpponentHandArea.y;
+				spriteKey = "defaultOpponentSprite";
+				index = playersCard.cards.hand.length;
+				playersCard.cards.hand.push(data[1])
+
+			} else if ( currentUser.order - playersCard.order === 1 || currentUser.order - playersCard.order === -3) {
+				handAreaX = this.scene.leftOpponentHandArea.x - (this.scene.leftOpponentHandArea.width / 2);
+				handAreaY = this.scene.leftOpponentHandArea.y;
+				spriteKey = "defaultOpponentSprite";
+				index = playersCard.cards.hand.length;
+				playersCard.cards.hand.push(data[1])
+
+			} else {
+				handAreaX = this.scene.rightOpponentHandArea.x - (this.scene.rightOpponentHandArea.width / 2);
+				handAreaY = this.scene.leftOpponentHandArea.y;
+				spriteKey = "defaultOpponentSprite";
+				index = playersCard.cards.hand.length;
+				playersCard.cards.hand.push(data[1])
+
+			}
 		}
+		this.createCardSprite(handAreaX, handAreaY, spriteKey, data[1].name, index);
+
 	};
 
 	createCardSprite = (x, y, spriteKey, cardName, i) => {
