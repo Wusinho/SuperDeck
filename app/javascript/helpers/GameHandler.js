@@ -53,21 +53,21 @@ export default class GameHandler {
 				this.scene.topSiteName = this.create_text(800,200, opponent.username)
 			} else if (opponent.order === 2) {
 				this.leftSite = opponent
-				this.scene.leftSiteName = this.create_text(50,200, opponent.username)
+				this.scene.leftSiteName = this.create_text(50,255, opponent.username)
 			} else {
 				this.rightSite = opponent
-				this.scene.rightSiteName = this.create_text(900,200, opponent.username)
+				this.scene.rightSiteName = this.create_text(920,255, opponent.username)
 			}
 		} else {
 			if ( this.currentUser.order - opponent.order === -1 ) {
 				this.rightSite = opponent
-				this.scene.rightSiteName = this.create_text(900,200, opponent.username)
+				this.scene.rightSiteName = this.create_text(920,255, opponent.username)
 			} else if (Math.abs(this.currentUser.order - opponent.order) === 2 ) {
 				this.topSite = opponent
-				this.scene.topSiteName = this.create_text(50,1000, opponent.username)
+				this.scene.topSiteName = this.create_text(800,200, opponent.username)
 			} else {
 				this.leftSite = opponent
-				this.scene.leftSiteName = this.create_text(50,200, opponent.username)
+				this.scene.leftSiteName = this.create_text(50,255, opponent.username)
 			}
 		}
 	}
