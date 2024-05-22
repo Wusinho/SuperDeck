@@ -27,7 +27,6 @@ export default class GameHandler {
 	}
 
 	handleBoardReceived(data) {
-		console.log(data[2])
 
 		if ( this.currentUser === null) {
 			this.currentUser = data[0];

@@ -10,6 +10,10 @@ class Player < ApplicationRecord
     player_cards.joins(:card).where(zone: 0).select('cards.*')
   end
 
+  def card_collection
+    player_cards.joins(:card).select('player_cards.zone', 'cards.*').group_by(&:zone)
+  end
+
   def playzone_cards
     player_cards.joins(:card).where(zone: 1).select('cards.*')
   end
