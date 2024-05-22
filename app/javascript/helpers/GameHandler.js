@@ -4,49 +4,18 @@ import SocketHandler from "./SocketHandler";
 export default class GameHandler {
 	constructor(scene) {
 		this.boardHandler = new BoardHandler(scene);
-		scene.events.on("boardReceived", this.handleBoardReceived, this);
+		this.scene = scene;
+		this.scene.events.on("boardReceived", this.handleBoardReceived, this);
 		this.gameState = 'Initializing';
+
 		this.isMyTurn = false;
-		this.topSite =  {
-			username: '',
-			hand: [],
-			playzone: [],
-			graveyard: [],
-			exile: [],
-			gameOver: false,
-			index: 1,
-		};
-		this.leftSite =  {
-			username: '',
-			hand: [],
-			playzone: [],
-			graveyard: [],
-			exile: [],
-			gameOver: false,
-			index: 2,
-		};
 
-		this.rightSite =  {
-			username: '',
-			hand: [],
-			playzone: [],
-			graveyard: [],
-			exile: [],
-			gameOver: false,
-			index: 3,
-		};
-
-		this.bottomSite =  {
-			username: '',
-			hand: [],
-			playzone: [],
-			graveyard: [],
-			exile: [],
-			gameOver: false,
-			index: 4,
-		};
-
+		this.topSite =  null;
+		this.leftSite =  null;
+		this.rightSite = null;
 		this.currentUser = null
+
+		this.players = [this.topSite, this.leftSite, this.rightSite, this.currentUser];
 
 		this.changeTurn = () =>{
 			this.isMyTurn = !this.isMyTurn;
@@ -62,6 +31,11 @@ export default class GameHandler {
 		console.log('handleBoardReceived');
 		if ( this.currentUser === null) {
 			this.currentUser = data[0];
+			console.log(this.currentUser)
+			this.scene.currentUserName = this.create_text(50,1000, this.currentUser.id)
+				.setFontSize(14)
+				.setFontFamily("Arial")
+				.setInteractive();
 		}
 
 		const filtered_data = data[1].filter(opponent => opponent.id != this.currentUser.id);
@@ -78,20 +52,30 @@ export default class GameHandler {
 		if(this.currentUser.order === 3){
 			if (opponent.order === 1) {
 				this.topSite = opponent
+				this.scene.topSiteName = this.create_text(50,1000, opponent.id)
 			} else if (opponent.order === 2) {
 				this.leftSite = opponent
+				this.scene.leftSiteName = this.create_text(50,200, opponent.id)
 			} else {
 				this.rightSite = opponent
+				this.scene.rightSiteName = this.create_text(900,200, opponent.id)
 			}
 		} else {
 			if ( this.currentUser.order - opponent.order === -1 ) {
 				this.rightSite = opponent
+				this.scene.rightSiteName = this.create_text(900,200, opponent.id)
 			} else if (Math.abs(this.currentUser.order - opponent.order) === 2 ) {
 				this.topSite = opponent
+				this.scene.topSiteName = this.create_text(50,1000, opponent.id)
 			} else {
 				this.leftSite = opponent
+				this.scene.leftSiteName = this.create_text(50,200, opponent.id)
 			}
 		}
+	}
+
+	create_text(x,y,text) {
+		return this.scene.add.text(x,y, text)
 	}
 
 }
