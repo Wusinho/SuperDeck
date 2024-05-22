@@ -10,8 +10,8 @@ class Game < ApplicationRecord
   validates_presence_of :name
   after_create :create_deck
 
-  def use_in_game?(current_user)
-    players.where("user_id = ?", current_user).present?
+  def user_in_game?(current_user_id)
+    players.find_by(user_id: current_user_id).present?
   end
 
   def current_player

@@ -3,10 +3,14 @@ class GamesController < ApplicationController
   include ActionView::RecordIdentifier
 
   def show
-    unless @resource.use_in_game?(current_user)
-      Player.create(user_id: current_user.id, game_id: @resource.id)
+    if !@resource.user_in_game?(current_user.id)
+      players = @resource.game_configuration.players - 1
+      positions = Array(0..players) - @resource.players.pluck(:order)
+
+      Player.create(user_id: current_user.id, game_id: @resource.id, order: positions.sample)
+    else
+      redirect_to games_path
     end
-    ActionCable.server.broadcast("game_#{@resource.id}", @resource.players )
   end
 
   def new
@@ -24,7 +28,7 @@ class GamesController < ApplicationController
     [
       :name,
       :owner_id,
-      game_configuration_attributes: [:quantity_players, :deck_size]
+      game_configuration_attributes: [:players, :deck_size]
     ]
   end
 end

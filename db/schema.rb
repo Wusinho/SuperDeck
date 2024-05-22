@@ -86,7 +86,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_19_031107) do
   end
 
   create_table "game_configurations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "quantity_players", default: 2
+    t.integer "players", default: 4
     t.integer "deck_size", default: 200
     t.uuid "game_id", null: false
     t.datetime "created_at", null: false
