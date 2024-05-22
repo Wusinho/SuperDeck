@@ -3,13 +3,11 @@ class GamesController < ApplicationController
   include ActionView::RecordIdentifier
 
   def show
-    if !@resource.user_in_game?(current_user.id)
+    unless @resource.user_in_game?(current_user)
       players = @resource.game_configuration.players - 1
       positions = Array(0..players) - @resource.players.pluck(:order)
 
       Player.create(user_id: current_user.id, game_id: @resource.id, order: positions.sample)
-    else
-      redirect_to games_path
     end
   end
 
@@ -19,9 +17,7 @@ class GamesController < ApplicationController
   end
 
   def resource_params
-    permitted_params = params.require(:game).permit(*allowed_params)
-    permitted_params[:owner_id] = current_user.id
-    permitted_params
+    params.require(:game).permit(*allowed_params).merge(owner_id: current_user.id)
   end
 
   def allowed_params

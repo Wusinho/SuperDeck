@@ -28,11 +28,9 @@ export default class GameHandler {
 	}
 
 	handleBoardReceived(data) {
-		console.log('handleBoardReceived');
 		if ( this.currentUser === null) {
 			this.currentUser = data[0];
-			console.log(this.currentUser)
-			this.scene.currentUserName = this.create_text(50,1000, this.currentUser.username)
+			this.scene.currentUserName = this.create_text(60,1020, this.currentUser.username)
 				.setFontSize(14)
 				.setFontFamily("Arial")
 				.setInteractive();
@@ -52,7 +50,7 @@ export default class GameHandler {
 		if(this.currentUser.order === 3){
 			if (opponent.order === 1) {
 				this.topSite = opponent
-				this.scene.topSiteName = this.create_text(50,1000, opponent.username)
+				this.scene.topSiteName = this.create_text(800,200, opponent.username)
 			} else if (opponent.order === 2) {
 				this.leftSite = opponent
 				this.scene.leftSiteName = this.create_text(50,200, opponent.username)
