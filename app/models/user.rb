@@ -16,8 +16,15 @@ class User < ApplicationRecord
     current_game.players.find_by(user_id: self.id)
   end
 
+
   def current_game_players
     current_game.players
+  end
+
+  def player_card_information
+    player_cards = player.player_cards
+
+    player_cards.join(:cards)
   end
 
   def self.ransackable_attributes(auth_object = nil)

@@ -5,6 +5,23 @@ class Player < ApplicationRecord
   has_many :cards, through: :player_cards
   before_save :update_username
 
+
+  def hand_cards
+    player_cards.joins(:card).where(zone: 0).select('cards.*')
+  end
+
+  def playzone_cards
+    player_cards.joins(:card).where(zone: 1).select('cards.*')
+  end
+
+  def graveyard_cards
+    player_cards.joins(:card).where(zone: 2).select('cards.*')
+  end
+
+  def exile_cards
+    player_cards.joins(:card).where(zone: 3).select('cards.*')
+  end
+
   def add_card_to_hand(card)
     self.player_cards.create(card_id: card.id, zone: 'hand', drawn: true)
   end

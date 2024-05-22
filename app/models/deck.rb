@@ -3,7 +3,8 @@ class Deck < ApplicationRecord
   has_many :deck_cards, dependent: :destroy
   has_many :cards, through: :deck_cards
 
-  after_create :initialize_deck
+  after_save :initialize_deck
+  after_create :shuffle_deck
 
   def initialize_deck
     Card.all.each_with_index do |card, index|

@@ -58,26 +58,29 @@ export default class UIHandler {
 	};
 
 	handleSocketReceived = (data) => {
-			this.addCardToHand(data);
+		let player = this.scene.GameHandler.players.filter(player => player.id === data[0])
+		console.log( data)
+
+			// this.addCardToHand(data);
 	};
 
 	addCardToHand = (cards) => {
 		// console.log(cards)
-		const handAreaX = this.scene.currentUserHandArea.x - (this.scene.currentUserHandArea.width / 2);
-		const handAreaY = this.scene.currentUserHandArea.y;
-		for (let i in cards) {
-			const spriteKey = cards[i].image_url ? "remoteCardImage" : "defaultCardSprite";
-
-				if (cards[i].image_url) {
-					this.scene.load.image("remoteCardImage", cards[i].image_url);
-					this.scene.load.once("complete", () => {
-						this.createCardSprite(handAreaX, handAreaY, spriteKey, cards[i].name, i);
-					});
-					this.scene.load.start();
-				} else {
-					this.createCardSprite(handAreaX, handAreaY, spriteKey, cards[i].name, i);
-				}
-		}
+		// const handAreaX = this.scene.currentUserHandArea.x - (this.scene.currentUserHandArea.width / 2);
+		// const handAreaY = this.scene.currentUserHandArea.y;
+		// for (let i in cards) {
+		// 	const spriteKey = cards[i].image_url ? "remoteCardImage" : "defaultCardSprite";
+		//
+		// 		if (cards[i].image_url) {
+		// 			this.scene.load.image("remoteCardImage", cards[i].image_url);
+		// 			this.scene.load.once("complete", () => {
+		// 				this.createCardSprite(handAreaX, handAreaY, spriteKey, cards[i].name, i);
+		// 			});
+		// 			this.scene.load.start();
+		// 		} else {
+		// 			this.createCardSprite(handAreaX, handAreaY, spriteKey, cards[i].name, i);
+		// 		}
+		// }
 	};
 
 	createCardSprite = (x, y, spriteKey, cardName, i) => {
