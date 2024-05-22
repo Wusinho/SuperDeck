@@ -36,7 +36,7 @@ export default class GameHandler {
 				.setInteractive();
 
 			let cards = this.currentUser.cards.hand
-			this.addCardsToCurrentUserHand(cards, false)
+			this.addCardsToCurrentUserHand(cards, this.scene.currentUserHandArea.x, this.scene.currentUserHandArea.y, false)
 		}
 
 		const filtered_data = data[1].filter(opponent => opponent.id != this.currentUser.id);
@@ -47,7 +47,7 @@ export default class GameHandler {
 		if(this.currentUser.order === 3){
 			if (opponent.order === 1) {
 				let cards = opponent.cards.hand
-				this.addCardsToCurrentUserHand(cards, true)
+				this.addCardsToCurrentUserHand(cards,this.scene.topOpponentHandArea.x, this.scene.topOpponentHandArea.y, true)
 				this.scene.topSiteName = this.create_text(900,70, opponent)
 			} else if (opponent.order === 2) {
 				this.leftSite = opponent
@@ -63,7 +63,7 @@ export default class GameHandler {
 			} else if (Math.abs(this.currentUser.order - opponent.order) === 2 ) {
 				this.topSite = opponent
 				let cards = opponent.cards.hand
-				this.addCardsToCurrentUserHand(cards, true)
+				this.addCardsToCurrentUserHand(cards,this.scene.topOpponentHandArea.x, this.scene.topOpponentHandArea.y, true)
 				this.scene.topSiteName = this.create_text(900,70, opponent)
 			} else {
 				this.leftSite = opponent
@@ -86,12 +86,12 @@ export default class GameHandler {
 		return this.scene.add.text(x,y, opponent.username)
 	}
 
-	addCardsToCurrentUserHand = (cards = [], opponent = true) => {
-		const handAreaX = this.scene.currentUserHandArea.x - (this.scene.currentUserHandArea.width / 2);
-		const handAreaY = this.scene.currentUserHandArea.y;
+	addCardsToCurrentUserHand = (cards = [], x, y, opponent = true) => {
+		const handAreaX = x - (x/2);
+
 		for (let i in cards) {
 			const spriteKey = opponent ? "defaultOpponentSprite" : "defaultCardSprite";
-			this.createCardSprite(handAreaX, handAreaY, spriteKey, cards[i].name, i);
+			this.createCardSprite(handAreaX, y, spriteKey, cards[i].name, i);
 		}
 	};
 
@@ -114,7 +114,7 @@ export default class GameHandler {
 			fontFamily: 'Arial'
 		}).setOrigin(0.5, 1.5);
 
-		let value = (x + 70+(115 * i))
+		let value = (x + 30+(100 * i))
 		this.scene.add.container(value, y, [border, card, cardText]);
 	};
 
