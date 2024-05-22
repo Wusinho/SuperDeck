@@ -16,11 +16,11 @@ class GameChannel < ApplicationCable::Channel
   end
 
   def draw_card(data)
-    # game = current_user.current_game
-    # card = game.draw_card
-    # player = current_user.player
-    # pc = PlayerCard.create(player_id: player.id, card_id: card.id)
-    ActionCable.server.broadcast("game_channel", [current_user.player.id, 'card'])
+    game = current_user.current_game
+    card = game.draw_card
+    player = current_user.player
+    pc = PlayerCard.create(player_id: player.id, card_id: card.id)
+    ActionCable.server.broadcast("game_channel", [current_user.player.id, pc.card])
   end
 
   def unsubscribed

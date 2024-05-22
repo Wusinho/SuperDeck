@@ -21,27 +21,27 @@ export default class UIHandler {
 	};
 
 	buildPlayerAreas = () => {
-		// TOP PLAYER
-		this.scene.currentUserHandArea = this.scene.add.rectangle(470, 1100, 850, 230);
+		// CURRENT USER
+		this.scene.currentUserHandArea = this.scene.add.rectangle(550, 1200, 850, 230);
 		this.scene.currentUserHandArea.setStrokeStyle(4, 0xff68b4);
-		this.scene.currentUserCementery = this.scene.add.rectangle(1000, 1100, 155, 215);
-		this.scene.currentUserCementery.setStrokeStyle(3, 0x00fff);
+		// this.scene.currentUserCementery = this.scene.add.rectangle(1000, 1200, 155, 215);
+		// this.scene.currentUserCementery.setStrokeStyle(3, 0x00fff);
 
 
 		// LEFT PLAYER
-		this.scene.leftOpponentHandArea = this.scene.add.rectangle(120, 600, 230 , 800 )
+		this.scene.leftOpponentHandArea = this.scene.add.rectangle(-40, 500, 230 , 800 )
 		this.scene.leftOpponentHandArea.setStrokeStyle(4, 0xff68b4);
 
 		// RIGHT USER
 
-		this.scene.rightOpponentHandArea = this.scene.add.rectangle(1020, 600, 230 , 800 )
+		this.scene.rightOpponentHandArea = this.scene.add.rectangle(1150, 500, 230 , 800 )
 		this.scene.rightOpponentHandArea.setStrokeStyle(4, 0xff68b4);
 
-		// CURRENT USER
-		this.scene.topOpponentHandArea = this.scene.add.rectangle(470, 135, 850, 230);
+		// TOP PLAYER
+		this.scene.topOpponentHandArea = this.scene.add.rectangle(550, -50, 850, 230);
 		this.scene.topOpponentHandArea.setStrokeStyle(4, 0xff68b4);
-		this.scene.topOpponentCementery = this.scene.add.rectangle(1000, 135, 155, 215);
-		this.scene.topOpponentCementery.setStrokeStyle(3, 0x00fff);
+		// this.scene.topOpponentCementery = this.scene.add.rectangle(1000, 135, 155, 215);
+		// this.scene.topOpponentCementery.setStrokeStyle(3, 0x00fff);
 	};
 
 	buildGameText = () => {
@@ -59,28 +59,27 @@ export default class UIHandler {
 
 	handleSocketReceived = (data) => {
 		let player = this.scene.GameHandler.players.filter(player => player.id === data[0])
-		console.log( data)
+		// console.log( data)
 
 			// this.addCardToHand(data);
 	};
 
 	addCardToHand = (cards) => {
-		// console.log(cards)
-		// const handAreaX = this.scene.currentUserHandArea.x - (this.scene.currentUserHandArea.width / 2);
-		// const handAreaY = this.scene.currentUserHandArea.y;
-		// for (let i in cards) {
-		// 	const spriteKey = cards[i].image_url ? "remoteCardImage" : "defaultCardSprite";
-		//
-		// 		if (cards[i].image_url) {
-		// 			this.scene.load.image("remoteCardImage", cards[i].image_url);
-		// 			this.scene.load.once("complete", () => {
-		// 				this.createCardSprite(handAreaX, handAreaY, spriteKey, cards[i].name, i);
-		// 			});
-		// 			this.scene.load.start();
-		// 		} else {
-		// 			this.createCardSprite(handAreaX, handAreaY, spriteKey, cards[i].name, i);
-		// 		}
-		// }
+		const handAreaX = this.scene.currentUserHandArea.x - (this.scene.currentUserHandArea.width / 2);
+		const handAreaY = this.scene.currentUserHandArea.y;
+		for (let i in cards) {
+			const spriteKey = cards[i].image_url ? "remoteCardImage" : "defaultCardSprite";
+
+				if (cards[i].image_url) {
+					this.scene.load.image("remoteCardImage", cards[i].image_url);
+					this.scene.load.once("complete", () => {
+						this.createCardSprite(handAreaX, handAreaY, spriteKey, cards[i].name, i);
+					});
+					this.scene.load.start();
+				} else {
+					this.createCardSprite(handAreaX, handAreaY, spriteKey, cards[i].name, i);
+				}
+		}
 	};
 
 	createCardSprite = (x, y, spriteKey, cardName, i) => {

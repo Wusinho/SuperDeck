@@ -16,9 +16,16 @@ class User < ApplicationRecord
     current_game.players.find_by(user_id: self.id)
   end
 
-
   def current_game_players
-    current_game.players
+    current_game.players.map do |player|
+      {
+        id: player.id,
+        username: player.username,
+        order: player.order,
+        life: player.life,
+        cards: player.card_collection
+      }
+    end
   end
 
   def player_card_information

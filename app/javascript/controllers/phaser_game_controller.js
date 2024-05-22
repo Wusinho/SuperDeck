@@ -16,7 +16,8 @@ export default class extends Controller {
         type: Phaser.AUTO,
         width: 1200,
         height: 1250,
-        scene: Game
+        scene: Game,
+        backgroundColor: '#a7c957',
       };
     new Phaser.Game(config)
   }
