@@ -3,9 +3,14 @@ class Player < ApplicationRecord
   belongs_to :game
   has_many :player_cards
   has_many :cards, through: :player_cards
+  before_save :update_username
 
   def add_card_to_hand(card)
     self.player_cards.create(card_id: card.id, zone: 'hand', drawn: true)
+  end
+
+  def update_username
+    self.username ||= self.user.username
   end
 
   def move_card_to_zone(card, zone)

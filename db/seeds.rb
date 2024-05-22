@@ -10,9 +10,10 @@
 if Rails.env.development?
   password = '123456'
   AdminUser.create!(email: 'heber@gmail.com', password: password, password_confirmation: password)
-  User.create!(email: 'heber@gmail.com', password: password, password_confirmation: password, nick_name: 'Pro')
-  User.create!(email: 'player_0@gmail.com', password: password, password_confirmation: password, nick_name: 'Pro')
-  User.create!(email: 'player_1@gmail.com', password: password, password_confirmation: password, nick_name: 'Pro')
+  User.create!(email: 'heber@gmail.com', password: password, password_confirmation: password, username: 'Wu')
+  User.create!(email: 'player0@gmail.com', password: password, password_confirmation: password, username: 'Zambo')
+  User.create!(email: 'player1@gmail.com', password: password, password_confirmation: password, username: 'Vash')
+  User.create!(email: 'player2@gmail.com', password: password, password_confirmation: password, username: 'Tigre')
 
 
   20.times do |i|

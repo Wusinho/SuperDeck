@@ -12,7 +12,7 @@
       <% @resources.each do |resource| %>
         <tr>
           <td class="min-h-20"><%= resource.name %></td>
-          <td class="min-h-20"><%= resource.owner.nick_name %></td>
+          <td class="min-h-20"><%= resource.owner.username %></td>
           <% if resource.owner == current_user %>
             <td class="min-h-20">
               <%= edit_path(resource, false) %>

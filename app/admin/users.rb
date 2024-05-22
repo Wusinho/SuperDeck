@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
 
-  permit_params :password, :password_confirmation, :email, :nick_name
+  permit_params :password, :password_confirmation, :email, :username
 
   filter :email
   filter :created_at
@@ -24,7 +24,7 @@ ActiveAdmin.register User do
 
     f.inputs 'User Info' do
       f.input :email
-      f.input :nick_name
+      f.input :username
       f.input :password
       f.input :password_confirmation
     end
