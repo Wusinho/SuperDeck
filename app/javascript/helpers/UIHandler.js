@@ -140,13 +140,13 @@ export default class UIHandler {
 		card.setOrigin(0.5);
 
 		// Rotate the card by 90 degrees to make it horizontal
-		card.angle = 90;
+		card.angle = 180;
 
 		// Add a white border around the card
 		const border = this.scene.add.rectangle(0, 0, this.cardHeight, this.cardWidth);
 		border.setStrokeStyle(2, 0xffffff);
 		border.setOrigin(0.5);
-		border.angle = 90; // Rotate the border to match the card
+		// border.angle = 0; // Rotate the border to match the card
 
 		// Add card name text
 		const cardText = this.scene.add.text(0, 0, cardName, {

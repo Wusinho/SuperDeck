@@ -36,7 +36,7 @@ export default class GameHandler {
 				.setInteractive();
 
 			let cards = this.currentUser.cards.hand
-			this.addCardsToCurrentUserHand(cards, this.scene.currentUserHandArea.x, this.scene.currentUserHandArea.y, false)
+			this.addCardsToVerticalPlayers(cards, this.scene.currentUserHandArea.x, this.scene.currentUserHandArea.y, false)
 		}
 
 		const filtered_data = data[1].filter(opponent => opponent.id != this.currentUser.id);
@@ -47,34 +47,34 @@ export default class GameHandler {
 		if(this.currentUser.order === 3){
 			if (opponent.order === 1) {
 				let cards = opponent.cards.hand
-				this.addCardsToCurrentUserHand(cards,this.scene.topOpponentHandArea.x, this.scene.topOpponentHandArea.y, true)
+				this.addCardsToVerticalPlayers(cards,this.scene.topOpponentHandArea.x, this.scene.topOpponentHandArea.y, true)
 				this.scene.topSiteName = this.create_text(900,70, opponent)
 			} else if (opponent.order === 2) {
 				this.leftSite = opponent
 				let cards = opponent.cards.hand
-				this.addCardsToCurrentUserHandY(cards,this.scene.leftOpponentHandArea.x, this.scene.leftOpponentHandArea.y, true)
+				this.addCardsToHorizontalPlayers(cards,this.scene.leftOpponentHandArea.x, this.scene.leftOpponentHandArea.y, true)
 				this.scene.leftSiteName = this.create_text(30,135, opponent)
 			} else {
 				this.rightSite = opponent
 				let cards = opponent.cards.hand
-				this.addCardsToCurrentUserHandY(cards,this.scene.rightOpponentHandArea.x, this.scene.rightOpponentHandArea.y, true)
+				this.addCardsToHorizontalPlayers(cards,this.scene.rightOpponentHandArea.x, this.scene.rightOpponentHandArea.y, true)
 				this.scene.rightSiteName = this.create_text(1050,135, opponent)
 			}
 		} else {
 			if ( this.currentUser.order - opponent.order === -1 ) {
 				this.rightSite = opponent
 				let cards = opponent.cards.hand
-				this.addCardsToCurrentUserHandY(cards,this.scene.rightOpponentHandArea.x, this.scene.rightOpponentHandArea.y, true)
+				this.addCardsToHorizontalPlayers(cards,this.scene.rightOpponentHandArea.x, this.scene.rightOpponentHandArea.y, true)
 				this.scene.rightSiteName = this.create_text(1050,135, opponent)
 			} else if (Math.abs(this.currentUser.order - opponent.order) === 2 ) {
 				this.topSite = opponent
 				let cards = opponent.cards.hand
-				this.addCardsToCurrentUserHand(cards,this.scene.topOpponentHandArea.x, this.scene.topOpponentHandArea.y, true)
+				this.addCardsToVerticalPlayers(cards,this.scene.topOpponentHandArea.x, this.scene.topOpponentHandArea.y, true)
 				this.scene.topSiteName = this.create_text(900,70, opponent)
 			} else {
 				this.leftSite = opponent
 				let cards = opponent.cards.hand
-				this.addCardsToCurrentUserHandY(cards,this.scene.leftOpponentHandArea.x, this.scene.leftOpponentHandArea.y, true)
+				this.addCardsToHorizontalPlayers(cards,this.scene.leftOpponentHandArea.x, this.scene.leftOpponentHandArea.y, true)
 				this.scene.leftSiteName = this.create_text(30,135, opponent)
 			}
 		}
@@ -108,20 +108,12 @@ export default class GameHandler {
 		this.scene.add.container(x, value, [border, card, cardText]);
 	};
 
-	addCardsIfAny(cards, opponent = true){
-		if (cards){
-			this.addCardsToCurrentUserHand(cards.hand, opponent);
-		} else {
-			this.addCardsToCurrentUserHand([], opponent);
-		}
-	}
-
 	create_text(x,y,opponent) {
 		this.players.push(opponent)
 		return this.scene.add.text(x,y, opponent.username)
 	}
 
-	addCardsToCurrentUserHand = (cards = [], x, y, opponent = true) => {
+	addCardsToVerticalPlayers = (cards = [], x, y, opponent = true) => {
 		const handAreaX = x - (x/2);
 
 		for (let i in cards) {
@@ -131,7 +123,7 @@ export default class GameHandler {
 		}
 	};
 
-	addCardsToCurrentUserHandY = (cards = [], x, y, opponent = true) => {
+	addCardsToHorizontalPlayers = (cards = [], x, y, opponent = true) => {
 		const handAreaY = y*0.17;
 
 		for (let i in cards) {
