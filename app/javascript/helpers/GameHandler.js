@@ -30,7 +30,7 @@ export default class GameHandler {
 
 		if ( this.currentUser === null) {
 			this.currentUser = data[0];
-			this.scene.currentUserName = this.create_text(120,1050, this.currentUser)
+			this.scene.currentUserName = this.create_text(50,1050, this.currentUser)
 				.setFontSize(14)
 				.setFontFamily("Arial")
 				.setInteractive();

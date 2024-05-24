@@ -22,8 +22,14 @@ export default class UIHandler {
 
 	buildPlayerAreas = () => {
 		// CURRENT USER
-		this.scene.currentUserHandArea = this.scene.add.rectangle(550, 1200, 850, 230);
+		this.scene.currentUserHandArea = this.scene.add.rectangle(550, 1240, 850, 230);
 		this.scene.currentUserHandArea.setStrokeStyle(4, 0xff68b4);
+
+		this.scene.currentManaPool = this.scene.add.rectangle(550, 1070, 850, 100)
+		this.scene.currentManaPool.setStrokeStyle(4, 0xff68b4);
+
+		this.scene.currentUserPlayzone = this.scene.add.rectangle(550, 960, 850, 100)
+		this.scene.currentUserPlayzone.setStrokeStyle(4, 0xff68b4);
 		// this.scene.currentUserCementery = this.scene.add.rectangle(1000, 1200, 155, 215);
 		// this.scene.currentUserCementery.setStrokeStyle(3, 0x00fff);
 
