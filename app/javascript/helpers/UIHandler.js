@@ -1,5 +1,6 @@
 import ZoneHandler from "./ZoneHandler";
 import SocketHandler from "./SocketHandler";
+import { createCurrentUserCard, createVerticalOpponentCard, createHorizontalOpponentCard } from "./CardUtils";
 
 export default class UIHandler {
 	constructor(scene) {
@@ -62,42 +63,36 @@ export default class UIHandler {
 
 	addCardToHand = (data, playersCard, currentUser) => {
 		let index = playersCard.cards.hand.length;;
+		currentUser.cards.hand.push(data[1])
+		let x_axis = this.scene.currentUserHandArea.x;
+		let y_axis = this.scene.currentUserHandArea.y;
 
 		if ( playersCard.id == currentUser.id ) {
-			currentUser.cards.hand.push(data[1])
-			this.createVerticalCard(this.scene.currentUserHandArea.x * 0.17, this.scene.currentUserHandArea.y, index, 'defaultCardSprite', data[1].name, );
+			createCurrentUserCard(this.scene, x_axis * 0.17, y_axis, index, 'defaultCardSprite', data[1].name, this.moveToZone.bind(this));
 		} else {
 			if ( Math.abs(playersCard.order - currentUser.order) ===2 ) {
 				playersCard.cards.hand.push(data[1])
-				this.createVerticalCard(this.scene.topOpponentHandArea.x * 0.17, this.scene.topOpponentHandArea.y, index);
+				createVerticalOpponentCard(x_axis * 0.17, y_axis, index);
 			} else if ( currentUser.order - playersCard.order === 1 || currentUser.order - playersCard.order === -3) {
 				playersCard.cards.hand.push(data[1])
-				this.createHorizontalCard(this.scene.leftOpponentHandArea.x, this.scene.leftOpponentHandArea.y *0.17, index);
+				createHorizontalOpponentCard(x_axis, y_axis * 0.17, index);
 			} else {
 				playersCard.cards.hand.push(data[1])
-				this.createHorizontalCard(this.scene.rightOpponentHandArea.x, this.scene.rightOpponentHandArea.y*0.17, index);
+				createHorizontalOpponentCard(x_axis, y_axis * 0.17, index);
 			}
 		}
 
 	};
 
-	createVerticalCard = (x, y, i, spriteKey = 'defaultOpponentSprite', cardName = '' ) => {
-		let value = 125 + (x * i) + (50)
-
-		const card = this.scene.add.sprite(value, y, spriteKey).setInteractive();
-
-		card.displayWidth = 100;
-		card.displayHeight = 240;
+	moveToZone = (card, zone) => {
+		if (zone === 'mana_pool') {
+			card.x = this.scene.currentManaPool.x;
+			card.y = this.scene.currentManaPool.y;
+			console.log('Card moved to mana_pool');
+		} else if (zone === 'playzone') {
+			card.x = this.scene.currentUserPlayzone.x;
+			card.y = this.scene.currentUserPlayzone.y;
+			console.log('Card moved to playzone');
+		}
 	};
-
-	createHorizontalCard = (x, y, i) => {
-		let value = 150 + (y * i) + (10*i);
-
-		const card = this.scene.add.sprite(-44, value, 'defaultOpponentSprite').setInteractive();
-
-		card.displayWidth = 100;
-		card.displayHeight = 240;
-		card.angle = 90;
-	};
-
 }
