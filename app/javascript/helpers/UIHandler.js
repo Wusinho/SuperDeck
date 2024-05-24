@@ -64,44 +64,27 @@ export default class UIHandler {
 	};
 
 	addCardToHand = (data, playersCard, currentUser) => {
-		let handAreaX;
-		let handAreaY;
-		let index;
-		let spriteKey;
+		let index = playersCard.cards.hand.length;;
 
 		if ( playersCard.id == currentUser.id ) {
-			index = currentUser.cards.hand.length;
 			currentUser.cards.hand.push(data[1])
-			spriteKey = "defaultCardSprite";
-			this.createVerticalCard(this.scene.currentUserHandArea.x * 0.17, this.scene.currentUserHandArea.y, spriteKey, data[1].name, index);
-
+			this.createVerticalCard(this.scene.currentUserHandArea.x * 0.17, this.scene.currentUserHandArea.y, index, 'defaultCardSprite', data[1].name, );
 		} else {
 			if ( Math.abs(playersCard.order - currentUser.order) ===2 ) {
-				spriteKey = "defaultOpponentSprite";
-				index = playersCard.cards.hand.length;
 				playersCard.cards.hand.push(data[1])
-				this.createVerticalCard(this.scene.topOpponentHandArea.x * 0.17, this.scene.topOpponentHandArea.y, spriteKey, '', index);
+				this.createVerticalCard(this.scene.topOpponentHandArea.x * 0.17, this.scene.topOpponentHandArea.y, index);
 			} else if ( currentUser.order - playersCard.order === 1 || currentUser.order - playersCard.order === -3) {
-				console.log('LEFT')
-				spriteKey = "defaultOpponentSprite";
-				index = playersCard.cards.hand.length;
 				playersCard.cards.hand.push(data[1])
-
-				this.createHorizontalCard(this.scene.leftOpponentHandArea.x, this.scene.leftOpponentHandArea.y *0.17, spriteKey, '', index);
-
+				this.createHorizontalCard(this.scene.leftOpponentHandArea.x, this.scene.leftOpponentHandArea.y *0.17, index);
 			} else {
-				console.log('RIGHT')
-				spriteKey = "defaultOpponentSprite";
-				index = playersCard.cards.hand.length;
-				console.log(index)
 				playersCard.cards.hand.push(data[1])
-				this.createHorizontalCard(this.scene.rightOpponentHandArea.x, this.scene.rightOpponentHandArea.y*0.17, spriteKey, '', index);
+				this.createHorizontalCard(this.scene.rightOpponentHandArea.x, this.scene.rightOpponentHandArea.y*0.17, index);
 			}
 		}
 
 	};
 
-	createVerticalCard = (x, y, spriteKey, cardName, i) => {
+	createVerticalCard = (x, y, i, spriteKey = 'defaultOpponentSprite', cardName = '' ) => {
 		let value = 125 + (x * i) + (50)
 
 		const card = this.scene.add.sprite(value, y, spriteKey).setInteractive();
@@ -110,10 +93,10 @@ export default class UIHandler {
 		card.displayHeight = 240;
 	};
 
-	createHorizontalCard = (x, y, spriteKey, cardName, i) => {
+	createHorizontalCard = (x, y, i) => {
 		let value = 150 + (y * i) + (10*i);
 
-		const card = this.scene.add.sprite(-44, value, spriteKey).setInteractive();
+		const card = this.scene.add.sprite(-44, value, 'defaultOpponentSprite').setInteractive();
 
 		card.displayWidth = 100;
 		card.displayHeight = 240;

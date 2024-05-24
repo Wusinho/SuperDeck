@@ -86,45 +86,40 @@ export default class GameHandler {
 	}
 
 	addCardsToVerticalPlayers = (cards = [], x, y, opponent = true) => {
-		const handAreaX = x*0.17;
 
 		for (let i in cards) {
 			const spriteKey = opponent ? "defaultOpponentSprite" : "defaultCardSprite";
 			const cardName = opponent ? "" : cards[i].name;
-			this.createVerticalCard(handAreaX, y, spriteKey, cardName, i);
+			this.createVerticalCard(x * 0.17, y , i, spriteKey);
 		}
 	};
 
 	addCardsToHorizontalPlayers = (cards = [], x, y, opponent = true) => {
-		const handAreaY = y*0.17;
 
 		for (let i in cards) {
-			const spriteKey = opponent ? "defaultOpponentSprite" : "defaultCardSprite";
 			const cardName = opponent ? "" : cards[i].name;
-			this.createHorizontalCard(x, handAreaY, spriteKey, cardName, i);
+			this.createHorizontalCard(x, y * 0.17, i);
 		}
 	};
 
-	createVerticalCard = (x, y, spriteKey, cardName, i) => {
+	createVerticalCard = (x, y, i, spriteKey = 'defaultOpponentSprite', cardName = '' ) => {
 		let value = 125 + (x * i) + (50)
 
 		const card = this.scene.add.sprite(value, y, spriteKey).setInteractive();
 
 		card.displayWidth = 100;
 		card.displayHeight = 240;
-
 	};
 
-	createHorizontalCard = (x, y, spriteKey, cardName, i) => {
+	createHorizontalCard = (x, y, i ) => {
 		let value = 150 + (y * i) + (10*i);
 
-		const card = this.scene.add.sprite(-44, value, spriteKey).setInteractive();
+		const card = this.scene.add.sprite(-44, value, 'defaultOpponentSprite').setInteractive();
 
 		card.displayWidth = 100;
 		card.displayHeight = 240;
+
 		card.angle = 90;
-
-
 	};
 
 }
