@@ -8,6 +8,7 @@ import Example from "../scenes/example"
 // Connects to data-controller="phaser-game"
 export default class extends Controller {
   connect() {
+    this.element.addEventListener('contextmenu', this.disableContextMenu);
     this.createGame();
   }
 

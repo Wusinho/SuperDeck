@@ -9,46 +9,59 @@ const createCurrentUserCard = (scene, x, y, i, spriteKey = 'defaultCardSprite', 
 
 	console.log(`Card created: ${cardName}, at position (${value}, ${y})`);
 
-	let clickTimeout = null;
+	// Create a DOM element for the context menu
+	const contextMenu = document.getElementById('context-menu');
 
 	// Event listener for left button down
 	card.on('pointerdown', (pointer) => {
 		if (pointer.leftButtonDown()) {
 			console.log('Left button down on card:', cardName);
 
-			if (clickTimeout) {
-				// Double-click detected
-				clearTimeout(clickTimeout);
-				clickTimeout = null;
-				card.angle += 90; // Rotate the card by 90 degrees
-				console.log('Double-click detected, rotating card');
-			} else {
-				// Single-click detected, set timeout for double-click detection
-				clickTimeout = setTimeout(() => {
-					clickTimeout = null;
-					// Move card to mana_pool (or playzone if needed)
-					moveToZone(card, 'mana_pool'); // Change 'mana_pool' to 'playzone' if needed
-					console.log('Single-click detected, moving card to mana_pool');
-				}, 300); // 300ms timeout for double-click detection
-			}
-		}
-	});
+			contextMenu.style.display = 'block';
+			contextMenu.style.left = `${pointer.event.clientX}px`;
+			contextMenu.style.top = `${pointer.event.clientY}px`;
+			contextMenu.style.zIndex = '10000';
 
-	// Event listener for right button down
-	card.on('pointerdown', (pointer) => {
-		if (pointer.rightButtonDown()) {
-			console.log('Right button down on card:', cardName);
-			moveToZone(card, 'mana_pool'); // Change 'mana_pool' to 'playzone' if needed
+			contextMenu.card = card;
 		}
-	});
-
-	// Additional log to verify event listener binding
-	card.on('pointerover', () => {
-		console.log('Pointer over card:', cardName);
 	});
 
 	return card;
 };
+
+const moveToZone = (card, zone, angle = 0) => {
+	if (zone === 'mana_pool') {
+		card.x = card.scene.currentManaPool.x;
+		card.y = card.scene.currentManaPool.y;
+		card.angle = angle;
+		console.log('Card moved to mana_pool');
+	} else if (zone === 'playzone') {
+		card.x = card.scene.currentUserPlayzone.x;
+		card.y = card.scene.currentUserPlayzone.y;
+		card.angle = angle;
+		console.log('Card moved to playzone');
+	}
+};
+
+// Add event listeners for context menu options
+document.getElementById('play-in-mana-pool').addEventListener('click', () => {
+	const contextMenu = document.getElementById('context-menu');
+	moveToZone(contextMenu.card, 'mana_pool');
+	contextMenu.style.display = 'none';
+});
+
+document.getElementById('play-in-playzone').addEventListener('click', () => {
+	const contextMenu = document.getElementById('context-menu');
+	moveToZone(contextMenu.card, 'playzone');
+	contextMenu.style.display = 'none';
+});
+
+document.getElementById('play-in-playzone-flipped').addEventListener('click', () => {
+	const contextMenu = document.getElementById('context-menu');
+	moveToZone(contextMenu.card, 'playzone', 90);
+	contextMenu.style.display = 'none';
+});
+
 
 const createVerticalOpponentCard = (scene, x, y, i, spriteKey = 'defaultOpponentSprite', cardName = '' ) => {
 	let value = 125 + (x * i) + (50)
