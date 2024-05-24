@@ -22,16 +22,9 @@ export default class UIHandler {
 
 	buildPlayerAreas = () => {
 		// CURRENT USER
-		this.scene.currentUserHandArea = this.scene.add.rectangle(550, 1240, 850, 230);
-		this.scene.currentUserHandArea.setStrokeStyle(4, 0xff68b4);
-
-		this.scene.currentManaPool = this.scene.add.rectangle(550, 1070, 850, 100)
-		this.scene.currentManaPool.setStrokeStyle(4, 0xff68b4);
-
-		this.scene.currentUserPlayzone = this.scene.add.rectangle(550, 960, 850, 100)
-		this.scene.currentUserPlayzone.setStrokeStyle(4, 0xff68b4);
-		// this.scene.currentUserCementery = this.scene.add.rectangle(1000, 1200, 155, 215);
-		// this.scene.currentUserCementery.setStrokeStyle(3, 0x00fff);
+		this.scene.currentUserHandArea = this.scene.add.rectangle(550, 1240, 850, 230).setStrokeStyle(4, 0xff68b4);
+		this.scene.currentManaPool = this.scene.add.rectangle(550, 1070, 850, 100).setStrokeStyle(4, 0xff68b4)
+		this.scene.currentUserPlayzone = this.scene.add.rectangle(550, 960, 850, 100).setStrokeStyle(4, 0xff68b4);
 
 
 		// LEFT PLAYER
@@ -46,8 +39,6 @@ export default class UIHandler {
 		// TOP PLAYER
 		this.scene.topOpponentHandArea = this.scene.add.rectangle(550, -50, 850, 230);
 		this.scene.topOpponentHandArea.setStrokeStyle(4, 0xff68b4);
-		// this.scene.topOpponentCementery = this.scene.add.rectangle(1000, 135, 155, 215);
-		// this.scene.topOpponentCementery.setStrokeStyle(3, 0x00fff);
 	};
 
 	buildGameText = () => {
@@ -106,13 +97,7 @@ export default class UIHandler {
 
 		card.displayWidth = 100;
 		card.displayHeight = 240;
-
 		card.angle = 90;
 	};
 
-
-	dealCards = () => {
-		// Your logic to deal cards goes here
-		console.log("Dealing cards...");
-	};
 }
