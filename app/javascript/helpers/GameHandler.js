@@ -80,8 +80,6 @@ export default class GameHandler {
 		}
 	}
 
-
-
 	create_text(x,y,opponent) {
 		this.players.push(opponent)
 		return this.scene.add.text(x,y, opponent.username)
@@ -112,51 +110,21 @@ export default class GameHandler {
 
 		const card = this.scene.add.sprite(value, y, spriteKey).setInteractive();
 
-		// card.displayWidth = x + 60;
 		card.displayWidth = 100;
 		card.displayHeight = 240;
-
-		// Add a white border around the card
-		// const border = this.scene.add.rectangle(0, 0, this.cardWidth, this.cardHeight);
-		// border.setStrokeStyle(2, 0xffffff);
-		// border.setOrigin(0.5);
-
-		// Add card name text
-		// const cardText = this.scene.add.text(0, 0, cardName, {
-		// 	fontSize: '14px',
-		// 	fill: '#fff',
-		// 	fontFamily: 'Arial'
-		// })
 
 	};
 
 	createHorizontalCard = (x, y, spriteKey, cardName, i) => {
-
 		let value = 150 + (y * i) + (10*i);
 
 		const card = this.scene.add.sprite(-44, value, spriteKey).setInteractive();
 
-		card.displayWidth = 100; // Set card width
-		card.displayHeight = 240; // Set card height
-
-
-		// Rotate the card by 90 degrees to make it horizontal
+		card.displayWidth = 100;
+		card.displayHeight = 240;
 		card.angle = 90;
 
-		// Add a white border around the card
-		// const border = this.scene.add.rectangle(0, 0, this.cardHeight, this.cardWidth);
-		// border.setStrokeStyle(2, 0xffffff);
-		// border.setOrigin(0.5);
-		// border.angle = 90; // Rotate the border to match the card
 
-		// Add card name text
-		// const cardText = this.scene.add.text(0, 0, cardName, {
-		// 	fontSize: '14px',
-		// 	fill: '#fff',
-		// 	fontFamily: 'Arial'
-		// }).setOrigin(0.5, 1.5);
-
-		// Adjust the card position
 	};
 
 }

@@ -70,94 +70,55 @@ export default class UIHandler {
 		let spriteKey;
 
 		if ( playersCard.id == currentUser.id ) {
-			handAreaX = this.scene.currentUserHandArea.x - (this.scene.currentUserHandArea.width / 2);
-			handAreaY = this.scene.currentUserHandArea.y;
 			index = currentUser.cards.hand.length;
 			currentUser.cards.hand.push(data[1])
 			spriteKey = "defaultCardSprite";
-			this.createCardSprite(handAreaX, handAreaY, spriteKey, data[1].name, index);
+			this.createVerticalCard(this.scene.currentUserHandArea.x * 0.17, this.scene.currentUserHandArea.y, spriteKey, data[1].name, index);
 
 		} else {
 			if ( Math.abs(playersCard.order - currentUser.order) ===2 ) {
-				handAreaX = this.scene.topOpponentHandArea.x - (this.scene.topOpponentHandArea.width / 2);
-				handAreaY = this.scene.topOpponentHandArea.y;
 				spriteKey = "defaultOpponentSprite";
 				index = playersCard.cards.hand.length;
 				playersCard.cards.hand.push(data[1])
-				this.createCardSprite(handAreaX, handAreaY * 0.17, spriteKey, '', index);
+				this.createVerticalCard(this.scene.topOpponentHandArea.x * 0.17, this.scene.topOpponentHandArea.y, spriteKey, '', index);
 			} else if ( currentUser.order - playersCard.order === 1 || currentUser.order - playersCard.order === -3) {
 				console.log('LEFT')
-				handAreaX = this.scene.leftOpponentHandArea.x - (this.scene.leftOpponentHandArea.width / 2);
-				handAreaY = this.scene.leftOpponentHandArea.y;
 				spriteKey = "defaultOpponentSprite";
 				index = playersCard.cards.hand.length;
 				playersCard.cards.hand.push(data[1])
 
-				this.createCardSpriteY(handAreaX, handAreaY * 0.17, spriteKey, '', index);
+				this.createHorizontalCard(this.scene.leftOpponentHandArea.x, this.scene.leftOpponentHandArea.y *0.17, spriteKey, '', index);
 
 			} else {
 				console.log('RIGHT')
-				handAreaX = this.scene.rightOpponentHandArea.x - (this.scene.rightOpponentHandArea.width / 2);
-				handAreaY = this.scene.rightOpponentHandArea.y;
 				spriteKey = "defaultOpponentSprite";
 				index = playersCard.cards.hand.length;
 				console.log(index)
 				playersCard.cards.hand.push(data[1])
-				this.createCardSpriteY(handAreaX, handAreaY * 0.17, spriteKey, '', index);
+				this.createHorizontalCard(this.scene.rightOpponentHandArea.x, this.scene.rightOpponentHandArea.y*0.17, spriteKey, '', index);
 			}
 		}
 
 	};
 
-	createCardSprite = (x, y, spriteKey, cardName, i) => {
-		const card = this.scene.add.sprite(0, 0, spriteKey).setInteractive();
+	createVerticalCard = (x, y, spriteKey, cardName, i) => {
+		let value = 125 + (x * i) + (50)
 
-		card.displayWidth = x + 100;
+		const card = this.scene.add.sprite(value, y, spriteKey).setInteractive();
+
+		card.displayWidth = 100;
 		card.displayHeight = 240;
-		card.setOrigin(0.5);
-
-		// Add a white border around the card
-		const border = this.scene.add.rectangle(0, 0, this.cardWidth, this.cardHeight);
-		border.setStrokeStyle(2, 0xffffff);
-		border.setOrigin(0.5);
-
-		// Add card name text
-		const cardText = this.scene.add.text(0, 0, cardName, {
-			fontSize: '14px',
-			fill: '#fff',
-			fontFamily: 'Arial'
-		}).setOrigin(0.5, 1.5);
-
-		let value = (x + 70+(115 * i))
-		this.scene.add.container(value, y, [border, card, cardText]);
 	};
 
-	createCardSpriteY = (x, y, spriteKey, cardName, i) => {
-		const card = this.scene.add.sprite(0, 0, spriteKey).setInteractive();
+	createHorizontalCard = (x, y, spriteKey, cardName, i) => {
+		let value = 150 + (y * i) + (10*i);
 
-		card.displayWidth = 240; // Set card width
-		card.displayHeight = 100; // Set card height
-		card.setOrigin(0.5);
+		const card = this.scene.add.sprite(-44, value, spriteKey).setInteractive();
 
-		// Rotate the card by 90 degrees to make it horizontal
-		card.angle = 180;
+		card.displayWidth = 100;
+		card.displayHeight = 240;
 
-		// Add a white border around the card
-		const border = this.scene.add.rectangle(0, 0, this.cardHeight, this.cardWidth);
-		border.setStrokeStyle(2, 0xffffff);
-		border.setOrigin(0.5);
-		// border.angle = 0; // Rotate the border to match the card
-
-		// Add card name text
-		const cardText = this.scene.add.text(0, 0, cardName, {
-			fontSize: '14px',
-			fill: '#fff',
-			fontFamily: 'Arial'
-		}).setOrigin(0.5, 1.5);
-
-		// Adjust the card position
-		let value = (y + 70 + (115 * i));
-		this.scene.add.container(x, value, [border, card, cardText]);
+		card.angle = 90;
 	};
 
 
