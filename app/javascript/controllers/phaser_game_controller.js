@@ -8,7 +8,9 @@ import Example from "../scenes/example"
 // Connects to data-controller="phaser-game"
 export default class extends Controller {
   connect() {
-    this.element.addEventListener('contextmenu', this.disableContextMenu);
+    this.element.addEventListener('contextmenu', (event) => {
+      event.preventDefault();
+    });
     this.createGame();
   }
 
@@ -20,7 +22,10 @@ export default class extends Controller {
         scene: Game,
         backgroundColor: '#a7c957',
       };
-    new Phaser.Game(config)
+    this.game = new Phaser.Game(config)
+    this.game.canvas.addEventListener('contextmenu', (event) => {
+      event.preventDefault();
+    });
   }
 }
 

@@ -14,15 +14,21 @@ const createCurrentUserCard = (scene, x, y, i, spriteKey = 'defaultCardSprite', 
 
 	// Event listener for left button down
 	card.on('pointerdown', (pointer) => {
-		if (pointer.leftButtonDown()) {
+		if (pointer.rightButtonDown()) {
 			console.log('Left button down on card:', cardName);
 
+			// Show context menu
 			contextMenu.style.display = 'block';
 			contextMenu.style.left = `${pointer.event.clientX}px`;
 			contextMenu.style.top = `${pointer.event.clientY}px`;
-			contextMenu.style.zIndex = '10000';
 
+			// Store card reference for menu actions
 			contextMenu.card = card;
+
+			// Auto-hide context menu after 2 seconds
+			setTimeout(() => {
+				contextMenu.style.display = 'none';
+			}, 2000);
 		}
 	});
 
@@ -40,6 +46,8 @@ const moveToZone = (card, zone, angle = 0) => {
 		card.y = card.scene.currentUserPlayzone.y;
 		card.angle = angle;
 		console.log('Card moved to playzone');
+	} else {
+		console.log('Card moved to graveyard');
 	}
 };
 
@@ -56,12 +64,17 @@ document.getElementById('play-in-playzone').addEventListener('click', () => {
 	contextMenu.style.display = 'none';
 });
 
-document.getElementById('play-in-playzone-flipped').addEventListener('click', () => {
+document.getElementById('play-in-playzone-morph').addEventListener('click', () => {
 	const contextMenu = document.getElementById('context-menu');
 	moveToZone(contextMenu.card, 'playzone', 90);
 	contextMenu.style.display = 'none';
 });
 
+document.getElementById('play-in-graveyard').addEventListener('click', () => {
+	const contextMenu = document.getElementById('context-menu');
+	moveToZone(contextMenu.card, 'graveyard', 90);
+	contextMenu.style.display = 'none';
+});
 
 const createVerticalOpponentCard = (scene, x, y, i, spriteKey = 'defaultOpponentSprite', cardName = '' ) => {
 	let value = 125 + (x * i) + (50)
