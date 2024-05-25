@@ -3,6 +3,9 @@ import DeckHandler from "../helpers/DeckHandler";
 import InteractiveHandler from "../helpers/InteractiveHandler";
 import UIHandler from "../helpers/UIHandler";
 import GameHandler from "../helpers/GameHandler";
+import GameActions from "../helpers/GameActions";
+import Zones from "../helpers/Zones";
+import CardManager from "../helpers/CardManager";
 // import SocketHandler from "../helpers/SocketHandler";
 
 export default class Game extends Phaser.Scene {
@@ -32,6 +35,9 @@ export default class Game extends Phaser.Scene {
 		this.UIHandler = new UIHandler(this);
 		// this.UIHandler.buildUI();
 		this.InteractiveHandler = new InteractiveHandler(this);
+		this.GameActions = new GameActions(this);
+		this.CardManager = new CardManager(this);
+		this.Zones = new Zones(this);
 	}
 
 	update(){

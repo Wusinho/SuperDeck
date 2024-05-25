@@ -6,4 +6,10 @@ class GameActionsChannel < ApplicationCable::Channel
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
+
+  def update(data)
+    p '*'*100
+    p data
+    p '*'*100
+  end
 end

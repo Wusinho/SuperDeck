@@ -1,5 +1,4 @@
 import BoardHandler from "./BoardHandler";
-import { createCurrentUserCard, createVerticalOpponentCard, createHorizontalOpponentCard } from "./CardUtils";
 
 export default class GameHandler {
 	constructor(scene) {
@@ -54,17 +53,17 @@ export default class GameHandler {
 				this.scene.topSiteName = this.create_text(900,70, opponent)
 			} else if (opponent.order === 2) {
 				this.leftSite = opponent
-				createVerticalOpponentCard(this.scene, cards,x_axis, y_axis)
+				this.scene.CardManager.createVerticalOpponentCard(this.scene, cards,x_axis, y_axis)
 				this.scene.leftSiteName = this.create_text(30,135, opponent)
 			} else {
 				this.rightSite = opponent
-				createVerticalOpponentCard(this.scene, cards,x_axis, y_axis)
+				this.scene.CardManager.createVerticalOpponentCard(this.scene, cards,x_axis, y_axis)
 				this.scene.rightSiteName = this.create_text(1050,135, opponent)
 			}
 		} else {
 			if ( this.currentUser.order - opponent.order === -1 ) {
 				this.rightSite = opponent
-				createVerticalOpponentCard(this.scene, cards,x_axis, y_axis)
+				this.scene.CardManager.createVerticalOpponentCard(this.scene, cards,x_axis, y_axis)
 				this.scene.rightSiteName = this.create_text(1050,135, opponent)
 			} else if (Math.abs(this.currentUser.order - opponent.order) === 2 ) {
 				this.topSite = opponent
@@ -72,7 +71,7 @@ export default class GameHandler {
 				this.scene.topSiteName = this.create_text(900,70, opponent)
 			} else {
 				this.leftSite = opponent
-				createVerticalOpponentCard(this.scene, cards, x_axis, y_axis)
+				this.scene.CardManager.createVerticalOpponentCard(this.scene, cards, x_axis, y_axis)
 				this.scene.leftSiteName = this.create_text(30,135, opponent)
 			}
 		}
@@ -87,24 +86,12 @@ export default class GameHandler {
 
 		if (opponent){
 			for (let i in cards) {
-				createHorizontalOpponentCard(this.scene,x * 0.17, y , i, 'defaultOpponentSprite', '')
+				this.scene.CardManager.createHorizontalOpponentCard(x * 0.17, y , i, 'defaultOpponentSprite', '')
 			}
 		} else {
 			for (let i in cards) {
-				createCurrentUserCard(this.scene, x * 0.17, y, i, 'defaultCardSprite', cards[i].name, this.moveToZone.bind(this));
+				this.scene.CardManager.createCurrentUserCard(x * 0.17, y, i, 'defaultCardSprite', cards[i].name);
 			}
-		}
-	};
-
-	moveToZone = (card, zone) => {
-		if (zone === 'mana_pool') {
-			card.x = this.scene.currentManaPool.x;
-			card.y = this.scene.currentManaPool.y;
-			console.log('Card moved to mana_pool');
-		} else if (zone === 'playzone') {
-			card.x = this.scene.currentUserPlayzone.x;
-			card.y = this.scene.currentUserPlayzone.y;
-			console.log('Card moved to playzone');
 		}
 	};
 

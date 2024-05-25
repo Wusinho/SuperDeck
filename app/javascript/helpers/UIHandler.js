@@ -1,6 +1,6 @@
 import ZoneHandler from "./ZoneHandler";
 import SocketHandler from "./SocketHandler";
-import { createCurrentUserCard, createVerticalOpponentCard, createHorizontalOpponentCard } from "./CardUtils";
+// import { createCurrentUserCard, createVerticalOpponentCard, createHorizontalOpponentCard } from "./CardUtils";
 
 export default class UIHandler {
 	constructor(scene) {
@@ -68,17 +68,17 @@ export default class UIHandler {
 		let y_axis = this.scene.currentUserHandArea.y;
 
 		if ( playersCard.id == currentUser.id ) {
-			createCurrentUserCard(this.scene, x_axis * 0.17, y_axis, index, 'defaultCardSprite', data[1].name, this.moveToZone.bind(this));
+			this.scene.CardManager.createCurrentUserCard(this.scene, x_axis * 0.17, y_axis, index, 'defaultCardSprite', data[1].name, this.moveToZone.bind(this));
 		} else {
 			if ( Math.abs(playersCard.order - currentUser.order) ===2 ) {
 				playersCard.cards.hand.push(data[1])
-				createVerticalOpponentCard(x_axis * 0.17, y_axis, index);
+				this.scene.CardManager.createVerticalOpponentCard(x_axis * 0.17, y_axis, index);
 			} else if ( currentUser.order - playersCard.order === 1 || currentUser.order - playersCard.order === -3) {
 				playersCard.cards.hand.push(data[1])
-				createHorizontalOpponentCard(x_axis, y_axis * 0.17, index);
+				this.scene.CardManager.createHorizontalOpponentCard(x_axis, y_axis * 0.17, index);
 			} else {
 				playersCard.cards.hand.push(data[1])
-				createHorizontalOpponentCard(x_axis, y_axis * 0.17, index);
+				this.scene.CardManager.createHorizontalOpponentCard(x_axis, y_axis * 0.17, index);
 			}
 		}
 
