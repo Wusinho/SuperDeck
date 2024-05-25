@@ -68,7 +68,7 @@ export default class UIHandler {
 		let y_axis = this.scene.currentUserHandArea.y;
 
 		if ( playersCard.id == currentUser.id ) {
-			this.scene.CardManager.createCurrentUserCard(this.scene, x_axis * 0.17, y_axis, index, 'defaultCardSprite', data[1].name, this.moveToZone.bind(this));
+			this.scene.CardManager.createCurrentUserCard(x_axis * 0.17, y_axis, index, 'defaultCardSprite', data[1].name);
 		} else {
 			if ( Math.abs(playersCard.order - currentUser.order) ===2 ) {
 				playersCard.cards.hand.push(data[1])

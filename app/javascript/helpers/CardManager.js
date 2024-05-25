@@ -8,19 +8,19 @@ export default class CardManager {
 		this.createHorizontalOpponentCard = this.createHorizontalOpponentCard.bind(this);
 	}
 
-	createVerticalOpponentCard = (scene, x, y, i, spriteKey = 'defaultOpponentSprite', cardName = '' ) => {
+	createVerticalOpponentCard = (x, y, i, spriteKey = 'defaultOpponentSprite', cardName = '' ) => {
 		let value = 125 + (x * i) + (50)
 
-		const card = scene.add.sprite(value, y, spriteKey).setInteractive();
+		const card = this.scene.add.sprite(value, y, spriteKey).setInteractive();
 
 		card.displayWidth = 100;
 		card.displayHeight = 240;
 	}
 
-	createHorizontalOpponentCard = (scene, x, y, i, spriteKey = 'defaultOpponentSprite', cardName = '' ) => {
+	createHorizontalOpponentCard = (x, y, i, spriteKey = 'defaultOpponentSprite', cardName = '' ) => {
 		let value = 125 + (x * i) + (50)
 
-		const card = scene.add.sprite(value, y, spriteKey).setInteractive();
+		const card = this.scene.add.sprite(value, y, spriteKey).setInteractive();
 
 		card.displayWidth = 100;
 		card.displayHeight = 240;
