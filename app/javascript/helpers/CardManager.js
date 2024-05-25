@@ -14,7 +14,7 @@ export default class CardManager {
 		const card = this.scene.add.sprite(value, y, spriteKey).setInteractive();
 
 		card.displayWidth = 100;
-		card.displayHeight = 240;
+		card.displayHeight = 140;
 	}
 
 	createHorizontalOpponentCard = (x, y, i, spriteKey = 'defaultOpponentSprite' ) => {
@@ -31,18 +31,16 @@ export default class CardManager {
 		let value = 125 + (x * i) + 50;
 		let img_url = card.image_url;
 
+		const cardCreated = this.scene.add.sprite(value, y, spriteKey)
+
 		this.scene.load.image(`card-${card.id}`, img_url);
 		this.scene.load.once('complete', () => {
 			cardCreated.setTexture(`card-${card.id}`);
-			cardCreated.displayWidth = 100; // Adjust the width as needed
-			cardCreated.displayHeight = 240; // Adjust the height as needed
+			cardCreated.displayWidth = 100;
+			cardCreated.displayHeight = 140;
+			cardCreated.setInteractive();
 		});
-		// Create the card sprite
-		const cardCreated = this.scene.add.sprite(value, y, spriteKey).setInteractive();
-		cardCreated.setTexture(img_url);
 
-		cardCreated.displayWidth = 100;
-		cardCreated.displayHeight = 240;
 		this.scene.load.start();
 
 		// Event listener for left button down
