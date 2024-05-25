@@ -31,7 +31,7 @@ export default class CardManager {
 		let value = 125 + (x * i) + 50;
 		let img_url = card.image_url;
 
-		const cardCreated = this.scene.add.sprite(value, y, spriteKey)
+		const cardCreated = this.scene.add.sprite(value, y - 40, spriteKey)
 
 		this.scene.load.image(`card-${card.id}`, img_url);
 		this.scene.load.once('complete', () => {
@@ -59,7 +59,7 @@ export default class CardManager {
 				// Auto-hide context menu after 2 seconds
 				setTimeout(() => {
 					contextMenu.style.display = 'none';
-				}, 4000);
+				}, 3000);
 			} else if (pointer.leftButtonDown()) {
 				// Rotate the card 90 degrees on left click
 				cardCreated.angle += 90;
