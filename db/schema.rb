@@ -110,6 +110,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_19_031107) do
     t.uuid "card_id", null: false
     t.boolean "drawn", default: false, null: false
     t.integer "zone", default: 0, null: false
+    t.integer "action", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["card_id"], name: "index_player_cards_on_card_id"
