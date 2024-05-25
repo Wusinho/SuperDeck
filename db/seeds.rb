@@ -21,8 +21,8 @@ if Rails.env.development?
                 mana_cost: 3,
                 colors: 'W',
                 types: 'Creature',
-                text: 'fdsfasff'
-
+                text: 'fdsfasff',
+                image_url: 'https://res.cloudinary.com/wusinho1/image/upload/v1716614024/front_card_0_roeyui.png'
                 )
 
   end

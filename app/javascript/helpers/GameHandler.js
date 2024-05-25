@@ -86,11 +86,11 @@ export default class GameHandler {
 
 		if (opponent){
 			for (let i in cards) {
-				this.scene.CardManager.createHorizontalOpponentCard(x * 0.17, y , i, 'defaultOpponentSprite', '')
+				this.scene.CardManager.createHorizontalOpponentCard(x * 0.17, y , i, 'defaultOpponentSprite')
 			}
 		} else {
 			for (let i in cards) {
-				this.scene.CardManager.createCurrentUserCard(x * 0.17, y, i, 'defaultCardSprite', cards[i].name);
+				this.scene.CardManager.createCurrentUserCard(x * 0.17, y, i, 'defaultCardSprite', cards[i]);
 			}
 		}
 	};

@@ -17,7 +17,7 @@ export default class CardManager {
 		card.displayHeight = 240;
 	}
 
-	createHorizontalOpponentCard = (x, y, i, spriteKey = 'defaultOpponentSprite', cardName = '' ) => {
+	createHorizontalOpponentCard = (x, y, i, spriteKey = 'defaultOpponentSprite' ) => {
 		let value = 125 + (x * i) + (50)
 
 		const card = this.scene.add.sprite(value, y, spriteKey).setInteractive();
@@ -27,21 +27,27 @@ export default class CardManager {
 		card.angle = 90;
 	}
 
-	createCurrentUserCard(x, y, i, spriteKey = 'defaultCardSprite', cardName = '') {
+	createCurrentUserCard(x, y, i, spriteKey = 'defaultCardSprite', card = '') {
 		let value = 125 + (x * i) + 50;
+		let img_url = card.image_url;
 
+		this.scene.load.image(`card-${card.id}`, img_url);
+		this.scene.load.once('complete', () => {
+			cardCreated.setTexture(`card-${card.id}`);
+			cardCreated.displayWidth = 100; // Adjust the width as needed
+			cardCreated.displayHeight = 240; // Adjust the height as needed
+		});
 		// Create the card sprite
-		const card = this.scene.add.sprite(value, y, spriteKey).setInteractive();
+		const cardCreated = this.scene.add.sprite(value, y, spriteKey).setInteractive();
+		cardCreated.setTexture(img_url);
 
-		card.displayWidth = 100;
-		card.displayHeight = 240;
-
-		console.log(`Card created: ${cardName}, at position (${value}, ${y})`);
+		cardCreated.displayWidth = 100;
+		cardCreated.displayHeight = 240;
+		this.scene.load.start();
 
 		// Event listener for left button down
-		card.on('pointerdown', (pointer) => {
+		cardCreated.on('pointerdown', (pointer) => {
 			if (pointer.rightButtonDown()) {
-				console.log('Right button down on card:', cardName);
 
 				// Show context menu
 				const contextMenu = document.getElementById('context-menu');
@@ -50,7 +56,7 @@ export default class CardManager {
 				contextMenu.style.top = `${pointer.event.clientY}px`;
 
 				// Store card reference for menu actions
-				contextMenu.card = card;
+				contextMenu.card = cardCreated;
 
 				// Auto-hide context menu after 2 seconds
 				setTimeout(() => {
@@ -58,12 +64,11 @@ export default class CardManager {
 				}, 4000);
 			} else if (pointer.leftButtonDown()) {
 				// Rotate the card 90 degrees on left click
-				card.angle += 90;
-				console.log('Left button down on card, rotating:', cardName);
+				cardCreated.angle += 90;
 			}
 		});
 
-		return card;
+		return cardCreated;
 	}
 
 	setupContextMenuListeners() {
