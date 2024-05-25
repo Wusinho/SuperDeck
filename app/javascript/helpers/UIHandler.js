@@ -58,7 +58,7 @@ export default class UIHandler {
 	handleSocketReceived = (data) => {
 		let playersCard = this.scene.GameHandler.players.filter(player => player.id === data[0].id)
 		let currentUser = this.scene.GameHandler.currentUser;
-			this.addCardToHand(data, playersCard[0], currentUser);
+		this.addCardToHand(data, playersCard[0], currentUser);
 	};
 
 	addCardToHand = (data, playersCard, currentUser) => {

@@ -12,17 +12,11 @@ export default class Game extends Phaser.Scene {
 	static players_ids = []
 	constructor() {
 		super('Game');
-		this.defaultImage = "https://res.cloudinary.com/wusinho1/image/upload/v1715968436/CyanCardBack_z7pnhq.png"
-		this.opponentCard = "https://res.cloudinary.com/wusinho1/image/upload/v1716331593/MagentaCardBack_xshnrm.png"
+		this.defaultImage = "https://res.cloudinary.com/wusinho1/image/upload/v1716611300/front_card_fezmfn.webp"
+		this.opponentCard = "https://res.cloudinary.com/wusinho1/image/upload/v1716611307/back_card_eajo4d.webp"
 	}
 
 	preload(){
-		this.load.image("cyanCardBack", this.defaultImage );
-		this.load.image('magentaCardBack', this.defaultImage );
-		this.load.image('cyanBoolean', this.defaultImage );
-		this.load.image('magentaBoolean', this.defaultImage );
-		this.load.image('cyanPing', this.defaultImage );
-		this.load.image('magentaPing', this.defaultImage );
 		this.load.image('defaultCardSprite', this.defaultImage );
 		this.load.image('defaultOpponentSprite', this.opponentCard );
 	}
