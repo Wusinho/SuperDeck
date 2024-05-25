@@ -28,7 +28,9 @@ const createCurrentUserCard = (scene, x, y, i, spriteKey = 'defaultCardSprite', 
 			// Auto-hide context menu after 2 seconds
 			setTimeout(() => {
 				contextMenu.style.display = 'none';
-			}, 2000);
+			}, 3000);
+		} else if ( pointer.leftButtonDown()) {
+			card.angle += 90;
 		}
 	});
 
@@ -66,13 +68,19 @@ document.getElementById('play-in-playzone').addEventListener('click', () => {
 
 document.getElementById('play-in-playzone-morph').addEventListener('click', () => {
 	const contextMenu = document.getElementById('context-menu');
-	moveToZone(contextMenu.card, 'playzone', 90);
+	moveToZone(contextMenu.card, 'playzone');
 	contextMenu.style.display = 'none';
 });
 
 document.getElementById('play-in-graveyard').addEventListener('click', () => {
 	const contextMenu = document.getElementById('context-menu');
-	moveToZone(contextMenu.card, 'graveyard', 90);
+	moveToZone(contextMenu.card, 'graveyard');
+	contextMenu.style.display = 'none';
+});
+
+document.getElementById('play-in-hand').addEventListener('click', () => {
+	const contextMenu = document.getElementById('context-menu');
+	moveToZone(contextMenu.card, 'hand');
 	contextMenu.style.display = 'none';
 });
 
@@ -92,6 +100,7 @@ const createHorizontalOpponentCard = (scene, x, y, i, spriteKey = 'defaultOppone
 
 	card.displayWidth = 100;
 	card.displayHeight = 240;
+	card.angle = 90;
 }
 
 export {
