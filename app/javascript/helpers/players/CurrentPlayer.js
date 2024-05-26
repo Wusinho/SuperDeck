@@ -2,19 +2,10 @@ import Player from './Player';
 export default class CurrentPlayer extends Player {
 	constructor(scene, player) {
 		super(scene, player);
-		// this.hand_area_x_axis = this.scene.currentUserHandArea.x * 0.17
-		// this.hand_area_y_axis = this.scene.currentUserHandArea.y
-		// this.addNewCardsToHand = this.addNewCardsToHand.bind(this)
 		this.scene.currentUserName = this.create_text(50,1050, this.playerUsername)
 			.setFontSize(14)
 			.setFontFamily("Arial")
 			.setInteractive();
-		// this.hand = this.scene.currentUserHandArea;
-		// this.manaPool = this.scene.currentManaPool;
-		// this.playZone = this.scene.currentUserPlayzone;
-		// this.exile = this.scene.currentUserExile;
-		// this.graveyard = this.scene.currentUserGraveyard;
-		// this.addNewCardsToHand();
 	}
 
 	addHandCardsToGame(data){
@@ -58,9 +49,9 @@ export default class CurrentPlayer extends Player {
 		this.cards[cardData.zone].push(cardCreated);
 		this.updateCardPositions(cardData.zone);
 
-		this.scene.load.image(`card-${cardData.id}`, img_url);
+		this.scene.load.image(`card-${cardData.player_card_id}`, img_url);
 		this.scene.load.once('complete', () => {
-			cardCreated.setTexture(`card-${cardData.id}`);
+			cardCreated.setTexture(`card-${cardData.player_card_id}`);
 
 			// Get the original size of the card
 			let originalWidth = cardCreated.width;

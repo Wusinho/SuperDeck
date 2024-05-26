@@ -9,7 +9,7 @@ class GameActionsChannel < ApplicationCable::Channel
 
   def change_zone(data)
     pc = PlayerCard.find_by(id: data['player_card_id'])
-    pc.update(zone: data['zone'])
+    pc.update(zone: PlayerCard.zones[data['new_zone'].to_sym])
     information = {
       player_id: pc.player_id,
       new_zone: data['new_zone'],
