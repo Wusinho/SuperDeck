@@ -8,30 +8,30 @@ export default class CardManager {
 		this.createHorizontalOpponentCard = this.createHorizontalOpponentCard.bind(this);
 	}
 
-	createHorizontalOpponentCard = (x, y, i, spriteKey = 'defaultOpponentSprite' ) => {
+	createHorizontalOpponentCard = (x, y, i ) => {
 		let value = 125 + (x * i) + (50)
 
-		const card = this.scene.add.sprite(value, y, spriteKey).setInteractive();
+		const newCard = this.scene.add.sprite(value, y, 'defaultOpponentSprite').setInteractive();
 
-		card.displayWidth = 100;
-		card.displayHeight = 140;
+		newCard.displayWidth = 100;
+		newCard.displayHeight = 140;
 	}
 
-	createVerticalOpponentCard = (x, y, i, spriteKey = 'defaultOpponentSprite' ) => {
+	createVerticalOpponentCard = (x, y, i ) => {
 		let value = 125 + (x * i) + (50)
 
-		const card = this.scene.add.sprite(value, y, spriteKey).setInteractive();
+		const newCard = this.scene.add.sprite(value, y, 'defaultOpponentSprite').setInteractive();
 
-		card.displayWidth = 100;
-		card.displayHeight = 240;
-		card.angle = 90;
+		newCard.displayWidth = 100;
+		newCard.displayHeight = 240;
+		newCard.angle = 90;
 	}
 
-	createCurrentUserCard(x, y, i, spriteKey = 'defaultCardSprite', card = '') {
+	createCurrentUserCard(x, y, i, card) {
 		let value = 125 + (x * i) + 50;
 		let img_url = card.image_url;
 
-		const cardCreated = this.scene.add.sprite(value, y - 40, spriteKey)
+		const cardCreated = this.scene.add.sprite(value, y - 40, 'defaultCardSprite')
 
 		this.scene.load.image(`card-${card.id}`, img_url);
 		this.scene.load.once('complete', () => {

@@ -49,21 +49,18 @@ export default class LoadGame {
 	}
 
 	order_player_position(opponent){
-		let cards = opponent.cards.hand
-		let x_axis = this.scene.topOpponentHandArea.x
-		let y_axis = this.scene.topOpponentHandArea.y
 
 		if(this.currentUser.order === 3){
 			if (opponent.order === 1) {
-				this.players.push(new TopPlayer(this.scene, ));
+				this.players.push(new TopPlayer(this.scene, opponent));
 			} else if (opponent.order === 2) {
-				this.players.push(new LeftPlayer(this.scene, ));
+				this.players.push(new LeftPlayer(this.scene, opponent));
 
 				// this.leftSite = opponent
 				// this.scene.CardManager.createHorizontalOpponentCard(this.scene, cards,x_axis, y_axis)
 				// this.scene.leftSiteName = this.create_text(30,135, opponent)
 			} else {
-				this.players.push(new RightPlayer(this.scene, ));
+				this.players.push(new RightPlayer(this.scene, opponent));
 
 				// this.rightSite = opponent
 				// this.scene.CardManager.createHorizontalOpponentCard(this.scene, cards,x_axis, y_axis)
@@ -71,18 +68,18 @@ export default class LoadGame {
 			}
 		} else {
 			if ( this.currentUser.order - opponent.order === -1 ) {
-				this.players.push(new RightPlayer(this.scene, ));
+				this.players.push(new RightPlayer(this.scene, opponent));
 
 				// this.rightSite = opponent
 				// this.scene.CardManager.createHorizontalOpponentCard(this.scene, cards,x_axis, y_axis)
 				// this.scene.rightSiteName = this.create_text(1050,135, opponent)
 			} else if (Math.abs(this.currentUser.order - opponent.order) === 2 ) {
-				this.players.push(new TopPlayer(this.scene, ));
+				this.players.push(new TopPlayer(this.scene, opponent));
 				// this.topSite = opponent
 				// this.addCardsToVerticalPlayers(cards, x_axis, y_axis)
 				// this.scene.topSiteName = this.create_text(900,70, opponent)
 			} else {
-				this.players.push(new LeftPlayer(this.scene, ));
+				this.players.push(new LeftPlayer(this.scene, opponent));
 
 				// this.leftSite = opponent
 				// this.scene.CardManager.createHorizontalOpponentCard(this.scene, cards, x_axis, y_axis)

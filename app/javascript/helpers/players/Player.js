@@ -19,7 +19,7 @@ export default class Player {
 		this.userType = this.playerId === user_id ? 0 : 1
 	}
 
-	create_text(x,y, username) {
-		return this.scene.add.text(x,y, username)
+	create_text(x,y) {
+		return this.scene.add.text(x,y, this.playerUsername )
 	}
 }

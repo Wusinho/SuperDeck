@@ -4,10 +4,14 @@ export default class RightPlayer extends Player {
 		super(scene, player);
 		this.x_axis = this.scene.rightOpponentHandArea.x
 		this.y_axis = this.scene.rightOpponentHandArea.y
-		for (let i in this.playerHandCards) {
-			this.scene.CardManager.createVerticalOpponentCard(this.x_axis, this.y_axis, this.playerHandCards[i]);
-		}
+		this.addNewCardsToHand = this.addNewCardsToHand.bind(this)
+		this.create_text(1050,135)
+		this.addNewCardsToHand()
+	}
 
-		this.create_text(1050,135, this.playerUsername)
+	addNewCardsToHand(){
+		for (let i in this.playerHandCards) {
+			this.scene.CardManager.createHorizontalOpponentCard(this.x_axis, this.y_axis, i);
+		}
 	}
 }
