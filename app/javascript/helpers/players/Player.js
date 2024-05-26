@@ -18,4 +18,8 @@ export default class Player {
 	is_player_opponent(user_id){
 		this.userType = this.playerId === user_id ? 0 : 1
 	}
+
+	create_text(x,y, username) {
+		return this.scene.add.text(x,y, username)
+	}
 }
