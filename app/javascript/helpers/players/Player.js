@@ -1,10 +1,10 @@
 import DrawCardSocketHandler from "../sockets/DrawCardSocketHandler";
+import GameActionSocketHandler from "../sockets/GameActionSocketHandler";
 
 export default class Player {
 
 	// userType 0 => self, 1 => opponent
 	constructor(scene, player) {
-		this.drawSocketHandler = new DrawCardSocketHandler(scene);
 		this.scene = scene;
 		this.userType = null
 		this.playerId = player.id;
@@ -12,12 +12,14 @@ export default class Player {
 		this.order = player.order;
 		this.life = player.life;
 		this.playerHandCards = player.cards.hand;
+		this.playerManaPoolCards = player.cards.mana_pool;
 		this.playerPlayZoneCards = player.cards.playzone;
 		this.playerGraveyardCards = player.cards.graveyard;
 		this.playerExiledCards = player.cards.exile;
 		this.is_player_opponent = this.is_player_opponent.bind(this);
-		this.scene.events.on("socketReceived", this.handleSocketReceived, this);
-
+		// this.moveToZone = this.moveToZone.bind(this)
+		this.scene.events.on("socketReceived", this.handleGameOnLoadReceived, this);
+		this.scene.events.on("gameActionsReceived", this.handleGameActionsReceived, this);
 	}
 
 	is_player_opponent(user_id){
@@ -28,7 +30,15 @@ export default class Player {
 		return this.scene.add.text(x,y, this.playerUsername )
 	}
 
-	handleSocketReceived = (data) => {
+	handleGameActionsReceived = data => {
+		if (data.player_id !== this.playerId) return
+
+		if (data.from === 'hand') {
+
+		}
+	}
+
+	handleGameOnLoadReceived = data => {
 		if (data[0] !== this.playerId) return
 
 		this.playerHandCards = data[1]

@@ -11,8 +11,12 @@ class Player < ApplicationRecord
   end
 
   def card_collection
-    zones = { hand: [], playzone: [], graveyard: [], exile: [] }
-    cards = player_cards.joins(:card).select('player_cards.zone', 'player_cards.action', 'player_cards.current_holder_id','cards.*')
+    zones = { hand: [], playzone: [], graveyard: [], exile: [], mana_pool: [] }
+    cards = player_cards.joins(:card).select('player_cards.zone',
+                                             'player_cards.action',
+                                             'player_cards.current_holder_id',
+                                             'player_cards.id AS player_card_id',
+                                             'cards.*')
 
     cards_grouped_by_zone = cards.group_by(&:zone)
 

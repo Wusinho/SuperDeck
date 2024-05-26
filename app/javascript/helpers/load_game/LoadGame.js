@@ -6,7 +6,7 @@ import TopPlayer from "../players/TopPlayer";
 
 export default class LoadGame {
 	constructor(scene) {
-		this.boardHandler = new LoadGameSocketHandler(scene);
+		new LoadGameSocketHandler(scene);
 		this.scene = scene;
 		this.topSite =  null;
 		this.leftSite =  null;

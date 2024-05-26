@@ -6,6 +6,8 @@ export default class CardManager {
 		this.createCurrentUserCard = this.createCurrentUserCard.bind(this);
 		this.createVerticalOpponentCard = this.createVerticalOpponentCard.bind(this);
 		this.createHorizontalOpponentCard = this.createHorizontalOpponentCard.bind(this);
+		this.height = 71.5;
+		this.width = 100;
 	}
 
 	createHorizontalOpponentCard = (x, y, i ) => {
@@ -13,8 +15,8 @@ export default class CardManager {
 
 		const newCard = this.scene.add.sprite(value, y, 'defaultOpponentSprite').setInteractive();
 
-		newCard.displayWidth = 100;
-		newCard.displayHeight = 140;
+		newCard.displayWidth = this.height;
+		newCard.displayHeight = this.width;
 	}
 
 	createVerticalOpponentCard = (x, y, i ) => {
@@ -22,8 +24,8 @@ export default class CardManager {
 
 		const newCard = this.scene.add.sprite(value, y, 'defaultOpponentSprite').setInteractive();
 
-		newCard.displayWidth = 100;
-		newCard.displayHeight = 240;
+		newCard.displayWidth = this.width;
+		newCard.displayHeight = this.height;
 		newCard.angle = 90;
 	}
 
@@ -32,12 +34,13 @@ export default class CardManager {
 		let img_url = card.image_url;
 
 		const cardCreated = this.scene.add.sprite(value, y - 40, 'defaultCardSprite')
+		cardCreated.card_id = card.player_card_id;
 
 		this.scene.load.image(`card-${card.id}`, img_url);
 		this.scene.load.once('complete', () => {
 			cardCreated.setTexture(`card-${card.id}`);
-			cardCreated.displayWidth = 100;
-			cardCreated.displayHeight = 140;
+			cardCreated.displayWidth = this.height;
+			cardCreated.displayHeight = this.width;
 			cardCreated.setInteractive();
 		});
 
@@ -72,31 +75,37 @@ export default class CardManager {
 	setupContextMenuListeners() {
 		document.getElementById('play-in-mana-pool').addEventListener('click', () => {
 			const contextMenu = document.getElementById('context-menu');
-			this.scene.Zones.moveToZone(contextMenu.card, 'mana_pool');
+			this.scene.Zones.currentUserZone(contextMenu.card, 'mana_pool');
 			contextMenu.style.display = 'none';
 		});
 
 		document.getElementById('play-in-playzone').addEventListener('click', () => {
 			const contextMenu = document.getElementById('context-menu');
-			this.scene.Zones.moveToZone(contextMenu.card, 'playzone');
+			this.scene.Zones.currentUserZone(contextMenu.card, 'playzone');
 			contextMenu.style.display = 'none';
 		});
 
 		document.getElementById('play-in-playzone-morph').addEventListener('click', () => {
 			const contextMenu = document.getElementById('context-menu');
-			this.scene.Zones.moveToZone(contextMenu.card, 'playzone');
+			this.scene.Zones.currentUserZone(contextMenu.card, 'playzone');
 			contextMenu.style.display = 'none';
 		});
 
 		document.getElementById('play-in-graveyard').addEventListener('click', () => {
 			const contextMenu = document.getElementById('context-menu');
-			this.scene.Zones.moveToZone(contextMenu.card, 'graveyard');
+			this.scene.Zones.currentUserZone(contextMenu.card, 'graveyard');
 			contextMenu.style.display = 'none';
 		});
 
 		document.getElementById('play-in-hand').addEventListener('click', () => {
 			const contextMenu = document.getElementById('context-menu');
-			this.scene.Zones.moveToZone(contextMenu.card, 'hand');
+			this.scene.Zones.currentUserZone(contextMenu.card, 'hand');
+			contextMenu.style.display = 'none';
+		});
+
+		document.getElementById('play-in-exile').addEventListener('click', () => {
+			const contextMenu = document.getElementById('context-menu');
+			this.scene.Zones.currentUserZone(contextMenu.card, 'exile');
 			contextMenu.style.display = 'none';
 		});
 
