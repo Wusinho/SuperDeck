@@ -93,16 +93,6 @@ export default class CurrentPlayer extends Player {
 		return cardCreated;
 	}
 
-	updateCardPositions(zone) {
-		let spacing = 110; // Spacing between cards
-		let area = this.getAreaPosition(zone)
-
-		this.cards[zone].forEach((card, index) => {
-			card.x = area.x - (area.width / 2) + (index * spacing) + (spacing / 2);
-			card.y = area.y;
-		});
-	}
-
 	getAreaPosition(zone) {
 		let area;
 		switch (zone) {
@@ -141,6 +131,16 @@ export default class CurrentPlayer extends Player {
 				break;
 			}
 		}
+	}
+
+	updateCardPositions(zone) {
+		let spacing = 110; // Spacing between cards
+		let area = this.getAreaPosition(zone)
+
+		this.cards[zone].forEach((card, index) => {
+			card.x = area.x - (area.width / 2) + (index * spacing) + (spacing / 2);
+			card.y = area.y;
+		});
 	}
 
 	showContextMenu(pointer, card) {
