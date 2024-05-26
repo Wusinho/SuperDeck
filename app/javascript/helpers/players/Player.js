@@ -30,7 +30,7 @@ export default class Player {
 
 	handleSocketReceived = (data) => {
 		if (data[0] !== this.playerId) return
-		console.log(data[1])
+
 		this.playerHandCards = data[1]
 		this.addNewCardsToHand()
 	};

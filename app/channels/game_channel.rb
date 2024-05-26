@@ -19,10 +19,9 @@ class GameChannel < ApplicationCable::Channel
     current_user.draw_card_from_game
 
     current_player = current_user.player
-    cards = current_player.hand_cards
+    hand_cards = current_player.hand_cards
 
-    ActionCable.server.broadcast("game_channel", [current_player.id, cards])
-    # ActionCable.server.broadcast("game_channel", 'THIS IS A TEST')
+    ActionCable.server.broadcast("game_channel", [current_player.id, hand_cards])
     #
   end
 
