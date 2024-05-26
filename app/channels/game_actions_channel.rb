@@ -7,6 +7,16 @@ class GameActionsChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
+  def change_zone(data)
+    pc = PlayerCard.find_by(id: data['player_card_id'])
+    pc.update(zone: data['zone'])
+    information = {
+      player_id: pc.player_id,
+      new_zone: data['new_zone'],
+    }
+    ActionCable.server.broadcast("game_actions_channel", information)
+  end
+
   def to_mana_pool(data)
     player_card = PlayerCard.find(data['card_id'])
     from = player_card.zone

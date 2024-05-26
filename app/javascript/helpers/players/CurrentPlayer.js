@@ -153,31 +153,43 @@ export default class CurrentPlayer extends Player {
 
 		document.getElementById('play-in-mana-pool').onclick = () => {
 			this.moveCardToZone(card.card_id, 'mana_pool');
+			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
+					new_zone: 'mana_pool'} });
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-playzone').onclick = () => {
 			this.moveCardToZone(card.card_id, 'playzone');
+			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
+					new_zone: 'playzone'} });
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-playzone-morph').onclick = () => {
 			this.moveCardToZone(card.card_id, 'playzone');
+			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
+					new_zone: 'playzone'} });
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-graveyard').onclick = () => {
 			this.moveCardToZone(card.card_id, 'graveyard');
+			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
+					new_zone: 'graveyard'} });
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-hand').onclick = () => {
 			this.moveCardToZone(card.card_id, 'hand');
+			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
+					new_zone: 'hand'} });
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-exile').onclick = () => {
 			this.moveCardToZone(card.card_id, 'exile');
+			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
+					new_zone: 'exile'} });
 			contextMenu.style.display = 'none';
 		};
 

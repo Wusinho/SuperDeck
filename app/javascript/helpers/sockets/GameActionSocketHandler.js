@@ -17,7 +17,6 @@ export default class GameActionSocketHandler {
 
 	onConnected() {
 		console.log("Connected to GameActionsChannel");
-		this.gameActionsChannel.perform('connected');
 		this.scene.events.emit("gameActionsConnected");
 	}
 
