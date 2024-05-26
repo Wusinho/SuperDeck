@@ -14,6 +14,7 @@ export default class CurrentPlayer extends Player {
 		this.playZone = this.scene.currentUserPlayzone;
 		this.exile = this.scene.currentUserExile;
 		this.graveyard = this.scene.currentUserGraveyard;
+		this.addNewCardsToHand();
 	}
 
 	// addNewCardsToHandOnLoad(data){
