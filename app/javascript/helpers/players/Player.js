@@ -1,11 +1,14 @@
 import DrawCardSocketHandler from "../sockets/DrawCardSocketHandler";
 import GameActionSocketHandler from "../sockets/GameActionSocketHandler";
+import LoadGameSocketHandler from "../sockets/LoadGameSocketHandler";
 
 export default class Player {
 
 	// userType 0 => self, 1 => opponent
 	constructor(scene, player) {
+		// new LoadGameSocketHandler(scene);
 		this.scene = scene;
+		this.cards = {};
 		this.userType = null
 		this.playerId = player.id;
 		this.playerUsername = player.username;

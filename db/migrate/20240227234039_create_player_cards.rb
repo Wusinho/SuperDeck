@@ -7,6 +7,7 @@ class CreatePlayerCards < ActiveRecord::Migration[7.1]
       t.boolean :drawn, default: false, null: false
       t.integer :zone, default: 0, null: false
       t.integer :action, default: 0, null: false
+      t.integer :index
 
       t.timestamps
     end

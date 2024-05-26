@@ -6,13 +6,11 @@ export default class BoardCreation {
 		// this.zoneHandler = new ZoneHandler(scene);
 		this.scene = scene;
 		this.socketHandler = new DrawCardSocketHandler(scene);
-		// window.uiHandler = this; // Make this instance accessible globally
 
 		// this.buildZones();
 		this.buildPlayerAreas();
 		this.buildGameText();
 
-		// this.scene.events.on("socketReceived", this.handleSocketReceived, this);
 	}
 
 	buildPlayerAreas = () => {
@@ -52,32 +50,4 @@ export default class BoardCreation {
 		this.socketHandler.send({ action: "draw_card" });
 	};
 
-	// handleSocketReceived = (data) => {
-	// 	let playersCard = this.scene.LoadGame.players.filter(player => player.id === data[0].id)
-	// 	let currentUser = this.scene.LoadGame.currentUser;
-	// 	// this.addCardToHand(data, playersCard[0], currentUser);
-	// };
-	//
-	// addCardToHand = (data, playersCard, currentUser) => {
-	// 	let index = playersCard.cards.hand.length;;
-	// 	currentUser.cards.hand.push(data[1])
-	// 	let x_axis = this.scene.currentUserHandArea.x;
-	// 	let y_axis = this.scene.currentUserHandArea.y;
-	//
-	// 	if ( playersCard.id == currentUser.id ) {
-	// 		this.scene.CardManager.createCurrentUserCard(x_axis * 0.17, y_axis, index, 'defaultCardSprite', data[1]);
-	// 	} else {
-	// 		if ( Math.abs(playersCard.order - currentUser.order) ===2 ) {
-	// 			playersCard.cards.hand.push(data[1])
-	// 			this.scene.CardManager.createVerticalOpponentCard(x_axis * 0.17, y_axis, index);
-	// 		} else if ( currentUser.order - playersCard.order === 1 || currentUser.order - playersCard.order === -3) {
-	// 			playersCard.cards.hand.push(data[1])
-	// 			this.scene.CardManager.createHorizontalOpponentCard(x_axis, y_axis * 0.17, index);
-	// 		} else {
-	// 			playersCard.cards.hand.push(data[1])
-	// 			this.scene.CardManager.createHorizontalOpponentCard(x_axis, y_axis * 0.17, index);
-	// 		}
-	// 	}
-	//
-	// };
 }
