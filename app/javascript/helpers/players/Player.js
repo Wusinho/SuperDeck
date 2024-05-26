@@ -1,7 +1,10 @@
+import DrawCardSocketHandler from "../sockets/DrawCardSocketHandler";
+
 export default class Player {
 
 	// userType 0 => self, 1 => opponent
 	constructor(scene, player) {
+		this.drawSocketHandler = new DrawCardSocketHandler(scene);
 		this.scene = scene;
 		this.userType = null
 		this.playerId = player.id;
@@ -13,6 +16,8 @@ export default class Player {
 		this.playerGraveyardCards = player.cards.graveyard;
 		this.playerExiledCards = player.cards.exile;
 		this.is_player_opponent = this.is_player_opponent.bind(this);
+		this.scene.events.on("socketReceived", this.handleSocketReceived, this);
+
 	}
 
 	is_player_opponent(user_id){
@@ -22,4 +27,11 @@ export default class Player {
 	create_text(x,y) {
 		return this.scene.add.text(x,y, this.playerUsername )
 	}
+
+	handleSocketReceived = (data) => {
+		if (data[0] !== this.playerId) return
+		console.log(data[1])
+		this.playerHandCards = data[1]
+		this.addNewCardsToHand()
+	};
 }

@@ -1,12 +1,11 @@
-import ZoneHandler from "../ZoneHandler";
-// import DrawCardSocketHandler from "../draw_card/DrawCardSocketHandler";
+import DrawCardSocketHandler from "../sockets/DrawCardSocketHandler";
 // import { createCurrentUserCard, createVerticalOpponentCard, createHorizontalOpponentCard } from "./CardUtils";
 
 export default class BoardCreation {
 	constructor(scene) {
 		// this.zoneHandler = new ZoneHandler(scene);
 		this.scene = scene;
-		// this.socketHandler = new DrawCardSocketHandler(scene);
+		this.socketHandler = new DrawCardSocketHandler(scene);
 		// window.uiHandler = this; // Make this instance accessible globally
 
 		// this.buildZones();
@@ -18,26 +17,27 @@ export default class BoardCreation {
 
 	buildPlayerAreas = () => {
 		// CURRENT USER
-		this.scene.currentUserHandArea = this.scene.add.rectangle(550, 1240, 850, 230).setStrokeStyle(4, 0xff68b4);
-		this.scene.currentManaPool = this.scene.add.rectangle(550, 1070, 850, 100).setStrokeStyle(4, 0xff68b4)
-		this.scene.currentUserPlayzone = this.scene.add.rectangle(550, 960, 850, 100).setStrokeStyle(4, 0xff68b4);
-		this.scene.currentUserExile = this.scene.add.rectangle(1080, 975, 200, 140).setStrokeStyle(4, 0xff68b4);
-		this.scene.currentUserGraveyard = this.scene.add.rectangle(1080, 1120, 200, 140).setStrokeStyle(4, 0xff68b4);
+		this.scene.currentUserHandArea = this.build_rectangle(550, 1240, 850, 230);
+		this.scene.currentManaPool = this.build_rectangle(550, 1070, 850, 100);
+		this.scene.currentUserPlayzone = this.build_rectangle(550, 960, 850, 100);
+		this.scene.currentUserExile = this.build_rectangle(1080, 975, 200, 140);
+		this.scene.currentUserGraveyard = this.build_rectangle(1080, 1120, 200, 140)
 
 
 		// LEFT PLAYER
-		this.scene.leftOpponentHandArea = this.scene.add.rectangle(-40, 500, 230 , 800 )
-		this.scene.leftOpponentHandArea.setStrokeStyle(4, 0xff68b4);
+		this.scene.leftOpponentHandArea = this.build_rectangle(-40, 500, 230 , 800 )
 
 		// RIGHT USER
 
-		this.scene.rightOpponentHandArea = this.scene.add.rectangle(1150, 500, 230 , 800 )
-		this.scene.rightOpponentHandArea.setStrokeStyle(4, 0xff68b4);
+		this.scene.rightOpponentHandArea = this.build_rectangle(1150, 500, 230 , 800 )
 
 		// TOP PLAYER
-		this.scene.topOpponentHandArea = this.scene.add.rectangle(550, -50, 850, 230);
-		this.scene.topOpponentHandArea.setStrokeStyle(4, 0xff68b4);
+		this.scene.topOpponentHandArea = this.build_rectangle(550, -50, 850, 230);
 	};
+
+	build_rectangle = (a,b,c,d) => {
+		return this.scene.add.rectangle(a,b,c,d).setStrokeStyle(4, 0xff68b4);
+	}
 
 	buildGameText = () => {
 		this.scene.dealCards = this.scene.add.text(500, 625, "Draw Card")
@@ -55,7 +55,7 @@ export default class BoardCreation {
 	// handleSocketReceived = (data) => {
 	// 	let playersCard = this.scene.LoadGame.players.filter(player => player.id === data[0].id)
 	// 	let currentUser = this.scene.LoadGame.currentUser;
-	// 	this.addCardToHand(data, playersCard[0], currentUser);
+	// 	// this.addCardToHand(data, playersCard[0], currentUser);
 	// };
 	//
 	// addCardToHand = (data, playersCard, currentUser) => {
