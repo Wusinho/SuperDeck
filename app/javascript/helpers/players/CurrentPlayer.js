@@ -180,6 +180,16 @@ export default class CurrentPlayer extends Player {
 			this.moveCardToZone(card.card_id, 'exile');
 			contextMenu.style.display = 'none';
 		};
+
+		document.addEventListener('click', (event) => {
+			if (contextMenu.style.display === 'block' && !contextMenu.contains(event.target)) {
+				contextMenu.style.display = 'none';
+			}
+		});
+
+		contextMenu.addEventListener('click', (event) => {
+			event.stopPropagation();
+		});
 	}
 
 }

@@ -4,9 +4,6 @@ import InteractiveHandler from "../helpers/InteractiveHandler";
 import BoardCreation from "../helpers/board_creation/BoardCreation";
 import LoadGame from "../helpers/load_game/LoadGame";
 import GameActions from "../helpers/game_action/GameActions";
-import Zones from "../helpers/Zones";
-import CardManager from "../helpers/CardManager";
-// import SocketHandler from "../helpers/SocketHandler";
 
 export default class Game extends Phaser.Scene {
 	static players_ids = []
@@ -24,13 +21,9 @@ export default class Game extends Phaser.Scene {
 		this.CardHandler = new CardHandler();
 		this.DeckHandler = new DeckHandler(this);
 		this.LoadGame = new LoadGame(this);
-		// this.SocketHandler = new SocketHandler(this);
 		this.BoardCreation = new BoardCreation(this);
-		// this.UIHandler.buildUI();
 		this.InteractiveHandler = new InteractiveHandler(this);
 		this.GameActions = new GameActions(this);
-		this.CardManager = new CardManager(this);
-		this.Zones = new Zones(this);
 	}
 
 	update(){
