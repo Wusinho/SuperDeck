@@ -85,11 +85,11 @@ export default class CardManager {
 			contextMenu.style.display = 'none';
 		});
 
-		document.getElementById('play-in-playzone-morph').addEventListener('click', () => {
-			const contextMenu = document.getElementById('context-menu');
-			this.scene.Zones.currentUserZone(contextMenu.card, 'playzone');
-			contextMenu.style.display = 'none';
-		});
+		// document.getElementById('play-in-playzone-morph').addEventListener('click', () => {
+		// 	const contextMenu = document.getElementById('context-menu');
+		// 	this.scene.Zones.currentUserZone(contextMenu.card, 'playzone');
+		// 	contextMenu.style.display = 'none';
+		// });
 
 		document.getElementById('play-in-graveyard').addEventListener('click', () => {
 			const contextMenu = document.getElementById('context-menu');

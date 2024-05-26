@@ -146,23 +146,25 @@ export default class CurrentPlayer extends Player {
 			contextMenu.style.display = 'none';
 		};
 
-		document.getElementById('play-in-playzone-flipped').onclick = () => {
+		document.getElementById('play-in-playzone-morph').onclick = () => {
 			this.moveCardToZone(card.card_id, 'playzone');
-			card.angle += 90; // Rotate the card when placing it in the playzone flipped
 			contextMenu.style.display = 'none';
 		};
 
-		// Hide context menu when clicking outside
-		document.addEventListener('click', (event) => {
-			if (contextMenu.style.display === 'block' && !contextMenu.contains(event.target)) {
-				contextMenu.style.display = 'none';
-			}
-		});
+		document.getElementById('play-in-graveyard').onclick = () => {
+			this.moveCardToZone(card.card_id, 'playzone');
+			contextMenu.style.display = 'none';
+		};
 
-		// Prevent context menu from hiding when clicking inside
-		contextMenu.addEventListener('click', (event) => {
-			event.stopPropagation();
-		});
+		document.getElementById('play-in-hand').onclick = () => {
+			this.moveCardToZone(card.card_id, 'hand');
+			contextMenu.style.display = 'none';
+		};
+
+		document.getElementById('play-in-exile').onclick = () => {
+			this.moveCardToZone(card.card_id, 'exile');
+			contextMenu.style.display = 'none';
+		};
 	}
 
 }
