@@ -11,7 +11,7 @@ class Player < ApplicationRecord
   end
 
   def card_collection
-    zones = { hand: [], playzone: [], graveyard: [], exile: [], mana_pool: [] }
+    zones = { hand: [], play_zone: [], graveyard: [], exile: [], mana_pool: [] }
     cards = player_cards.joins(:card).select('player_cards.zone',
                                              'player_cards.action',
                                              'player_cards.current_holder_id',
@@ -27,7 +27,7 @@ class Player < ApplicationRecord
     zones
   end
 
-  def playzone_cards
+  def play_zone_cards
     player_cards.joins(:card).where(zone: 1).select('cards.*')
   end
 

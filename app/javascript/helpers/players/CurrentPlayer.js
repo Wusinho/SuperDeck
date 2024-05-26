@@ -102,8 +102,8 @@ export default class CurrentPlayer extends Player {
 			case 'mana_pool':
 				area = this.scene.currentUserManaPool;
 				break;
-			case 'playzone':
-				area = this.scene.currentUserPlayzone;
+			case 'play_zone':
+				area = this.scene.currentUserPlayZone;
 				break;
 			case 'exile':
 				area = this.scene.currentUserExile;
@@ -158,17 +158,17 @@ export default class CurrentPlayer extends Player {
 			contextMenu.style.display = 'none';
 		};
 
-		document.getElementById('play-in-playzone').onclick = () => {
-			this.moveCardToZone(card.card_id, 'playzone');
+		document.getElementById('play-in-play_zone').onclick = () => {
+			this.moveCardToZone(card.card_id, 'play_zone');
 			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
-					new_zone: 'playzone'} });
+					new_zone: 'play_zone'} });
 			contextMenu.style.display = 'none';
 		};
 
-		document.getElementById('play-in-playzone-morph').onclick = () => {
-			this.moveCardToZone(card.card_id, 'playzone');
+		document.getElementById('play-in-play_zone-morph').onclick = () => {
+			this.moveCardToZone(card.card_id, 'play_zone');
 			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
-					new_zone: 'playzone'} });
+					new_zone: 'play_zone'} });
 			contextMenu.style.display = 'none';
 		};
 

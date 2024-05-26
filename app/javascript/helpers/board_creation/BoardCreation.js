@@ -17,7 +17,7 @@ export default class BoardCreation {
 		// CURRENT USER
 		this.scene.currentUserHandArea = this.build_rectangle(550, 1240, 850, 230);
 		this.scene.currentUserManaPool = this.build_rectangle(550, 1070, 850, 100);
-		this.scene.currentUserPlayzone = this.build_rectangle(550, 960, 850, 100);
+		this.scene.currentUserPlayZone = this.build_rectangle(550, 960, 850, 100);
 		this.scene.currentUserExile = this.build_rectangle(1080, 975, 200, 140);
 		this.scene.currentUserGraveyard = this.build_rectangle(1080, 1120, 200, 140)
 

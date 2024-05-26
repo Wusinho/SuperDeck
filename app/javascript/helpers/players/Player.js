@@ -15,7 +15,7 @@ export default class Player {
 		this.cards = {
 			hand: [],
 			mana_pool: [],
-			playzone: [],
+			play_zone: [],
 			exile: [],
 			graveyard: []
 		};
@@ -23,7 +23,7 @@ export default class Player {
 		this.handleManaPoolCards(player.cards.mana_pool)
 		this.handleExileCards(player.cards.exile)
 		this.handleGraveyardCards(player.cards.graveyard)
-		this.handlePlayzoneCards(player.cards.playzone)
+		this.handlePlayZoneCards(player.cards.play_zone)
 		this.scene.events.on("socketReceived", this.handleDrawCardReceived, this);
 		this.scene.events.on("gameActionsReceived", this.handleGameActionsReceived, this);
 	}
@@ -54,7 +54,7 @@ export default class Player {
 		this.addGraveyardCardsToGame(cards)
 	}
 
-	handlePlayzoneCards = cards => {
+	handlePlayZoneCards = cards => {
 		this.addPlayZoneCardsToGame(cards)
 	}
 
