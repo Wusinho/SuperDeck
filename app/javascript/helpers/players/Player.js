@@ -34,7 +34,7 @@ export default class Player {
 		this.playerExiledCards = player.cards.exile;
 		this.is_player_opponent = this.is_player_opponent.bind(this);
 		// this.moveToZone = this.moveToZone.bind(this)
-		// this.scene.events.on("socketReceived", this.handleDrawCardReceived, this);
+		this.scene.events.on("socketReceived", this.handleDrawCardReceived, this);
 		this.scene.events.on("gameActionsReceived", this.handleGameActionsReceived, this);
 	}
 
@@ -75,9 +75,8 @@ export default class Player {
 	}
 
 	handleDrawCardReceived = data => {
-		if (data[0] !== this.playerId) return
+		if (data.id !== this.playerId) return
 
-		this.playerHandCards = data[1]
-		this.addNewCardsToHand()
+		this.createCard(data.card)
 	};
 }
