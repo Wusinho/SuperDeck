@@ -53,9 +53,7 @@ export default class CurrentPlayer extends Player {
 
 		let cardCreated = this.scene.add.sprite(initialPosition.x, initialPosition.y, 'defaultCardSprite').setInteractive();
 		cardCreated.card_id = cardData.player_card_id;
-		cardCreated.displayWidth = 100;
-		cardCreated.displayHeight = 140;
-		cardCreated.zone = cardData.zone; // Add zone information to card object
+		cardCreated.zone = cardData.zone;
 
 		this.cards[cardData.zone].push(cardCreated);
 		this.updateCardPositions(cardData.zone);
@@ -63,6 +61,23 @@ export default class CurrentPlayer extends Player {
 		this.scene.load.image(`card-${cardData.id}`, img_url);
 		this.scene.load.once('complete', () => {
 			cardCreated.setTexture(`card-${cardData.id}`);
+
+			// Get the original size of the card
+			let originalWidth = cardCreated.width;
+			let originalHeight = cardCreated.height;
+
+			// Set the desired width and height
+			let desiredWidth = 100; // Adjust as needed
+			let desiredHeight = 100; // Adjust as needed
+
+			// Calculate the scale factor to maintain the aspect ratio
+			let scale = Math.min(desiredWidth / originalWidth, desiredHeight / originalHeight);
+
+			// Apply the scale to the card
+			cardCreated.setScale(scale);
+
+			// Update card positions after setting the texture
+			this.updateCardPositions(cardData.zone);
 		});
 		this.scene.load.start();
 
@@ -152,7 +167,7 @@ export default class CurrentPlayer extends Player {
 		};
 
 		document.getElementById('play-in-graveyard').onclick = () => {
-			this.moveCardToZone(card.card_id, 'playzone');
+			this.moveCardToZone(card.card_id, 'graveyard');
 			contextMenu.style.display = 'none';
 		};
 
