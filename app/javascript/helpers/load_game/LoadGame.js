@@ -1,8 +1,12 @@
-import BoardHandler from "./BoardHandler";
+import LoadGameSocketHandler from "../sockets/LoadGameSocketHandler";
+import CurrentPlayer from "../players/CurrentPlayer";
+import LeftPlayer from "../players/LeftPlayer";
+import RightPlayer from "../players/RightPlayer";
+import TopPlayer from "../players/TopPlayer";
 
-export default class GameHandler {
+export default class LoadGame {
 	constructor(scene) {
-		this.boardHandler = new BoardHandler(scene);
+		this.boardHandler = new LoadGameSocketHandler(scene);
 		this.scene = scene;
 		this.topSite =  null;
 		this.leftSite =  null;
@@ -28,6 +32,8 @@ export default class GameHandler {
 	handleBoardReceived(data) {
 
 		if ( this.currentUser === null) {
+			this.player = new CurrentPlayer(this.scene, data[0])
+			console.log(this.player)
 			this.currentUser = data[0];
 			this.scene.currentUserName = this.create_text(50,1050, this.currentUser)
 				.setFontSize(14)

@@ -1,6 +1,6 @@
 import consumer from "channels/consumer";
 
-export default class SocketHandler {
+export default class DrawCardSocketHandler {
 	constructor(scene) {
 		this.scene = scene;
 		this.gameChannel = consumer.subscriptions.create(

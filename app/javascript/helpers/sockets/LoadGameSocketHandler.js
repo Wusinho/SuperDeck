@@ -1,6 +1,6 @@
 import consumer from "channels/consumer";
 
-export default class BoardHandler {
+export default class LoadGameSocketHandler {
 	constructor(scene) {
 		this.scene = scene;
 		this.boardChannel = consumer.subscriptions.create(

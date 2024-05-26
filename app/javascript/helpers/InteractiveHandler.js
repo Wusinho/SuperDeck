@@ -32,7 +32,7 @@ export default class InteractiveHandler {
 
 		// cant drop em unless its my turn and game state is ready
 		scene.input.on('drop', (pointer, gameObject, dropZone) => {
-			if (scene.GameHandler.isMyTurn && scene.GameHandler.gameState === 'Ready') {
+			if (scene.LoadGame.isMyTurn && scene.LoadGame.gameState === 'Ready') {
 				gameObject.x = dropZone.x;
 				gameObject.y = dropZone.y;
 				scene.input.setDraggable(gameObject, false);
