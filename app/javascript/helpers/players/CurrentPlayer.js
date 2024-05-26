@@ -2,46 +2,63 @@ import Player from './Player';
 export default class CurrentPlayer extends Player {
 	constructor(scene, player) {
 		super(scene, player);
-		this.hand_area_x_axis = this.scene.currentUserHandArea.x * 0.17
-		this.hand_area_y_axis = this.scene.currentUserHandArea.y
-		this.addNewCardsToHand = this.addNewCardsToHand.bind(this)
+		// this.hand_area_x_axis = this.scene.currentUserHandArea.x * 0.17
+		// this.hand_area_y_axis = this.scene.currentUserHandArea.y
+		// this.addNewCardsToHand = this.addNewCardsToHand.bind(this)
 		this.scene.currentUserName = this.create_text(50,1050, this.playerUsername)
 			.setFontSize(14)
 			.setFontFamily("Arial")
 			.setInteractive();
-		this.hand = this.scene.currentUserHandArea;
-		this.manaPool = this.scene.currentManaPool;
-		this.playZone = this.scene.currentUserPlayzone;
-		this.exile = this.scene.currentUserExile;
-		this.graveyard = this.scene.currentUserGraveyard;
-		this.addNewCardsToHand();
+		// this.hand = this.scene.currentUserHandArea;
+		// this.manaPool = this.scene.currentManaPool;
+		// this.playZone = this.scene.currentUserPlayzone;
+		// this.exile = this.scene.currentUserExile;
+		// this.graveyard = this.scene.currentUserGraveyard;
+		// this.addNewCardsToHand();
 	}
 
-	// addNewCardsToHandOnLoad(data){
-	// 	for (let i in data) {
-	// 		this.createCard(data[i])
-	//
-	// 	}
-	// }
+	addHandCardsToGame(data){
+		for (let i in data) {
+			this.createCard(data[i])
+		}
+	}
 
-	addNewCardsToHand(){
-		for (let i in this.playerHandCards) {
-			// this.createCard(data[i])
-			this.scene.CardManager.createCurrentUserCard(this.hand_area_x_axis, this.hand_area_y_axis, i, this.playerHandCards[i]);
+	addManaPoolCardsToGame(data){
+		for (let i in data) {
+			this.createCard(data[i])
+		}
+	}
 
+	addExileCardsToGame(data){
+		for (let i in data) {
+			this.createCard(data[i])
+		}
+	}
+
+	addGraveyardCardsToGame(data){
+		for (let i in data) {
+			this.createCard(data[i])
+		}
+	}
+
+	addPlayZoneCardsToGame(data){
+		for (let i in data) {
+			this.createCard(data[i])
 		}
 	}
 
 	createCard(cardData) {
 		let img_url = cardData.image_url;
-		let cardCreated = this.scene.add.sprite(0, 0, 'defaultCardSprite').setInteractive();
-		cardCreated.cardId = cardData.player_card_id;
+		let initialPosition = this.getAreaPosition(cardData.zone);
+
+		let cardCreated = this.scene.add.sprite(initialPosition.x, initialPosition.y, 'defaultCardSprite').setInteractive();
+		cardCreated.card_id = cardData.player_card_id;
 		cardCreated.displayWidth = 100;
 		cardCreated.displayHeight = 140;
+		cardCreated.zone = cardData.zone; // Add zone information to card object
 
-		this.cards[cardCreated.cardId] = { sprite: cardCreated, zone: cardData.zone, index: Object.keys(this.cards).length };
-
-		this.updateCardPositions();
+		this.cards[cardData.zone].push(cardCreated);
+		this.updateCardPositions(cardData.zone);
 
 		this.scene.load.image(`card-${cardData.id}`, img_url);
 		this.scene.load.once('complete', () => {
@@ -61,40 +78,54 @@ export default class CurrentPlayer extends Player {
 		return cardCreated;
 	}
 
-	updateCardPositions() {
-		let handArea = this.handArea;
-		let cardsInHand = Object.values(this.cards).filter(card => card.zone === 'hand');
+	updateCardPositions(zone) {
+		let spacing = 110; // Spacing between cards
+		let area = this.getAreaPosition(zone)
 
-		cardsInHand.forEach((cardData, index) => {
-			let card = cardData.sprite;
-			card.x = handArea.x - (handArea.width / 2) + (index * 110) + 55; // Adjust spacing and centering
-			card.y = handArea.y;
+		this.cards[zone].forEach((card, index) => {
+			card.x = area.x - (area.width / 2) + (index * spacing) + (spacing / 2);
+			card.y = area.y;
 		});
 	}
 
-	moveCardToZone(cardId, zone) {
-		let cardData = this.cards[cardId];
-		if (!cardData) return;
+	getAreaPosition(zone) {
+		let area;
+		switch (zone) {
+			case 'hand':
+				area = this.scene.currentUserHandArea;
+				break;
+			case 'mana_pool':
+				area = this.scene.currentUserManaPool;
+				break;
+			case 'playzone':
+				area = this.scene.currentUserPlayzone;
+				break;
+			case 'exile':
+				area = this.scene.currentUserExile;
+				break;
+			case 'graveyard':
+				area = this.scene.currentUserGraveyard;
+				break;
+			default:
+				console.error(`Unknown zone: ${zone}`);
+				return { x: 0, y: 0 };
+		}
 
-		cardData.zone = zone;
+		return { x: area.x, y: area.y, width: area.width };
+	}
 
-		if (zone === 'mana_pool') {
-			cardData.sprite.x = this.manaPool.x;
-			cardData.sprite.y = this.manaPool.y;
-		} else if (zone === 'playzone') {
-			cardData.sprite.x = this.playZone.x;
-			cardData.sprite.y = this.playZone.y;
-		} else if (zone === 'exile') {
-			cardData.sprite.x = this.exile.x;
-			cardData.sprite.y = this.exile.y;
-		} else if (zone === 'graveyard') {
-			cardData.sprite.x = this.graveyard.x;
-			cardData.sprite.y = this.graveyard.y;
-		} else
-			cardData.sprite.x = this.hand.x;
-			cardData.sprite.y = this.hand.y;
-
-		this.updateCardPositions();
+	moveCardToZone(card_id, newZone) {
+		for (let zone in this.cards) {
+			let cardIndex = this.cards[zone].findIndex(card => card.card_id === card_id);
+			if (cardIndex !== -1) {
+				let [card] = this.cards[zone].splice(cardIndex, 1);
+				card.zone = newZone;
+				this.cards[newZone].push(card);
+				this.updateCardPositions(zone);
+				this.updateCardPositions(newZone);
+				break;
+			}
+		}
 	}
 
 	showContextMenu(pointer, card) {
@@ -106,23 +137,17 @@ export default class CurrentPlayer extends Player {
 		contextMenu.card = card;
 
 		document.getElementById('play-in-mana-pool').onclick = () => {
-			this.moveCardToZone(card.cardId, 'mana_pool');
+			this.moveCardToZone(card.card_id, 'mana_pool');
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-playzone').onclick = () => {
-			this.moveCardToZone(card.cardId, 'playzone');
+			this.moveCardToZone(card.card_id, 'playzone');
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-playzone-flipped').onclick = () => {
-			this.moveCardToZone(card.cardId, 'playzone');
-			card.angle += 90; // Rotate the card when placing it in the playzone flipped
-			contextMenu.style.display = 'none';
-		};
-
-		document.getElementById('play-in-hand').onclick = () => {
-			this.moveCardToZone(card.cardId, 'hand');
+			this.moveCardToZone(card.card_id, 'playzone');
 			card.angle += 90; // Rotate the card when placing it in the playzone flipped
 			contextMenu.style.display = 'none';
 		};

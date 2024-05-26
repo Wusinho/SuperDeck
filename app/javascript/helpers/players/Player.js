@@ -14,14 +14,27 @@ export default class Player {
 		this.playerUsername = player.username;
 		this.order = player.order;
 		this.life = player.life;
-		this.playerHandCards = player.cards.hand;
-		this.playerManaPoolCards = player.cards.mana_pool;
-		this.playerPlayZoneCards = player.cards.playzone;
-		this.playerGraveyardCards = player.cards.graveyard;
+		this.cards = {
+			hand: [],
+			mana_pool: [],
+			playzone: [],
+			exile: [],
+			graveyard: []
+		};
+		// this.playerHandCards = player.cards.hand;
+		this.handleHandCards(player.cards.hand)
+		this.handleManaPoolCards(player.cards.mana_pool)
+		this.handleExileCards(player.cards.exile)
+		this.handleGraveyardCards(player.cards.graveyard)
+		this.handlePlayzoneCards(player.cards.playzone)
+
+		// this.playerManaPoolCards = player.cards.mana_pool;
+		// this.playerPlayZoneCards = player.cards.playzone;
+		// this.playerGraveyardCards = player.cards.graveyard;
 		this.playerExiledCards = player.cards.exile;
 		this.is_player_opponent = this.is_player_opponent.bind(this);
 		// this.moveToZone = this.moveToZone.bind(this)
-		this.scene.events.on("socketReceived", this.handleGameOnLoadReceived, this);
+		// this.scene.events.on("socketReceived", this.handleDrawCardReceived, this);
 		this.scene.events.on("gameActionsReceived", this.handleGameActionsReceived, this);
 	}
 
@@ -41,7 +54,27 @@ export default class Player {
 		}
 	}
 
-	handleGameOnLoadReceived = data => {
+	handleHandCards = cards => {
+		this.addHandCardsToGame(cards)
+	};
+
+	handleManaPoolCards = cards => {
+		this.addManaPoolCardsToGame(cards)
+	};
+
+	handleExileCards = cards => {
+		this.addExileCardsToGame(cards)
+	}
+
+	handleGraveyardCards = cards => {
+		this.addGraveyardCardsToGame(cards)
+	}
+
+	handlePlayzoneCards = cards => {
+		this.addPlayZoneCardsToGame(cards)
+	}
+
+	handleDrawCardReceived = data => {
 		if (data[0] !== this.playerId) return
 
 		this.playerHandCards = data[1]
