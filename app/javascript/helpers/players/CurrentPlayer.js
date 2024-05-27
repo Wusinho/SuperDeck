@@ -71,7 +71,6 @@ export default class CurrentPlayer extends Player {
 		});
 		this.scene.load.start();
 
-		console.log(cardData.action)
 		if (cardData.action === 'tapped') {
 			cardCreated.angle += 90;
 		}
@@ -186,6 +185,7 @@ export default class CurrentPlayer extends Player {
 			this.moveCardToZone(card.card_id, 'graveyard');
 			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
 					new_zone: 'graveyard'} });
+			if (card.action === 'tapped') card.angle = 0
 			contextMenu.style.display = 'none';
 		};
 
@@ -193,6 +193,7 @@ export default class CurrentPlayer extends Player {
 			this.moveCardToZone(card.card_id, 'hand');
 			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
 					new_zone: 'hand'} });
+			if (card.action === 'tapped') card.angle = 0
 			contextMenu.style.display = 'none';
 		};
 
@@ -200,6 +201,7 @@ export default class CurrentPlayer extends Player {
 			this.moveCardToZone(card.card_id, 'exile');
 			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
 					new_zone: 'exile'} });
+			if (card.action === 'tapped') card.angle = 0
 			contextMenu.style.display = 'none';
 		};
 

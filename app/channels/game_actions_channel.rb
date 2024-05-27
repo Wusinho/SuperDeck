@@ -33,7 +33,7 @@ class GameActionsChannel < ApplicationCable::Channel
       player_id: pc.player_id,
       player_card_id: pc.id,
       action: data['new_action'],
-      zone: data['new_action']
+      zone: data['zone']
     }
 
     ActionCable.server.broadcast("game_actions_channel", information)
