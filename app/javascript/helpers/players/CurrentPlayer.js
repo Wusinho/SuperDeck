@@ -1,4 +1,6 @@
 import Player from './Player';
+import { get } from "@rails/request.js";
+
 export default class CurrentPlayer extends Player {
 	constructor(scene, player) {
 		super(scene, player);
@@ -39,12 +41,14 @@ export default class CurrentPlayer extends Player {
 	}
 
 	createCard(cardData) {
+		let scale;
 		let img_url = cardData.image_url;
 		let initialPosition = this.getAreaPosition(cardData.zone);
 
 		let cardCreated = this.scene.add.sprite(initialPosition.x, initialPosition.y, 'defaultCardSprite').setInteractive();
 		cardCreated.card_id = cardData.player_card_id;
 		cardCreated.zone = cardData.zone;
+		cardCreated.action = cardData.action;
 
 		this.cards[cardData.zone].push(cardCreated);
 		this.updateCardPositions(cardData.zone);
@@ -62,7 +66,7 @@ export default class CurrentPlayer extends Player {
 			let desiredHeight = 100; // Adjust as needed
 
 			// Calculate the scale factor to maintain the aspect ratio
-			let scale = Math.min(desiredWidth / originalWidth, desiredHeight / originalHeight);
+			scale = Math.min(desiredWidth / originalWidth, desiredHeight / originalHeight);
 
 			// Apply the scale to the card
 			cardCreated.setScale(scale);
@@ -182,6 +186,15 @@ export default class CurrentPlayer extends Player {
 			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
 					new_zone: 'exile'} });
 			contextMenu.style.display = 'none';
+		};
+
+		document.getElementById('read-card').onclick = () => {
+			const card_id = card.card_id
+			const url = `/player_cards/${card_id}`
+
+			get(url, {
+				responseKind: "turbo-stream"
+			})
 		};
 
 		document.addEventListener('click', (event) => {

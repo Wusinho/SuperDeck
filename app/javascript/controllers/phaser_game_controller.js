@@ -7,6 +7,9 @@ import Example from "../scenes/example"
 
 // Connects to data-controller="phaser-game"
 export default class extends Controller {
+  static targets = [
+    'read'
+  ]
   connect() {
     this.element.addEventListener('contextmenu', (event) => {
       event.preventDefault();
@@ -26,6 +29,11 @@ export default class extends Controller {
     this.game.canvas.addEventListener('contextmenu', (event) => {
       event.preventDefault();
     });
+  }
+
+  close(e) {
+    e.preventDefault();
+    this.readTarget.innerHTML = ''
   }
 }
 

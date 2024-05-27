@@ -11,3 +11,4 @@ pin "@rails/actioncable", to: "actioncable.esm.js"
 pin_all_from "app/javascript/channels", under: "channels"
 pin "phaser" # @3.80.1
 pin "process" # @2.0.1
+pin "@rails/request.js", to: "@rails--request.js.js" # @0.0.9

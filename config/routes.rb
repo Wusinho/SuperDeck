@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :games
   resources :players
   resources :phaser_games
+  resources :player_cards, only: [:show]
   resources :cards, only: [:index]
 
   # Defines the root path route ("/")
