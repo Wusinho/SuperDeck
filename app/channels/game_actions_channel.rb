@@ -25,6 +25,21 @@ class GameActionsChannel < ApplicationCable::Channel
     }
   end
 
+  def change_action(data)
+    pc = PlayerCard.find_by(id: data['player_card_id'])
+    pc.update_column(:action, PlayerCard.actions[data['new_action'].to_sym])
+
+    information = {
+      player_id: pc.player_id,
+      player_card_id: pc.id,
+      action: data['new_action'],
+      zone: data['new_action']
+    }
+
+    ActionCable.server.broadcast("game_actions_channel", information)
+
+  end
+
 
   def update(data)
     p '*'*100

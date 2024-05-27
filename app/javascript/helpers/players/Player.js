@@ -35,7 +35,12 @@ export default class Player {
 	handleGameActionsReceived = data => {
 		if (data.player_id === this.playerId) return
 
-		this.moveCardToZone(data.card_id, data.new_zone)
+		if (data.action) {
+			console.log(data)
+			// this.changeAction(data)
+		} else {
+			this.moveCardToZone(data.card_id, data.new_zone)
+		}
 	}
 
 	handleHandCards = cards => {

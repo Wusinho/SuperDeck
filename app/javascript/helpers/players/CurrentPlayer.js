@@ -71,12 +71,18 @@ export default class CurrentPlayer extends Player {
 		});
 		this.scene.load.start();
 
+		console.log(cardData.action)
+		if (cardData.action === 'tapped') {
+			cardCreated.angle += 90;
+		}
+
 		cardCreated.on('pointerdown', (pointer) => {
 			if (pointer.rightButtonDown()) {
-				// Handle right-click (context menu, etc.)
 				this.showContextMenu(pointer, cardCreated);
-			} else if (pointer.leftButtonDown()) {
-				cardCreated.angle += 90; // Rotate the card
+			} else if (pointer.leftButtonDown() && cardCreated.zone !== 'hand' ) {
+				this.scene.GameActions.send({ action: "change_action", param: { player_card_id: cardCreated.card_id,
+						new_action: 'tapped', zone: cardCreated.zone } });
+				cardCreated.angle += 90;
 			}
 		});
 
