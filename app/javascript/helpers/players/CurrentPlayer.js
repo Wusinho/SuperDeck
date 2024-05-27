@@ -55,7 +55,11 @@ export default class CurrentPlayer extends Player {
 
 		this.scene.load.image(`card-${cardData.player_card_id}`, img_url);
 		this.scene.load.once('complete', () => {
-			cardCreated.setTexture(`card-${cardData.player_card_id}`);
+			// cardCreated.setTexture(`card-${cardData.player_card_id}`);
+
+			if (cardData.zone !== 'mana_pool') {
+				cardCreated.setTexture(`card-${cardData.player_card_id}`);
+			}
 
 			// Get the original size of the card
 			let scale = this.calculateScale(cardCreated, cardData.zone);
@@ -111,6 +115,17 @@ export default class CurrentPlayer extends Player {
 			if (cardIndex !== -1) {
 				let [card] = this.cards[zone].splice(cardIndex, 1);
 				card.zone = newZone;
+
+				if (newZone === 'mana_pool') {
+					card.setTexture('defaultCardSprite');
+				} else {
+					this.scene.load.image(`card-${card.card_id}`, card.action.image_url);
+					this.scene.load.once('complete', () => {
+						card.setTexture(`card-${card.card_id}`);
+					});
+					this.scene.load.start();
+				}
+
 				let scale = this.calculateScale(card, newZone);
 				card.setScale(scale);
 				this.cards[newZone].push(card);
