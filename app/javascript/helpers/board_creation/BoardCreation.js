@@ -13,41 +13,95 @@ export default class BoardCreation {
 
 	}
 
-	buildPlayerAreas = () => {
-		// CURRENT USER
-		this.scene.currentUserHandArea = this.build_rectangle(550, 1240, 850, 230);
-		this.scene.currentUserManaPool = this.build_rectangle(550, 1070, 850, 100);
-		this.scene.currentUserPlayZone = this.build_rectangle(550, 960, 850, 100);
-		this.scene.currentUserExile = this.build_rectangle(1080, 975, 200, 140);
-		this.scene.currentUserGraveyard = this.build_rectangle(1080, 1120, 200, 140)
+	buildPlayerAreas() {
+		const width = this.scene.game.config.width;
+		const height = this.scene.game.config.height;
+		const centerX = width / 2;
+		const centerY = height / 2;
 
+		// Bottom Player (Current Player)
+		this.createPlayerZones(
+			'currentPlayer',
+			{ x: centerX, y: height - 50 },
+			{ width: width, height: 100 }, // Hand Zone
+			{ width: width, height: 50 },  // Mana Pool
+			{ width: width, height: 100 }, // Play Zone
+			{ x: width - 50, y: height - 250, width: 100, height: 100 }  // Graveyard
+		);
 
-		// LEFT PLAYER
-		this.scene.leftOpponentHandArea = this.build_rectangle(-40, 500, 230 , 800 )
+		// Top Player
+		this.createPlayerZones(
+			'topPlayer',
+			{ x: centerX, y: 50 },
+			{ width: width, height: 100 }, // Hand Zone
+			{ width: width, height: 50 },  // Mana Pool
+			{ width: width, height: 100 }, // Play Zone
+			{ x: 50, y: 250, width: 100, height: 100 }  // Graveyard
+		);
 
-		// RIGHT USER
+		// Right Player
+		this.createPlayerZones(
+			'rightPlayer',
+			{ x: width - 50, y: centerY },
+			{ width: 100, height: height * 0.6 }, // Hand Zone
+			{ width: 100, height: 50 },           // Mana Pool
+			{ width: 100, height: height * 0.6 }, // Play Zone
+			null                                  // No Graveyard for side players
+		);
 
-		this.scene.rightOpponentHandArea = this.build_rectangle(1150, 500, 230 , 800 )
-
-		// TOP PLAYER
-		this.scene.topOpponentHandArea = this.build_rectangle(550, -50, 850, 230);
-	};
-
-	build_rectangle = (a,b,c,d) => {
-		return this.scene.add.rectangle(a,b,c,d).setStrokeStyle(4, 0xff68b4);
+		// Left Player
+		this.createPlayerZones(
+			'leftPlayer',
+			{ x: 50, y: centerY },
+			{ width: 100, height: height * 0.6 }, // Hand Zone
+			{ width: 100, height: 50 },           // Mana Pool
+			{ width: 100, height: height * 0.6 }, // Play Zone
+			null                                  // No Graveyard for side players
+		);
 	}
 
-	buildGameText = () => {
-		this.scene.dealCards = this.scene.add.text(500, 625, "Draw Card")
-			.setFontSize(14)
-			.setFontFamily("Arial")
-			.setInteractive();
+	createPlayerZones(player, centerPosition, handSize, manaPoolSize, playZoneSize, graveyard) {
+		const { x, y } = centerPosition;
 
-		this.scene.dealCards.on("pointerdown", this.handleDrawCardClick.bind(this));
-	};
+		// Hand Zone
+		this.scene[`${player}HandArea`] = this.scene.add.rectangle(
+			x, y - handSize.height / 2,
+			handSize.width, handSize.height
+		).setStrokeStyle(2, 0xff68b4);
 
-	handleDrawCardClick = () => {
-		this.socketHandler.send({ action: "draw_card" });
-	};
+		// Mana Pool
+		this.scene[`${player}ManaPool`] = this.scene.add.rectangle(
+			x, y - handSize.height - manaPoolSize.height / 2 - 10,
+			manaPoolSize.width, manaPoolSize.height
+		).setStrokeStyle(2, 0xff68b4);
+
+		// Play Zone
+		this.scene[`${player}Playzone`] = this.scene.add.rectangle(
+			x, y - handSize.height - manaPoolSize.height - playZoneSize.height / 2 - 20,
+			playZoneSize.width, playZoneSize.height
+		).setStrokeStyle(2, 0xff68b4);
+
+		if (graveyard) {
+			// Graveyard
+			this.scene[`${player}Graveyard`] = this.scene.add.rectangle(
+				graveyard.x, graveyard.y,
+				graveyard.width, graveyard.height
+			).setStrokeStyle(2, 0xff68b4);
+		}
+	}
+
+
+	// buildGameText = () => {
+	// 	this.scene.dealCards = this.scene.add.text(500, 625, "Draw Card")
+	// 		.setFontSize(14)
+	// 		.setFontFamily("Arial")
+	// 		.setInteractive();
+	//
+	// 	this.scene.dealCards.on("pointerdown", this.handleDrawCardClick.bind(this));
+	// };
+	//
+	// handleDrawCardClick = () => {
+	// 	this.socketHandler.send({ action: "draw_card" });
+	// };
 
 }

@@ -24,6 +24,9 @@ export default class extends Controller {
         height: 1250,
         scene: Game,
         backgroundColor: '#a7c957',
+        scale: {
+          autoCenter: Phaser.Scale.CENTER_BOTH
+        }
       };
     this.game = new Phaser.Game(config)
     this.game.canvas.addEventListener('contextmenu', (event) => {
