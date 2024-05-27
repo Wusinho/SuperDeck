@@ -8,6 +8,14 @@ export default class CurrentPlayer extends Player {
 			.setFontSize(14)
 			.setFontFamily("Arial")
 			.setInteractive();
+		this.hand_size = {
+			width: 150,
+			height: 200,
+		}
+		this.other_zones = {
+			width: 100,
+			height: 100,
+		}
 	}
 
 	addHandCardsToGame(data){
@@ -228,11 +236,11 @@ export default class CurrentPlayer extends Player {
 	calculateScale(card, zone) {
 		let desiredWidth, desiredHeight;
 		if (zone === 'hand') {
-			desiredWidth = 150;
-			desiredHeight = 200;
+			desiredWidth = this.hand_size.width;
+			desiredHeight = this.hand_size.height;
 		} else {
-			desiredWidth = 100;
-			desiredHeight = 100;
+			desiredWidth = this.other_zones.width;
+			desiredHeight = this.other_zones.height;
 		}
 
 		// Get the original size of the card
