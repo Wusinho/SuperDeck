@@ -1,5 +1,5 @@
 import Player from './Player';
-import { get } from "@rails/request.js";
+import {get} from "@rails/request.js";
 
 export default class CurrentPlayer extends Player {
 	constructor(scene, player) {
@@ -58,16 +58,7 @@ export default class CurrentPlayer extends Player {
 			cardCreated.setTexture(`card-${cardData.player_card_id}`);
 
 			// Get the original size of the card
-			let originalWidth = cardCreated.width;
-			let originalHeight = cardCreated.height;
-
-			// Set the desired width and height
-			let desiredWidth = 100; // Adjust as needed
-			let desiredHeight = 100; // Adjust as needed
-
-			// Calculate the scale factor to maintain the aspect ratio
-			scale = Math.min(desiredWidth / originalWidth, desiredHeight / originalHeight);
-
+			let scale = this.calculateScale(cardCreated, cardData.zone);
 			// Apply the scale to the card
 			cardCreated.setScale(scale);
 
@@ -120,7 +111,10 @@ export default class CurrentPlayer extends Player {
 			if (cardIndex !== -1) {
 				let [card] = this.cards[zone].splice(cardIndex, 1);
 				card.zone = newZone;
+				let scale = this.calculateScale(card, newZone);
+				card.setScale(scale);
 				this.cards[newZone].push(card);
+
 				this.updateCardPositions(zone);
 				this.updateCardPositions(newZone);
 				break;
@@ -207,5 +201,24 @@ export default class CurrentPlayer extends Player {
 			event.stopPropagation();
 		});
 	}
+
+	calculateScale(card, zone) {
+		let desiredWidth, desiredHeight;
+		if (zone === 'hand') {
+			desiredWidth = 150;
+			desiredHeight = 200;
+		} else {
+			desiredWidth = 100;
+			desiredHeight = 100;
+		}
+
+		// Get the original size of the card
+		let originalWidth = card.width;
+		let originalHeight = card.height;
+
+		// Calculate the scale factor to maintain the aspect ratio
+		return Math.min(desiredWidth / originalWidth, desiredHeight / originalHeight);
+	}
+
 
 }
