@@ -35,36 +35,37 @@ export default class BoardCreation {
 			currentPlayerZone.hand.height
 		).setStrokeStyle(2, 0xff68b4);
 
+		const smallPartBox = 200
 		// Mana Pool
 		this.scene.currentPlayerManaPoolArea = this.scene.add.rectangle(
 			currentPlayerZone.center.x - 100,
 			currentPlayerZone.center.y - currentPlayerZone.hand.height - currentPlayerZone.pool.height / 2 - 10,
-			currentPlayerZone.pool.width -200,
+			currentPlayerZone.pool.width - smallPartBox,
 			currentPlayerZone.pool.height
 		).setStrokeStyle(2, 0xff68b4);
 
-		const currentUserZone =
+
 		// Play Zone
 		this.scene.currentPlayerPlayZoneArea = this.scene.add.rectangle(
-			currentPlayerZone.center.x -100,
+			currentPlayerZone.center.x - 100,
 			currentPlayerZone.center.y - currentPlayerZone.hand.height - currentPlayerZone.pool.height - currentPlayerZone.play_zone.height / 2 - 20,
-			currentPlayerZone.play_zone.width -200,
+			currentPlayerZone.play_zone.width - smallPartBox,
 			currentPlayerZone.play_zone.height
 		).setStrokeStyle(2, 0xff68b4);
 
 		const totalCurrentUserHeight = currentPlayerZone.play_zone.height + currentPlayerZone.pool.height + currentPlayerZone.hand.height + 20
 
 		this.scene.currentPlayerInformation = this.scene.add.rectangle(
-			currentPlayerZone.center.x ,
+			currentPlayerZone.center.x + (currentPlayerZone.play_zone.width - smallPartBox) / 2,
 			currentPlayerZone.center.y - currentPlayerZone.hand.height - currentPlayerZone.pool.height - currentPlayerZone.play_zone.height / 2 - 20,
-			currentPlayerZone.hand.width,
+			currentPlayerZone.hand.width - (currentPlayerZone.play_zone.width - smallPartBox),
 			currentPlayerZone.hand.height
 		).setStrokeStyle(2, 0xff68b4);
 
 		this.scene.currentPlayerGraveyardArea = this.scene.add.rectangle(
-			currentPlayerZone.center.x,
+			currentPlayerZone.center.x + (currentPlayerZone.play_zone.width - smallPartBox) / 2,
 			currentPlayerZone.center.y - currentPlayerZone.hand.height - currentPlayerZone.pool.height / 2 - 10,
-			currentPlayerZone.hand.width,
+			currentPlayerZone.hand.width - (currentPlayerZone.play_zone.width - smallPartBox),
 			currentPlayerZone.hand.height
 		).setStrokeStyle(2, 0xff68b4);
 

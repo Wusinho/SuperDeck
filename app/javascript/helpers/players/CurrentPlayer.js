@@ -4,10 +4,7 @@ import {get} from "@rails/request.js";
 export default class CurrentPlayer extends Player {
 	constructor(scene, player) {
 		super(scene, player);
-		this.scene.currentUserName = this.create_text(50,1050, this.playerUsername)
-			.setFontSize(14)
-			.setFontFamily("Arial")
-			.setInteractive();
+		this.createUserName()
 		this.hand_size = {
 			width: 150,
 			height: 200,
@@ -16,6 +13,16 @@ export default class CurrentPlayer extends Player {
 			width: 100,
 			height: 100,
 		}
+	}
+
+	createUserName(){
+		let centerX = this.scene.currentPlayerInformation.x
+		let centerY = this.scene.currentPlayerInformation.y
+
+		this.scene.currentUserName = this.create_text(centerX,centerY, this.playerUsername)
+			.setFontSize(14)
+			.setFontFamily("Arial")
+			.setInteractive();
 	}
 
 	addHandCardsToGame(data){
@@ -103,16 +110,16 @@ export default class CurrentPlayer extends Player {
 				area = this.scene.currentPlayerHandArea;
 				break;
 			case 'mana_pool':
-				area = this.scene.currentPlayerManaPool;
+				area = this.scene.currentPlayerManaPoolArea;
 				break;
 			case 'play_zone':
-				area = this.scene.currentPlayerPlayZone;
+				area = this.scene.currentPlayerPlayZoneArea;
 				break;
 			case 'exile':
-				area = this.scene.currentPlayerExile;
+				area = this.scene.currentPlayerGraveyardArea;
 				break;
 			case 'graveyard':
-				area = this.scene.currentPlayerGraveyard;
+				area = this.scene.currentPlayerGraveyardArea;
 				break;
 			default:
 				console.error(`Unknown zone: ${zone}`);
