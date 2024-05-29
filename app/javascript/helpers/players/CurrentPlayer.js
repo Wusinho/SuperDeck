@@ -20,7 +20,7 @@ export default class CurrentPlayer extends Player {
 		let centerY = this.scene.currentPlayerInformation.y
 
 		this.scene.currentUserName = this.create_text(centerX,centerY, this.playerUsername)
-			.setFontSize(14)
+			.setFontSize(40)
 			.setFontFamily("Arial")
 			.setInteractive();
 	}
@@ -94,9 +94,17 @@ export default class CurrentPlayer extends Player {
 			if (pointer.rightButtonDown()) {
 				this.showContextMenu(pointer, cardCreated);
 			} else if (pointer.leftButtonDown() && cardCreated.zone !== 'hand' ) {
-				this.scene.GameActions.send({ action: "change_action", param: { player_card_id: cardCreated.card_id,
-						new_action: 'tapped', zone: cardCreated.zone } });
-				cardCreated.angle += 90;
+
+				if (cardCreated.angle === 0) {
+					cardCreated.angle += 90;
+					this.scene.GameActions.send({ action: "change_action", param: { player_card_id: cardCreated.card_id,
+							new_action: 'tapped', zone: cardCreated.zone } });
+				} else {
+					cardCreated.angle = 0;
+					this.scene.GameActions.send({ action: "change_action", param: { player_card_id: cardCreated.card_id,
+							new_action: 'normal', zone: cardCreated.zone } });
+				}
+
 			}
 		});
 
