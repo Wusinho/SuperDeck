@@ -100,19 +100,19 @@ export default class CurrentPlayer extends Player {
 		let area;
 		switch (zone) {
 			case 'hand':
-				area = this.scene.currentUserHandArea;
+				area = this.scene.currentPlayerHandArea;
 				break;
 			case 'mana_pool':
-				area = this.scene.currentUserManaPool;
+				area = this.scene.currentPlayerManaPool;
 				break;
 			case 'play_zone':
-				area = this.scene.currentUserPlayZone;
+				area = this.scene.currentPlayerPlayZone;
 				break;
 			case 'exile':
-				area = this.scene.currentUserExile;
+				area = this.scene.currentPlayerExile;
 				break;
 			case 'graveyard':
-				area = this.scene.currentUserGraveyard;
+				area = this.scene.currentPlayerGraveyard;
 				break;
 			default:
 				console.error(`Unknown zone: ${zone}`);
