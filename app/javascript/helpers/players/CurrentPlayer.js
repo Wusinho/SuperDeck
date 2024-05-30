@@ -96,7 +96,7 @@ export default class CurrentPlayer extends Player {
 			} else if (pointer.leftButtonDown() && cardCreated.zone !== 'hand' ) {
 
 				if (cardCreated.angle === 0) {
-					cardCreated.angle += 90;
+					cardCreated.angle = 90;
 					this.scene.GameActions.send({ action: "change_action", param: { player_card_id: cardCreated.card_id,
 							new_action: 'tapped', zone: cardCreated.zone } });
 				} else {
