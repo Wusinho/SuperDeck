@@ -2,16 +2,175 @@ import Player from './Player';
 export default class RightPlayer extends Player {
 	constructor(scene, player) {
 		super(scene, player);
-		this.x_axis = this.scene.rightOpponentHandArea.x
-		this.y_axis = this.scene.rightOpponentHandArea.y
-		this.addNewCardsToHand = this.addNewCardsToHand.bind(this)
-		this.create_text(1050,135)
-		this.addNewCardsToHand()
+		this.createUserName()
+		this.hand_size = {
+			width: 150,
+			height: 200,
+		}
+		this.other_zones = {
+			width: 100,
+			height: 100,
+		}
 	}
 
-	addNewCardsToHand(){
-		for (let i in this.playerHandCards) {
-			this.scene.CardManager.createHorizontalOpponentCard(this.x_axis, this.y_axis, i);
+	createUserName(){
+		let centerX = this.scene.rightPlayerHandArea.x
+		let centerY = this.scene.rightPlayerHandArea.y
+
+		this.scene.currentUserName = this.create_text(centerX,centerY, this.playerUsername)
+			.setFontSize(14)
+			.setFontFamily("Arial")
+			.setInteractive();
+		this.scene.angle = 90;
+	}
+
+	addHandCardsToGame(data){
+		for (let i in data) {
+			this.createCard(data[i])
 		}
+	}
+
+	addManaPoolCardsToGame(data){
+		for (let i in data) {
+			this.createCard(data[i])
+		}
+	}
+
+	addExileCardsToGame(data){
+		for (let i in data) {
+			this.createCard(data[i])
+		}
+	}
+
+	addGraveyardCardsToGame(data){
+		for (let i in data) {
+			this.createCard(data[i])
+		}
+	}
+
+	addPlayZoneCardsToGame(data){
+		for (let i in data) {
+			this.createCard(data[i])
+		}
+	}
+
+	createCard(cardData) {
+		let scale;
+		let img_url = cardData.image_url;
+		let initialPosition = this.getAreaPosition(cardData.zone);
+
+		let cardCreated = this.scene.add.sprite(initialPosition.x, initialPosition.y, 'defaultCardSprite').setInteractive();
+		cardCreated.card_id = cardData.player_card_id;
+		cardCreated.zone = cardData.zone;
+		cardCreated.action = cardData.action;
+
+		this.cards[cardData.zone].push(cardCreated);
+		this.updateCardPositions(cardData.zone);
+
+		this.scene.load.image(`card-${cardData.player_card_id}`, img_url);
+		this.scene.load.once('complete', () => {
+			// cardCreated.setTexture(`card-${cardData.player_card_id}`);
+
+			if (cardData.zone !== 'mana_pool') {
+				cardCreated.setTexture(`card-${cardData.player_card_id}`);
+			}
+
+			// Get the original size of the card
+			let scale = this.calculateScale(cardCreated, cardData.zone);
+			// Apply the scale to the card
+			cardCreated.setScale(scale);
+
+			// Update card positions after setting the texture
+			this.updateCardPositions(cardData.zone);
+		});
+		this.scene.load.start();
+
+		if (cardData.action === 'tapped') {
+			cardCreated.angle = 90;
+		}
+
+		return cardCreated;
+	}
+
+	getAreaPosition(zone) {
+		let area;
+		switch (zone) {
+			case 'hand':
+				area = this.scene.currentPlayerHandArea;
+				break;
+			case 'mana_pool':
+				area = this.scene.currentPlayerManaPoolArea;
+				break;
+			case 'play_zone':
+				area = this.scene.currentPlayerPlayZoneArea;
+				break;
+			case 'exile':
+				area = this.scene.currentPlayerGraveyardArea;
+				break;
+			case 'graveyard':
+				area = this.scene.currentPlayerGraveyardArea;
+				break;
+			default:
+				console.error(`Unknown zone: ${zone}`);
+				return { x: 0, y: 0 };
+		}
+
+		return { x: area.x, y: area.y, width: area.width };
+	}
+
+	moveCardToZone(card_id, newZone) {
+		for (let zone in this.cards) {
+			let cardIndex = this.cards[zone].findIndex(card => card.card_id === card_id);
+			if (cardIndex !== -1) {
+				let [card] = this.cards[zone].splice(cardIndex, 1);
+				card.zone = newZone;
+
+				if (newZone === 'mana_pool') {
+					card.setTexture('defaultCardSprite');
+				} else {
+					this.scene.load.image(`card-${card.card_id}`, card.action.image_url);
+					this.scene.load.once('complete', () => {
+						card.setTexture(`card-${card.card_id}`);
+					});
+					this.scene.load.start();
+				}
+
+				let scale = this.calculateScale(card, newZone);
+				card.setScale(scale);
+				this.cards[newZone].push(card);
+
+				this.updateCardPositions(zone);
+				this.updateCardPositions(newZone);
+				break;
+			}
+		}
+	}
+
+	updateCardPositions(zone) {
+		let spacing = 110; // Spacing between cards
+		let area = this.getAreaPosition(zone)
+
+		this.cards[zone].forEach((card, index) => {
+			card.x = area.x - (area.width / 2) + (index * spacing) + (spacing / 2);
+			card.y = area.y;
+		});
+	}
+
+	calculateScale(card, zone) {
+		let desiredWidth, desiredHeight;
+		if (zone === 'hand') {
+			desiredWidth = this.hand_size.width;
+			desiredHeight = this.hand_size.height;
+		} else {
+			desiredWidth = this.other_zones.width;
+			desiredHeight = this.other_zones.height;
+		}
+
+		// Get the original size of the card
+		let originalWidth = card.width;
+		let originalHeight = card.height;
+
+		// Calculate the scale factor to maintain the aspect ratio
+		return Math.min(desiredWidth / originalWidth, desiredHeight / originalHeight);
 	}
 }

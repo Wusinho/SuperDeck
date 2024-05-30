@@ -70,6 +70,66 @@ export default class BoardCreation {
 		).setStrokeStyle(2, 0xff68b4);
 
 		const commonSides = 50
+		const barWidth = 2
+		const commonPlayGround = commonSides * barWidth
+
+		let leftPlayerZone = {
+			center: { x: commonSides, y: centerY },
+			hand: { width: commonSides, height: height }, // Hand Zone
+			pool: { width: commonPlayGround, height: height - commonPlayGround - 20 },           // Mana Pool
+			play_zone: { width: commonPlayGround, height: height }, // Play Zone
+		}
+
+		this.scene.leftPlayerHandArea = this.scene.add.rectangle(
+			leftPlayerZone.center.x - leftPlayerZone.center.x / 2,
+			leftPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
+			leftPlayerZone.hand.width,
+			leftPlayerZone.pool.height - totalCurrentUserHeight,
+		).setStrokeStyle(2, 0xff68b4);
+
+		this.scene.leftPlayerManaPooldArea = this.scene.add.rectangle(
+			leftPlayerZone.center.x + leftPlayerZone.pool.width / 2 + 10  ,
+			leftPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
+			leftPlayerZone.pool.width,
+			leftPlayerZone.pool.height - totalCurrentUserHeight,
+		).setStrokeStyle(2, 0xff68b4);
+
+		this.scene.leftPlayerPlayZoneArea = this.scene.add.rectangle(
+			leftPlayerZone.center.x + leftPlayerZone.pool.width + leftPlayerZone.play_zone.width / 2 + 20,
+			leftPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
+			leftPlayerZone.pool.width,
+			leftPlayerZone.pool.height - totalCurrentUserHeight,
+		).setStrokeStyle(2, 0xff68b4);
+
+		// Right Player
+		let rightPlayerZone = {
+		center: { x: width, y: centerY },
+		hand: { width: commonSides, height: height }, // Hand Zone
+		pool: { width: commonSides * 2, height: height - (commonSides *2) - 20 },           // Mana Pool
+		play_zone: { width: commonSides * 2, height: height },
+		}
+
+		this.scene.rightPlayerHandArea = this.scene.add.rectangle(
+			rightPlayerZone.center.x - rightPlayerZone.hand.width / 2,
+			rightPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
+			rightPlayerZone.hand.width,
+			rightPlayerZone.pool.height - totalCurrentUserHeight,
+		).setStrokeStyle(2, 0xff68b4);
+
+		this.scene.rightPlayerManaPoolArea = this.scene.add.rectangle(
+			rightPlayerZone.center.x - rightPlayerZone.pool.width - 10,
+			rightPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
+			rightPlayerZone.pool.width,
+			rightPlayerZone.pool.height - totalCurrentUserHeight,
+		).setStrokeStyle(2, 0xff68b4);
+
+		this.scene.rightPlayerPlayZoneArea = this.scene.add.rectangle(
+			rightPlayerZone.center.x - rightPlayerZone.hand.width - rightPlayerZone.pool.width - 20 - rightPlayerZone.play_zone.width / 2,
+			rightPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
+			rightPlayerZone.pool.width,
+			rightPlayerZone.pool.height - totalCurrentUserHeight,
+		).setStrokeStyle(2, 0xff68b4);
+
 		// Top Player
 		let topPlayerZone = {
 			center: { x: centerX, y: commonSides },
@@ -98,65 +158,8 @@ export default class BoardCreation {
 		this.scene.topPlayerPlayZoneArea = this.scene.add.rectangle(
 			topPlayerZone.center.x,
 			(topPlayerZone.hand.height + topPlayerZone.pool.height + topPlayerZone.play_zone.height) + 20,
-			topPlayerZone.play_zone.width - (topPlayerZone.play_zone.height*6),
+			topPlayerZone.play_zone.width - (topPlayerZone.play_zone.height*6) - (commonPlayGround * 2),
 			(topPlayerZone.play_zone.height * 2)
-		).setStrokeStyle(2, 0xff68b4);
-
-		let leftPlayerZone = {
-			center: { x: commonSides, y: centerY },
-			hand: { width: commonSides, height: height }, // Hand Zone
-			pool: { width: commonSides, height: height - (commonSides *2) - 20 },           // Mana Pool
-			play_zone: { width: commonSides, height: height }, // Play Zone
-		}
-
-		this.scene.leftPlayerHandArea = this.scene.add.rectangle(
-			leftPlayerZone.center.x - leftPlayerZone.center.x / 2,
-			leftPlayerZone.center.y - (totalCurrentUserHeight/2),
-			leftPlayerZone.hand.width,
-			leftPlayerZone.hand.height - totalCurrentUserHeight,
-		).setStrokeStyle(2, 0xff68b4);
-
-		this.scene.leftPlayerManaPooldArea = this.scene.add.rectangle(
-			leftPlayerZone.center.x + leftPlayerZone.hand.width + 10 - leftPlayerZone.center.x / 2,
-			leftPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
-			leftPlayerZone.pool.width,
-			leftPlayerZone.pool.height - totalCurrentUserHeight,
-		).setStrokeStyle(2, 0xff68b4);
-
-		this.scene.leftPlayerPlayZoneArea = this.scene.add.rectangle(
-			leftPlayerZone.center.x + leftPlayerZone.hand.width + leftPlayerZone.pool.width + 20 - leftPlayerZone.center.x / 2,
-			leftPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
-			leftPlayerZone.pool.width,
-			leftPlayerZone.pool.height - totalCurrentUserHeight,
-		).setStrokeStyle(2, 0xff68b4);
-
-		// Right Player
-		let rightPlayerZone = {
-		center: { x: width, y: centerY },
-		hand: { width: commonSides, height: height }, // Hand Zone
-		pool: { width: commonSides, height: height - (commonSides *2) - 20 },           // Mana Pool
-		play_zone: { width: commonSides, height: height },
-		}
-
-		this.scene.rightPlayerHandArea = this.scene.add.rectangle(
-			rightPlayerZone.center.x - rightPlayerZone.hand.width / 2,
-			rightPlayerZone.center.y - (totalCurrentUserHeight/2),
-			rightPlayerZone.hand.width,
-			rightPlayerZone.hand.height - totalCurrentUserHeight,
-		).setStrokeStyle(2, 0xff68b4);
-
-		this.scene.rightPlayerManaPoolArea = this.scene.add.rectangle(
-			rightPlayerZone.center.x - rightPlayerZone.hand.width - 10 - rightPlayerZone.hand.width / 2,
-			rightPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
-			rightPlayerZone.pool.width,
-			rightPlayerZone.pool.height - totalCurrentUserHeight,
-		).setStrokeStyle(2, 0xff68b4);
-
-		this.scene.rightPlayerPlayZoneArea = this.scene.add.rectangle(
-			rightPlayerZone.center.x - rightPlayerZone.hand.width - rightPlayerZone.pool.width - 20 - rightPlayerZone.play_zone.width / 2,
-			rightPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
-			rightPlayerZone.pool.width,
-			rightPlayerZone.pool.height - totalCurrentUserHeight,
 		).setStrokeStyle(2, 0xff68b4);
 
 	}

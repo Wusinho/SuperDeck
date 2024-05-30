@@ -42,6 +42,8 @@ export default class LoadGame {
 			//
 			// let cards = this.currentUser.cards.hand
 			// this.addCardsToVerticalPlayers(cards, this.scene.currentUserHandArea.x, this.scene.currentUserHandArea.y, false)
+		} else {
+			this.order_player_position(data[0])
 		}
 
 		// const filtered_data = data[1].filter(opponent => opponent.id != this.currentUser.id);
