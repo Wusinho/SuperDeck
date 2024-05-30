@@ -145,7 +145,7 @@ export default class BoardCreation {
 			rightPlayerZone.hand.height - totalCurrentUserHeight,
 		).setStrokeStyle(2, 0xff68b4);
 
-		this.scene.rightPlayerManaPooldArea = this.scene.add.rectangle(
+		this.scene.rightPlayerManaPoolArea = this.scene.add.rectangle(
 			rightPlayerZone.center.x - rightPlayerZone.hand.width - 10 - rightPlayerZone.hand.width / 2,
 			rightPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
 			rightPlayerZone.pool.width,
