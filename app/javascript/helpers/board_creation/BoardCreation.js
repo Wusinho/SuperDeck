@@ -79,12 +79,31 @@ export default class BoardCreation {
 			pool: { width: commonPlayGround, height: height - commonPlayGround - 20 },           // Mana Pool
 			play_zone: { width: commonPlayGround, height: height }, // Play Zone
 		}
+		const totalHeight = leftPlayerZone.pool.height - totalCurrentUserHeight;
+		const partHeight = totalHeight / 3;
 
+// User Information Area (top)
+		this.scene.leftPlayerUserInfo = this.scene.add.rectangle(
+			leftPlayerZone.center.x - leftPlayerZone.center.x / 2,
+			leftPlayerZone.hand.width + partHeight / 2,  // Position near the top
+			leftPlayerZone.hand.width,
+			partHeight
+		).setStrokeStyle(2, 0xff68b4);
+
+// Hand Area (below User Info)
 		this.scene.leftPlayerHandArea = this.scene.add.rectangle(
 			leftPlayerZone.center.x - leftPlayerZone.center.x / 2,
-			leftPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
+			leftPlayerZone.hand.width + partHeight + partHeight / 2 + 10,  // Position below User Info
 			leftPlayerZone.hand.width,
-			leftPlayerZone.pool.height - totalCurrentUserHeight,
+			partHeight
+		).setStrokeStyle(2, 0xff68b4);
+
+// Graveyard Area (below Hand Area)
+		this.scene.leftPlayerGraveyard = this.scene.add.rectangle(
+			leftPlayerZone.center.x - leftPlayerZone.center.x / 2,
+			leftPlayerZone.hand.width + partHeight * 2 + partHeight / 2 + 20,  // Position below Hand Area
+			leftPlayerZone.hand.width,
+			partHeight
 		).setStrokeStyle(2, 0xff68b4);
 
 		this.scene.leftPlayerManaPooldArea = this.scene.add.rectangle(
@@ -109,11 +128,27 @@ export default class BoardCreation {
 		play_zone: { width: commonSides * 2, height: height },
 		}
 
+		this.scene.rightPlayerUserInfo = this.scene.add.rectangle(
+			rightPlayerZone.center.x - rightPlayerZone.hand.width / 2,
+			leftPlayerZone.hand.width + partHeight / 2,  // Position near the top
+			rightPlayerZone.hand.width,
+			partHeight
+		).setStrokeStyle(2, 0xff68b4);
+
+// Hand Area (below User Info)
 		this.scene.rightPlayerHandArea = this.scene.add.rectangle(
 			rightPlayerZone.center.x - rightPlayerZone.hand.width / 2,
-			rightPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
+			leftPlayerZone.hand.width + partHeight + partHeight / 2 + 10,  // Position below User Info
 			rightPlayerZone.hand.width,
-			rightPlayerZone.pool.height - totalCurrentUserHeight,
+			partHeight
+		).setStrokeStyle(2, 0xff68b4);
+
+// Graveyard Area (below Hand Area)
+		this.scene.rightPlayerGraveyard = this.scene.add.rectangle(
+			rightPlayerZone.center.x - rightPlayerZone.hand.width / 2,
+			leftPlayerZone.hand.width + partHeight * 2 + partHeight / 2 + 20,   // Position below Hand Area
+			rightPlayerZone.hand.width,
+			partHeight
 		).setStrokeStyle(2, 0xff68b4);
 
 		this.scene.rightPlayerManaPoolArea = this.scene.add.rectangle(
