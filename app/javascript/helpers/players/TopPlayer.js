@@ -20,7 +20,7 @@ export default class TopPlayer extends Player {
 
 	createUserName(){
 		let centerX = this.scene.topPlayerUserInfo.x
-		let centerY = this.scene.leftPlayerUserInfo.y
+		let centerY = this.scene.topPlayerUserInfo.y
 
 		this.scene.currentUserName = this.create_text(centerX,centerY, this.playerUsername)
 			.setFontSize(14)
@@ -35,8 +35,8 @@ export default class TopPlayer extends Player {
 	}
 
 	handInformation(handSize){
-		let centerX = this.scene.leftPlayerHandArea.x
-		let centerY = this.scene.leftPlayerHandArea.y
+		let centerX = this.scene.topPlayerHandArea.x
+		let centerY = this.scene.topPlayerHandArea.y
 
 		this.scene.rightUserHandSize = this.create_text(centerX,centerY, `${handSize}`)
 			.setFontSize(14)
@@ -73,19 +73,19 @@ export default class TopPlayer extends Player {
 		let area;
 		switch (zone) {
 			case 'hand':
-				area = this.scene.leftPlayerHandArea;
+				area = this.scene.topPlayerHandArea;
 				break;
 			case 'mana_pool':
-				area = this.scene.leftPlayerManaPoolArea;
+				area = this.scene.topPlayerManaPoolArea;
 				break;
 			case 'play_zone':
-				area = this.scene.leftPlayerPlayZoneArea;
+				area = this.scene.topPlayerPlayZoneArea;
 				break;
 			case 'exile':
-				area = this.scene.leftPlayerGraveyardArea;
+				area = this.scene.topPlayerGraveyardArea;
 				break;
 			case 'graveyard':
-				area = this.scene.leftPlayerGraveyardArea;
+				area = this.scene.topPlayerGraveyardArea;
 				break;
 			default:
 				console.error(`Unknown zone: ${zone}`);
@@ -171,8 +171,8 @@ export default class TopPlayer extends Player {
 		let area = this.getAreaPosition(zone)
 
 		this.cards[zone].forEach((card, index) => {
-			card.y = (area.height - area.y) -  ((area.height - area.y) / 2)+ (index * spacing) + (spacing / 2);
-			card.x = area.x;
+			card.x = area.x - (area.width / 2) + (index * spacing) + (spacing / 2);
+			card.y = area.y;
 		});
 	}
 
