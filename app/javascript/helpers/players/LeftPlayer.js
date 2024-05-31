@@ -46,7 +46,7 @@ export default class LeftPlayer extends Player {
 			this.scene.leftUserHandSize.setText(`${handSize}`);
 		} else {
 			this.scene.leftUserHandSize = this.create_text(centerX, centerY, `${handSize}`)
-				.setFontSize(14)
+				.setFontSize(this.opponentCardFontSize)
 				.setFontFamily("Arial")
 				.setInteractive();
 		}
@@ -81,7 +81,7 @@ export default class LeftPlayer extends Player {
 				area = this.scene.leftPlayerPlayZoneArea;
 				break;
 			case 'exile':
-				area = this.scene.leftPlayerExileArea;
+				area = this.scene.leftPlayerGraveyardArea;
 				break;
 			case 'graveyard':
 				area = this.scene.leftPlayerGraveyardArea;

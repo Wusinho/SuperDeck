@@ -207,7 +207,7 @@ export default class BoardCreation {
 			topY,
 			sectionWidth,
 			sectionHeight
-		).setStrokeStyle(2, 0x219ebc);
+		).setStrokeStyle(2, 0xeae2b7);
 
 		this.scene.topPlayerUserInfo = this.scene.add.rectangle(
 			middleX,

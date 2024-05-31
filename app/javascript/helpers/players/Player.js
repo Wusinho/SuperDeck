@@ -15,6 +15,7 @@ export default class Player {
 			exile: [],
 			graveyard: []
 		};
+		this.opponentCardFontSize = 30;
 	}
 
 	create_text(x,y, text) {

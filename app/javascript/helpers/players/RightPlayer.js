@@ -1,4 +1,5 @@
 import Player from './Player';
+
 export default class RightPlayer extends Player {
 	constructor(scene, player) {
 		super(scene, player);
@@ -29,46 +30,43 @@ export default class RightPlayer extends Player {
 		this.scene.angle = 90;
 	}
 
-	addHandCardsToGame(data){
-		const handSize = data.length
-		this.handInformation(handSize);
+	addHandCardsToGame(data) {
+		data.forEach(card => {
+			this.createOpponentCard(card);
+		});
+		this.updateHandSize();
 	}
 
-	handInformation(handSize){
-		let centerX = this.scene.rightPlayerHandArea.x
-		let centerY = this.scene.rightPlayerHandArea.y
+	updateHandSize() {
+		const handSize = this.cards.hand.length;
+		let centerX = this.scene.rightPlayerHandArea.x;
+		let centerY = this.scene.rightPlayerHandArea.y;
 
-		this.scene.rightUserHandSize = this.create_text(centerX,centerY, `${handSize}`)
-			.setFontSize(14)
-			.setFontFamily("Arial")
-			.setInteractive();
-		this.scene.angle = 90;
-	}
-
-	addManaPoolCardsToGame(data){
-		for (let i in data) {
-			this.createOpponentCard(data[i])
+		if (this.scene.rightUserHandSize) {
+			this.scene.rightUserHandSize.setText(`${handSize}`);
+		} else {
+			this.scene.rightUserHandSize = this.create_text(centerX, centerY, `${handSize}`)
+				.setFontSize(this.opponentCardFontSize)
+				.setFontFamily("Arial")
+				.setInteractive();
 		}
 	}
 
-	addExileCardsToGame(data){
-		for (let i in data) {
-			this.createOpponentCard(data[i])
-		}
+	addManaPoolCardsToGame(data) {
+		data.forEach(card => this.createOpponentCard(card));
 	}
 
-	addGraveyardCardsToGame(data){
-		for (let i in data) {
-			this.createOpponentCard(data[i])
-		}
+	addExileCardsToGame(data) {
+		data.forEach(card => this.createOpponentCard(card));
 	}
 
-	addPlayZoneCardsToGame(data){
-		for (let i in data) {
-			this.createOpponentCard(data[i])
-		}
+	addGraveyardCardsToGame(data) {
+		data.forEach(card => this.createOpponentCard(card));
 	}
 
+	addPlayZoneCardsToGame(data) {
+		data.forEach(card => this.createOpponentCard(card));
+	}
 
 	getAreaPosition(zone) {
 		let area;
@@ -99,6 +97,12 @@ export default class RightPlayer extends Player {
 	createOpponentCard(cardData) {
 		let initialPosition = this.getAreaPosition(cardData.zone);
 
+		if (cardData.zone === 'hand') {
+			this.cards.hand.push(cardData); // Add to hand array
+			this.updateHandSize();
+			return; // Skip creating the sprite for 'hand' zone
+		}
+
 		let cardCreated = this.scene.add.sprite(initialPosition.x, initialPosition.y, 'defaultCardSprite').setInteractive();
 		cardCreated.card_id = cardData.player_card_id;
 		cardCreated.zone = cardData.zone;
@@ -109,18 +113,13 @@ export default class RightPlayer extends Player {
 
 		this.scene.load.image(`card-${cardData.player_card_id}`, cardData.image_url);
 		this.scene.load.once('complete', () => {
-			// cardCreated.setTexture(`card-${cardData.player_card_id}`);
-
 			if (cardData.zone !== 'mana_pool') {
 				cardCreated.setTexture(`card-${cardData.player_card_id}`);
 			}
 
-			// Get the original size of the card
 			let scale = this.calculateScale(cardCreated, cardData.zone);
-			// Apply the scale to the card
 			cardCreated.setScale(scale);
 
-			// Update card positions after setting the texture
 			this.updateCardPositions(cardData.zone);
 		});
 		this.scene.load.start();
@@ -133,12 +132,18 @@ export default class RightPlayer extends Player {
 	}
 
 	moveOpponentCardToZone(card_id, newZone) {
-
 		for (let zone in this.cards) {
 			let cardIndex = this.cards[zone].findIndex(card => card.card_id === card_id);
 			if (cardIndex !== -1) {
 				let [card] = this.cards[zone].splice(cardIndex, 1);
 				card.zone = newZone;
+
+				if (newZone === 'hand') {
+					this.cards.hand.push(card); // Add to hand array
+					this.updateHandSize();
+					this.updateCardPositions(zone);
+					return; // Skip rendering the card for 'hand' zone
+				}
 
 				if (newZone === 'mana_pool') {
 					card.setTexture('defaultCardSprite');
@@ -151,17 +156,10 @@ export default class RightPlayer extends Player {
 				}
 				this.cards[newZone].push(card);
 
-				if ( newZone === 'hand'){
-					let handSize = this.cards.hand.length
-					this.scene.rightUserHandSize.setText(handSize);
-					this.updateCardPositions(zone);
+				let scale = this.calculateScale(card, newZone);
+				card.setScale(scale);
 
-				} else {
-					let scale = this.calculateScale(card, newZone);
-					card.setScale(scale);
-
-					this.updateCardPositions(newZone);
-				}
+				this.updateCardPositions(newZone);
 				break;
 			}
 		}
