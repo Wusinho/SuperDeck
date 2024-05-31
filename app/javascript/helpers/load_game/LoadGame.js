@@ -33,8 +33,7 @@ export default class LoadGame {
 
 		if ( this.currentUser === null) {
 			this.currentUser = new CurrentPlayer(this.scene, data[0])
-			console.log('CURRENT USER ' +  this.currentUser.order);
-			
+
 			// console.log(this.player)
 			// this.currentUser = data[0];
 			// this.scene.currentUserName = this.create_text(50,1050, this.currentUser)

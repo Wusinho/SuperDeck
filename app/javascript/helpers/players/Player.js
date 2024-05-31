@@ -71,7 +71,7 @@ export default class Player {
 	handleDrawCardReceived = data => {
 		if (data.id !== this.playerId) return
 
-		this.createCard(data.card)
+		this.createOpponentCard(data.card)
 	};
 
 	createOpponentCard(cardData) {
