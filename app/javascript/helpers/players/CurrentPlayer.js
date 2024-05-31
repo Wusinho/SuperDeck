@@ -20,6 +20,34 @@ export default class CurrentPlayer extends Player {
 		this.addPlayZoneCardsToGame(player.cards.play_zone)
 	}
 
+	// moveCardToZone(card_id, newZone) {
+	// 	for (let zone in this.cards) {
+	// 		let cardIndex = this.cards[zone].findIndex(card => card.card_id === card_id);
+	// 		if (cardIndex !== -1) {
+	// 			let [card] = this.cards[zone].splice(cardIndex, 1);
+	// 			card.zone = newZone;
+	//
+	// 			if (newZone === 'mana_pool') {
+	// 				card.setTexture('defaultCardSprite');
+	// 			} else {
+	// 				this.scene.load.image(`card-${card.card_id}`, card.action.image_url);
+	// 				this.scene.load.once('complete', () => {
+	// 					card.setTexture(`card-${card.card_id}`);
+	// 				});
+	// 				this.scene.load.start();
+	// 			}
+	//
+	// 			let scale = this.calculateScale(card, newZone);
+	// 			card.setScale(scale);
+	// 			this.cards[newZone].push(card);
+	//
+	// 			this.updateCardPositions(zone);
+	// 			this.updateCardPositions(newZone);
+	// 			break;
+	// 		}
+	// 	}
+	// }
+
 	createUserName(){
 		let centerX = this.scene.currentPlayerInformation.x
 		let centerY = this.scene.currentPlayerInformation.y

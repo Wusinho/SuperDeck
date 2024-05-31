@@ -28,15 +28,43 @@ export default class Player {
 	}
 
 	handleGameActionsReceived = data => {
-		if (data.player_id === this.playerId) return
+		if (data.player_id !== this.playerId) return
 
 		if (data.action) {
-			console.log(data)
-			// this.changeAction(data)
+			// console.log(data)
 		} else {
-			console.log('MOVE CARD')
-			console.log(data)
 			this.moveCardToZone(data.card_id, data.new_zone)
+		}
+	}
+
+	moveCardToZone(card_id, newZone) {
+
+		for (let zone in this.cards) {
+			let cardIndex = this.cards[zone].findIndex(card => card.card_id === card_id);
+			console.log(cardIndex)
+			console.log(this.playerUsername)
+			if (cardIndex !== -1) {
+				let [card] = this.cards[zone].splice(cardIndex, 1);
+				card.zone = newZone;
+
+				if (newZone === 'mana_pool') {
+					card.setTexture('defaultCardSprite');
+				} else {
+					this.scene.load.image(`card-${card.card_id}`, card.action.image_url);
+					this.scene.load.once('complete', () => {
+						card.setTexture(`card-${card.card_id}`);
+					});
+					this.scene.load.start();
+				}
+
+				let scale = this.calculateScale(card, newZone);
+				card.setScale(scale);
+				this.cards[newZone].push(card);
+
+				this.updateCardPositions(zone);
+				this.updateCardPositions(newZone);
+				break;
+			}
 		}
 	}
 
@@ -82,37 +110,6 @@ export default class Player {
 		}
 
 		return cardCreated;
-	}
-
-	moveCardToZone(card_id, newZone) {
-		console.log(card_id)
-		console.log(newZone)
-		for (let zone in this.cards) {
-			let cardIndex = this.cards[zone].findIndex(card => card.card_id === card_id);
-			console.log(cardIndex)
-			if (cardIndex !== -1) {
-				let [card] = this.cards[zone].splice(cardIndex, 1);
-				card.zone = newZone;
-
-				if (newZone === 'mana_pool') {
-					card.setTexture('defaultCardSprite');
-				} else {
-					this.scene.load.image(`card-${card.card_id}`, card.action.image_url);
-					this.scene.load.once('complete', () => {
-						card.setTexture(`card-${card.card_id}`);
-					});
-					this.scene.load.start();
-				}
-
-				let scale = this.calculateScale(card, newZone);
-				card.setScale(scale);
-				this.cards[newZone].push(card);
-
-				this.updateCardPositions(zone);
-				this.updateCardPositions(newZone);
-				break;
-			}
-		}
 	}
 
 	updateCardPositions(zone) {

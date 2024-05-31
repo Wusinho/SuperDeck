@@ -92,6 +92,7 @@ export default class LeftPlayer extends Player {
 				console.error(`Unknown zone: ${zone}`);
 				return { x: 0, y: 0 };
 		}
+		console.log(area)
 
 		return { x: area.x, y: area.y, width: area.width };
 	}
