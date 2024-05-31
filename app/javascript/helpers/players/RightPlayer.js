@@ -9,7 +9,7 @@ export default class RightPlayer extends Player {
 		}
 		this.other_zones = {
 			width: 100,
-			height: 100,
+			height: 60,
 		}
 		this.addHandCardsToGame(player.cards.hand)
 		this.addManaPoolCardsToGame(player.cards.mana_pool)
@@ -93,7 +93,7 @@ export default class RightPlayer extends Player {
 				return { x: 0, y: 0 };
 		}
 
-		return { x: area.x, y: area.y, width: area.width };
+		return { x: area.x, y: area.y, width: area.width, height: area.height };
 	}
 
 	createOpponentCard(cardData) {
@@ -172,7 +172,7 @@ export default class RightPlayer extends Player {
 		let area = this.getAreaPosition(zone)
 
 		this.cards[zone].forEach((card, index) => {
-			card.y = area.y - (area.width / 2) + (index * spacing) + (spacing / 2);
+			card.y = (area.height - area.y) -  ((area.height - area.y) / 2)+ (index * spacing) + (spacing / 2);
 			card.x = area.x;
 		});
 	}

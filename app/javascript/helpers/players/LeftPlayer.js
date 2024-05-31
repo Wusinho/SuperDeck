@@ -92,7 +92,7 @@ export default class LeftPlayer extends Player {
 				return { x: 0, y: 0 };
 		}
 
-		return { x: area.x, y: area.y, width: area.width };
+		return { x: area.x, y: area.y, width: area.width, height: area.height };
 	}
 
 	createOpponentCard(cardData) {
@@ -171,7 +171,7 @@ export default class LeftPlayer extends Player {
 		let area = this.getAreaPosition(zone)
 
 		this.cards[zone].forEach((card, index) => {
-			card.y = area.y - (area.width / 2) + (index * spacing) + (spacing / 2);
+			card.y = (area.height - area.y) -  ((area.height - area.y) / 2)+ (index * spacing) + (spacing / 2);
 			card.x = area.x;
 		});
 	}
