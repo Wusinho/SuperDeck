@@ -33,6 +33,8 @@ export default class LoadGame {
 
 		if ( this.currentUser === null) {
 			this.currentUser = new CurrentPlayer(this.scene, data[0])
+			console.log('CURRENT USER ' +  this.currentUser.order);
+			
 			// console.log(this.player)
 			// this.currentUser = data[0];
 			// this.scene.currentUserName = this.create_text(50,1050, this.currentUser)
@@ -42,12 +44,10 @@ export default class LoadGame {
 			//
 			// let cards = this.currentUser.cards.hand
 			// this.addCardsToVerticalPlayers(cards, this.scene.currentUserHandArea.x, this.scene.currentUserHandArea.y, false)
-		} else {
-			this.order_player_position(data[0])
 		}
 
-		// const filtered_data = data[1].filter(opponent => opponent.id != this.currentUser.id);
-		// filtered_data.forEach(opponent => this.order_player_position(opponent))
+		const filtered_data = data[1].filter(opponent => opponent.id != this.currentUser.playerId);
+		filtered_data.forEach(opponent => this.order_player_position(opponent))
 	}
 
 	order_player_position(opponent){

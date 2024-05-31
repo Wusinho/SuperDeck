@@ -13,6 +13,11 @@ export default class CurrentPlayer extends Player {
 			width: 100,
 			height: 100,
 		}
+		this.addHandCardsToGame(player.cards.hand)
+		this.addManaPoolCardsToGame(player.cards.mana_pool)
+		this.addExileCardsToGame(player.cards.exile)
+		this.addGraveyardCardsToGame(player.cards.graveyard)
+		this.addPlayZoneCardsToGame(player.cards.play_zone)
 	}
 
 	createUserName(){
@@ -56,7 +61,6 @@ export default class CurrentPlayer extends Player {
 	}
 
 	createCard(cardData) {
-		let scale;
 		let img_url = cardData.image_url;
 		let initialPosition = this.getAreaPosition(cardData.zone);
 
@@ -137,44 +141,6 @@ export default class CurrentPlayer extends Player {
 		return { x: area.x, y: area.y, width: area.width };
 	}
 
-	moveCardToZone(card_id, newZone) {
-		for (let zone in this.cards) {
-			let cardIndex = this.cards[zone].findIndex(card => card.card_id === card_id);
-			if (cardIndex !== -1) {
-				let [card] = this.cards[zone].splice(cardIndex, 1);
-				card.zone = newZone;
-
-				if (newZone === 'mana_pool') {
-					card.setTexture('defaultCardSprite');
-				} else {
-					this.scene.load.image(`card-${card.card_id}`, card.action.image_url);
-					this.scene.load.once('complete', () => {
-						card.setTexture(`card-${card.card_id}`);
-					});
-					this.scene.load.start();
-				}
-
-				let scale = this.calculateScale(card, newZone);
-				card.setScale(scale);
-				this.cards[newZone].push(card);
-
-				this.updateCardPositions(zone);
-				this.updateCardPositions(newZone);
-				break;
-			}
-		}
-	}
-
-	updateCardPositions(zone) {
-		let spacing = 110; // Spacing between cards
-		let area = this.getAreaPosition(zone)
-
-		this.cards[zone].forEach((card, index) => {
-			card.x = area.x - (area.width / 2) + (index * spacing) + (spacing / 2);
-			card.y = area.y;
-		});
-	}
-
 	showContextMenu(pointer, card) {
 		const contextMenu = document.getElementById('context-menu');
 		contextMenu.style.display = 'block';
@@ -247,24 +213,5 @@ export default class CurrentPlayer extends Player {
 			event.stopPropagation();
 		});
 	}
-
-	calculateScale(card, zone) {
-		let desiredWidth, desiredHeight;
-		if (zone === 'hand') {
-			desiredWidth = this.hand_size.width;
-			desiredHeight = this.hand_size.height;
-		} else {
-			desiredWidth = this.other_zones.width;
-			desiredHeight = this.other_zones.height;
-		}
-
-		// Get the original size of the card
-		let originalWidth = card.width;
-		let originalHeight = card.height;
-
-		// Calculate the scale factor to maintain the aspect ratio
-		return Math.min(desiredWidth / originalWidth, desiredHeight / originalHeight);
-	}
-
 
 }

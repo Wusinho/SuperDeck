@@ -99,14 +99,14 @@ export default class BoardCreation {
 		).setStrokeStyle(2, 0xff68b4);
 
 // Graveyard Area (below Hand Area)
-		this.scene.leftPlayerGraveyard = this.scene.add.rectangle(
+		this.scene.leftPlayerGraveyardArea = this.scene.add.rectangle(
 			leftPlayerZone.center.x - leftPlayerZone.center.x / 2,
 			leftPlayerZone.hand.width + partHeight * 2 + partHeight / 2 + 20,  // Position below Hand Area
 			leftPlayerZone.hand.width,
 			partHeight
 		).setStrokeStyle(2, 0xff68b4);
 
-		this.scene.leftPlayerManaPooldArea = this.scene.add.rectangle(
+		this.scene.leftPlayerManaPoolArea = this.scene.add.rectangle(
 			leftPlayerZone.center.x + leftPlayerZone.pool.width / 2 + 10  ,
 			leftPlayerZone.center.y - (totalCurrentUserHeight/2) + commonSides + 10,
 			leftPlayerZone.pool.width,
@@ -144,7 +144,7 @@ export default class BoardCreation {
 		).setStrokeStyle(2, 0xff68b4);
 
 // Graveyard Area (below Hand Area)
-		this.scene.rightPlayerGraveyard = this.scene.add.rectangle(
+		this.scene.rightPlayerGraveyardArea = this.scene.add.rectangle(
 			rightPlayerZone.center.x - rightPlayerZone.hand.width / 2,
 			leftPlayerZone.hand.width + partHeight * 2 + partHeight / 2 + 20,   // Position below Hand Area
 			rightPlayerZone.hand.width,
