@@ -131,8 +131,6 @@ export default class LeftPlayer extends Player {
 		return cardCreated;
 	}
 
-
-
 	moveOpponentCardToZone(card_id, newZone) {
 
 		for (let zone in this.cards) {
@@ -180,4 +178,21 @@ export default class LeftPlayer extends Player {
 		});
 	}
 
+	calculateScale(card, zone) {
+		let desiredWidth, desiredHeight;
+		if (zone === 'hand') {
+			desiredWidth = this.hand_size.width;
+			desiredHeight = this.hand_size.height;
+		} else {
+			desiredWidth = this.other_zones.width;
+			desiredHeight = this.other_zones.height;
+		}
+
+		// Get the original size of the card
+		let originalWidth = card.width;
+		let originalHeight = card.height;
+
+		// Calculate the scale factor to maintain the aspect ratio
+		return Math.min(desiredWidth / originalWidth, desiredHeight / originalHeight);
+	}
 }
