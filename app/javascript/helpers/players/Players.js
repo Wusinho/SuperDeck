@@ -36,13 +36,16 @@ export default class Players {
 	}
 
 	handleDrawCardReceived = data => {
-		console.log('DRAW CARD')
-		if (data.id == this.currentPlayer.playerId) {
+		const playerId = data.id;
+		if (playerId == this.currentPlayer.playerId) {
 			this.currentPlayer.createCard(data.card)
 		} else {
-			this.players.forEach(player => {
-				player.createOpponentCard(data.card)
-			})
+			const player = this.players.find(player => player.playerId === playerId);
+			if (player) {
+				player.createOpponentCard(data.card);
+			} else {
+				console.error(`Player with ID ${playerId} not found`);
+			}
 		}
 	};
 }
