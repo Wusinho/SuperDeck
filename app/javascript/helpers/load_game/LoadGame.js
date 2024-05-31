@@ -8,17 +8,12 @@ import Players from "../players/Players";
 export default class LoadGame {
 	constructor(scene) {
 		new LoadGameSocketHandler(scene);
+		this.players = new Players(scene);
 		this.scene = scene;
-		this.topSite =  null;
-		this.leftSite =  null;
-		this.rightSite = null;
-		this.currentUser = null
-
 		this.scene.events.on("boardReceived", this.handleBoardReceived, this);
 		this.gameState = 'Initializing';
 
 		this.isMyTurn = false;
-		this.players = [];
 
 		this.changeTurn = () =>{
 			this.isMyTurn = !this.isMyTurn;
@@ -32,17 +27,17 @@ export default class LoadGame {
 
 	handleBoardReceived(data) {
 
-		if ( this.scene.Players.currentPlayer === null) {
-			this.scene.Players.addCurrenPlayer(new CurrentPlayer(this.scene, data[0]));
+		if ( this.players.currentPlayer === null) {
+			this.players.addCurrenPlayer(new CurrentPlayer(this.scene, data[0]));
 		}
 
-		const filtered_data = this.scene.Players.onlyOpponentPlayer(data[1])
+		const filtered_data = this.players.onlyOpponentPlayer(data[1])
 		filtered_data.forEach(opponent => this.order_player_position(opponent))
 	}
 
 	order_player_position(opponent){
 		let player;
-		let currentPlayerOrder = this.scene.Players.currentPlayer.order
+		let currentPlayerOrder = this.players.currentPlayer.order
 
 		if(currentPlayerOrder === 3){
 			if (opponent.order === 1) {
@@ -61,6 +56,6 @@ export default class LoadGame {
 				player = new LeftPlayer(this.scene, opponent);
 			}
 		}
-		this.scene.Players.addPlayer(player);
+		this.players.addPlayer(player);
 	}
 }

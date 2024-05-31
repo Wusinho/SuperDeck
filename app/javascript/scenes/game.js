@@ -19,7 +19,6 @@ export default class Game extends Phaser.Scene {
 	}
 
 	create(){
-		this.Players = new Players(this);
 		this.GameActions = new GameActionSocketHandler(this);
 		this.CardHandler = new CardHandler();
 		this.DeckHandler = new DeckHandler(this);

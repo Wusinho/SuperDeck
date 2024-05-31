@@ -1,7 +1,3 @@
-import DrawCardSocketHandler from "../sockets/DrawCardSocketHandler";
-import GameActionSocketHandler from "../sockets/GameActionSocketHandler";
-import LoadGameSocketHandler from "../sockets/LoadGameSocketHandler";
-
 export default class Players {
 	constructor(scene) {
 		this.scene = scene;
@@ -40,13 +36,12 @@ export default class Players {
 	}
 
 	handleDrawCardReceived = data => {
-		if (data.id !== this.playerId) return
-		console.log('DRAW')
-
-		this.players.forEach(player => {
-			console.log(player.id, player.name)
-
-			// player.createOpponentCard(data.card_id, data.new_zone)
-		})
+		if (data.id == this.currentPlayer.playerId) {
+			this.currentPlayer.createCard(data.card)
+		} else {
+			this.players.forEach(player => {
+				player.createOpponentCard(data.card_id, data.new_zone)
+			})
+		}
 	};
 }
