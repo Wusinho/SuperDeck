@@ -41,7 +41,7 @@ export default class Players {
 			this.currentPlayer.createCard(data.card)
 		} else {
 			this.players.forEach(player => {
-				player.createOpponentCard(data.card_id, data.new_zone)
+				player.createOpponentCard(data.card)
 			})
 		}
 	};
