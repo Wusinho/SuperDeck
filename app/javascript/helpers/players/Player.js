@@ -85,8 +85,11 @@ export default class Player {
 	}
 
 	moveCardToZone(card_id, newZone) {
+		console.log(card_id)
+		console.log(newZone)
 		for (let zone in this.cards) {
 			let cardIndex = this.cards[zone].findIndex(card => card.card_id === card_id);
+			console.log(cardIndex)
 			if (cardIndex !== -1) {
 				let [card] = this.cards[zone].splice(cardIndex, 1);
 				card.zone = newZone;

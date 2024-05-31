@@ -53,19 +53,19 @@ export default class RightPlayer extends Player {
 
 	addExileCardsToGame(data){
 		for (let i in data) {
-			this.createCard(data[i])
+			this.createOpponentCard(data[i])
 		}
 	}
 
 	addGraveyardCardsToGame(data){
 		for (let i in data) {
-			this.createCard(data[i])
+			this.createOpponentCard(data[i])
 		}
 	}
 
 	addPlayZoneCardsToGame(data){
 		for (let i in data) {
-			this.createCard(data[i])
+			this.createOpponentCard(data[i])
 		}
 	}
 
