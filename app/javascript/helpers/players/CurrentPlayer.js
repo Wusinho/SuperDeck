@@ -20,34 +20,6 @@ export default class CurrentPlayer extends Player {
 		this.addPlayZoneCardsToGame(player.cards.play_zone)
 	}
 
-	// moveCardToZone(card_id, newZone) {
-	// 	for (let zone in this.cards) {
-	// 		let cardIndex = this.cards[zone].findIndex(card => card.card_id === card_id);
-	// 		if (cardIndex !== -1) {
-	// 			let [card] = this.cards[zone].splice(cardIndex, 1);
-	// 			card.zone = newZone;
-	//
-	// 			if (newZone === 'mana_pool') {
-	// 				card.setTexture('defaultCardSprite');
-	// 			} else {
-	// 				this.scene.load.image(`card-${card.card_id}`, card.action.image_url);
-	// 				this.scene.load.once('complete', () => {
-	// 					card.setTexture(`card-${card.card_id}`);
-	// 				});
-	// 				this.scene.load.start();
-	// 			}
-	//
-	// 			let scale = this.calculateScale(card, newZone);
-	// 			card.setScale(scale);
-	// 			this.cards[newZone].push(card);
-	//
-	// 			this.updateCardPositions(zone);
-	// 			this.updateCardPositions(newZone);
-	// 			break;
-	// 		}
-	// 	}
-	// }
-
 	createUserName(){
 		let centerX = this.scene.currentPlayerInformation.x
 		let centerY = this.scene.currentPlayerInformation.y
@@ -89,7 +61,6 @@ export default class CurrentPlayer extends Player {
 	}
 
 	createCard(cardData) {
-		let img_url = cardData.image_url;
 		let initialPosition = this.getAreaPosition(cardData.zone);
 
 		let cardCreated = this.scene.add.sprite(initialPosition.x, initialPosition.y, 'defaultCardSprite').setInteractive();
@@ -100,7 +71,7 @@ export default class CurrentPlayer extends Player {
 		this.cards[cardData.zone].push(cardCreated);
 		this.updateCardPositions(cardData.zone);
 
-		this.scene.load.image(`card-${cardData.player_card_id}`, img_url);
+		this.scene.load.image(`card-${cardData.player_card_id}`, cardData.image_url);
 		this.scene.load.once('complete', () => {
 			// cardCreated.setTexture(`card-${cardData.player_card_id}`);
 
@@ -167,6 +138,44 @@ export default class CurrentPlayer extends Player {
 		}
 
 		return { x: area.x, y: area.y, width: area.width };
+	}
+
+	updateCardPositions(zone) {
+		let spacing = 110; // Spacing between cards
+		let area = this.getAreaPosition(zone)
+
+		this.cards[zone].forEach((card, index) => {
+			card.x = area.x - (area.width / 2) + (index * spacing) + (spacing / 2);
+			card.y = area.y;
+		});
+	}
+
+	moveCardToZone(card_id, newZone) {
+		for (let zone in this.cards) {
+			let cardIndex = this.cards[zone].findIndex(card => card.card_id === card_id);
+			if (cardIndex !== -1) {
+				let [card] = this.cards[zone].splice(cardIndex, 1);
+				card.zone = newZone;
+
+				if (newZone === 'mana_pool' ) {
+					card.setTexture('defaultCardSprite');
+				} else {
+					this.scene.load.image(`card-${card.card_id}`, card.action.image_url);
+					this.scene.load.once('complete', () => {
+						card.setTexture(`card-${card.card_id}`);
+					});
+					this.scene.load.start();
+				}
+
+				let scale = this.calculateScale(card, newZone);
+				card.setScale(scale);
+				this.cards[newZone].push(card);
+
+				this.updateCardPositions(zone);
+				this.updateCardPositions(newZone);
+				break;
+			}
+		}
 	}
 
 	showContextMenu(pointer, card) {
