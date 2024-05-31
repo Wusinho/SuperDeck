@@ -3,8 +3,8 @@ export default class Players {
 		this.scene = scene;
 		this.players = []
 		this.currentPlayer = null
-		this.addPlayer = this.addPlayer.bind(this);
-		this.onlyOpponentPlayer = this.onlyOpponentPlayer.bind(this);
+		// this.addPlayer = this.addPlayer.bind(this);
+		// this.onlyOpponentPlayer = this.onlyOpponentPlayer.bind(this);
 		this.scene.events.on("socketReceived", this.handleDrawCardReceived, this);
 		this.scene.events.on("gameActionsReceived", this.handleGameActionsReceived, this);
 	}
@@ -23,7 +23,6 @@ export default class Players {
 
 	handleGameActionsReceived = data => {
 		if (data.player_id !== this.playerId) return
-		console.log('MOVE CRAD')
 
 		if (data.action) {
 			// console.log(data)

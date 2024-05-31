@@ -61,7 +61,6 @@ export default class CurrentPlayer extends Player {
 	}
 
 	createCard(cardData) {
-		console.log(cardData)
 		let initialPosition = this.getAreaPosition(cardData.zone);
 
 		let cardCreated = this.scene.add.sprite(initialPosition.x, initialPosition.y, 'defaultCardSprite').setInteractive();

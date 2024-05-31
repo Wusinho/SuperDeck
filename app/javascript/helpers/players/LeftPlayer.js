@@ -152,8 +152,6 @@ export default class LeftPlayer extends Player {
 
 				if ( newZone === 'hand'){
 					let handSize = this.cards.hand.length
-					console.log(handSize)
-					console.log(this.cards[newZone].length)
 					this.scene.rightUserHandSize.setText(handSize);
 					this.updateCardPositions(zone);
 
