@@ -188,12 +188,41 @@ export default class BoardCreation {
 			graveyard: { x: 50, y: 250, width: 100, height: 100 },  // Graveyard
 		}
 
+		const totalWidth = topPlayerZone.hand.width - (topPlayerZone.hand.height * 2);
+		const spacing = 10;
+		const totalSpacing = 2 * spacing; // Two spaces between three sections
+		const availableWidth = totalWidth - totalSpacing;
+		const sectionWidth = availableWidth / 3;
+		const sectionHeight = topPlayerZone.hand.height;
+
+		const topX = topPlayerZone.center.x;
+		const topY = topPlayerZone.hand.height / 2;
+
+		const leftX = topX - sectionWidth - (spacing / 2);
+		const middleX = topX;
+		const rightX = topX + sectionWidth + (spacing / 2);
+
 		this.scene.topPlayerHandArea = this.scene.add.rectangle(
-			topPlayerZone.center.x,
-			topPlayerZone.hand.height / 2,
-			topPlayerZone.hand.width - ( topPlayerZone.hand.height*2 ),
-			topPlayerZone.hand.height
+			leftX,
+			topY,
+			sectionWidth,
+			sectionHeight
 		).setStrokeStyle(2, 0x219ebc);
+
+		this.scene.topPlayerUserInfo = this.scene.add.rectangle(
+			middleX,
+			topY,
+			sectionWidth,
+			sectionHeight
+		).setStrokeStyle(2, 0x219ebc);
+
+		this.scene.topPlayerGraveyardArea = this.scene.add.rectangle(
+			rightX,
+			topY,
+			sectionWidth,
+			sectionHeight
+		).setStrokeStyle(2, 0x219ebc);
+
 
 		// Mana Pool
 		this.scene.topPlayerManaPoolArea = this.scene.add.rectangle(

@@ -8,9 +8,6 @@ class LoadGameChannel < ApplicationCable::Channel
   end
 
   def connected
-    p '*'*100
-    p 'LOAD GAME CHANNEL'
-    p '*'*100
     current_player = current_user.player
     cards = current_player.card_collection
 
