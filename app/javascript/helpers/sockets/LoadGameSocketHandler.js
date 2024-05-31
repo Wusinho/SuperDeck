@@ -3,9 +3,9 @@ import consumer from "channels/consumer";
 export default class LoadGameSocketHandler {
 	constructor(scene) {
 		this.scene = scene;
-		this.boardChannel = consumer.subscriptions.create(
+		this.loadGameChannel = consumer.subscriptions.create(
 			{
-				channel: "BoardChannel",
+				channel: "LoadGameChannel",
 			},
 			{
 				connected: this.onConnected.bind(this),
@@ -16,20 +16,20 @@ export default class LoadGameSocketHandler {
 	}
 
 	onConnected() {
-		console.log("Connected to BoardChannel");
-		this.boardChannel.perform('connected');
-		this.scene.events.emit("boardConnected");
+		console.log("Connected to LoadGameChannel");
+		this.loadGameChannel.perform('connected');
+		this.scene.events.emit("loadGameConnected");
 	}
 
 	onDisconnected() {
-		console.log("Disconnected from BoardChannel");
+		console.log("Disconnected from loadGameConnected");
 	}
 
 	onReceived(data) {
-		this.scene.events.emit("boardReceived", data);
+		this.scene.events.emit("loadGameReceived", data);
 	}
 
 	send(data) {
-		this.boardChannel.perform(data.action, data.param);
+		this.loadGameChannel.perform(data.action, data.param);
 	}
 }

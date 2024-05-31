@@ -10,7 +10,7 @@ export default class LoadGame {
 		new LoadGameSocketHandler(scene);
 		this.players = new Players(scene);
 		this.scene = scene;
-		this.scene.events.on("boardReceived", this.handleBoardReceived, this);
+		this.scene.events.on("loadGameReceived", this.handleBoardReceived, this);
 		this.gameState = 'Initializing';
 
 		this.isMyTurn = false;

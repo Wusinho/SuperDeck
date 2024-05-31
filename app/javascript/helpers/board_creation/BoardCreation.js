@@ -3,15 +3,29 @@ import DrawCardSocketHandler from "../sockets/DrawCardSocketHandler";
 
 export default class BoardCreation {
 	constructor(scene) {
-		// this.zoneHandler = new ZoneHandler(scene);
 		this.scene = scene;
-		this.socketHandler = new DrawCardSocketHandler(scene);
+		this.drawCardHandler = new DrawCardSocketHandler(scene);
 
-		// this.buildZones();
 		this.buildPlayerAreas();
-		this.buildGameText();
-
+		this.buildDrawButton();
 	}
+
+	buildDrawButton = () => {
+		const width = this.scene.game.config.width;
+		const height = this.scene.game.config.height;
+		const centerX = width / 2;
+		const centerY = height / 2;
+		this.scene.dealCards = this.scene.add.text(centerX, centerY, "Draw Card")
+			.setFontSize(14)
+			.setFontFamily("Arial")
+			.setInteractive();
+
+		this.scene.dealCards.on("pointerdown", this.handleDrawCardClick.bind(this));
+	};
+
+	handleDrawCardClick = () => {
+		this.drawCardHandler.send({ action: "draw_card" });
+	};
 
 	buildPlayerAreas() {
 		const width = this.scene.game.config.width;
@@ -198,30 +212,4 @@ export default class BoardCreation {
 		).setStrokeStyle(2, 0xff68b4);
 
 	}
-
-	addZoneLabel(zone, label) {
-		const labelText = this.scene.add.text(zone.x, zone.y, label, {
-			fontSize: '16px',
-			fill: '#000'
-		}).setOrigin(0.5);
-	}
-
-
-	buildGameText = () => {
-		const width = this.scene.game.config.width;
-		const height = this.scene.game.config.height;
-		const centerX = width / 2;
-		const centerY = height / 2;
-		this.scene.dealCards = this.scene.add.text(centerX, centerY, "Draw Card")
-			.setFontSize(14)
-			.setFontFamily("Arial")
-			.setInteractive();
-
-		this.scene.dealCards.on("pointerdown", this.handleDrawCardClick.bind(this));
-	};
-
-	handleDrawCardClick = () => {
-		this.socketHandler.send({ action: "draw_card" });
-	};
-
 }

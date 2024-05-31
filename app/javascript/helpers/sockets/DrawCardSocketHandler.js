@@ -3,9 +3,9 @@ import consumer from "channels/consumer";
 export default class DrawCardSocketHandler {
 	constructor(scene) {
 		this.scene = scene;
-		this.gameChannel = consumer.subscriptions.create(
+		this.drawCardChannel = consumer.subscriptions.create(
 			{
-				channel: "GameChannel",
+				channel: "DrawCardChannel",
 			},
 			{
 				connected: this.onConnected.bind(this),
@@ -16,19 +16,19 @@ export default class DrawCardSocketHandler {
 	}
 
 	onConnected() {
-		console.log("Connected to GameChannel");
-		this.scene.events.emit("socketConnected");
+		console.log("Connected to DrawCardChannel");
+		this.scene.events.emit("drawCardConnected");
 	}
 
 	onDisconnected() {
-		console.log("Disconnected from GameChannel");
+		console.log("Disconnected from DrawCardChannel");
 	}
 
 	onReceived(data) {
-		this.scene.events.emit("socketReceived", data);
+		this.scene.events.emit("drawCardReceived", data);
 	}
 
 	send(data) {
-		this.gameChannel.perform(data.action, data.param);
+		this.drawCardChannel.perform(data.action, data.param);
 	}
 }
