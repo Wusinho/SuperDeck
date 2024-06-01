@@ -72,3 +72,5 @@ gem "sassc-rails"
 gem 'bootstrap', '~> 5.3.1'
 gem 'font-awesome-sass', '~> 6.3.0'
 gem 'faker', '~> 3.3', '>= 3.3.1'
+gem 'faraday', '~> 2.7', '>= 2.7.10'
+gem 'cloudinary', '~> 1.28'
