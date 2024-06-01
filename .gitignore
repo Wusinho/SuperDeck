@@ -35,3 +35,12 @@
 /config/master.key
 /.idea
 .idea
+
+/.env
+.byebug_history
+.rubocop.yml
+.rubocop_todo.yml
+dump.rdb
+
+latest.dump
+/config/cloudinary.yml
