@@ -22,12 +22,16 @@ export default class TopPlayer extends Player {
 	createUserName(){
 		let centerX = this.scene.topPlayerUserInfo.x
 		let centerY = this.scene.topPlayerUserInfo.y
+		const handSize = this.cards.hand.length
 
 		this.scene.currentUserName = this.create_text(centerX,centerY, this.playerUsername)
 			.setFontSize(14)
 			.setFontFamily("Arial")
 			.setInteractive();
-		this.scene.angle = 90;
+		this.scene.topPlayerHandSize = this.create_text(centerX - 40, centerY, handSize)
+			.setFontSize(this.opponentCardFontSize)
+			.setFontFamily("Arial")
+			.setInteractive();
 	}
 
 	addHandCardsToGame(data) {
@@ -39,17 +43,7 @@ export default class TopPlayer extends Player {
 
 	updateHandSize() {
 		const handSize = this.cards.hand.length;
-		let centerX = this.scene.topPlayerHandArea.x;
-		let centerY = this.scene.topPlayerHandArea.y;
-
-		if (this.scene.topUserHandSize) {
-			this.scene.topUserHandSize.setText(`${handSize}`);
-		} else {
-			this.scene.topUserHandSize = this.create_text(centerX, centerY, `${handSize}`)
-				.setFontSize(this.opponentCardFontSize)
-				.setFontFamily("Arial")
-				.setInteractive();
-		}
+		this.scene.topPlayerHandSize.setText(`${handSize}`);
 	}
 
 	addManaPoolCardsToGame(data) {
@@ -97,16 +91,14 @@ export default class TopPlayer extends Player {
 	createOpponentCard(cardData) {
 		let initialPosition = this.getAreaPosition(cardData.zone);
 
-		if (cardData.zone === 'hand') {
-			this.cards.hand.push(cardData); // Add to hand array
-			this.updateHandSize();
-			return; // Skip creating the sprite for 'hand' zone
-		}
-
 		let cardCreated = this.scene.add.sprite(initialPosition.x, initialPosition.y, 'defaultCardSprite').setInteractive();
 		cardCreated.card_id = cardData.player_card_id;
 		cardCreated.zone = cardData.zone;
 		cardCreated.action = cardData.action;
+
+		if (cardData.zone === 'hand') {
+			cardCreated.setVisible(false); // Make the card invisible if it's in the hand
+		}
 
 		this.cards[cardData.zone].push(cardCreated);
 		this.updateCardPositions(cardData.zone);
@@ -131,37 +123,39 @@ export default class TopPlayer extends Player {
 		return cardCreated;
 	}
 
-	moveOpponentCardToZone(card_id, newZone) {
-		for (let zone in this.cards) {
-			let cardIndex = this.cards[zone].findIndex(card => card.card_id === card_id);
-			if (cardIndex !== -1) {
-				let [card] = this.cards[zone].splice(cardIndex, 1);
-				card.zone = newZone;
+	moveOpponentCardToZone(card_id, newZone, oldZone) {
+		let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
+		console.log(this.cards)
+		console.log(cardIndex)
+		if (cardIndex !== -1) {
+			let [card] = this.cards[oldZone].splice(cardIndex, 1);
+			card.zone = newZone;
 
-				if (newZone === 'hand') {
-					this.cards.hand.push(card); // Add to hand array
-					this.updateHandSize();
-					this.updateCardPositions(zone);
-					return; // Skip rendering the card for 'hand' zone
-				}
-
-				if (newZone === 'mana_pool') {
-					card.setTexture('defaultCardSprite');
-				} else {
-					this.scene.load.image(`card-${card.card_id}`, card.action.image_url);
-					this.scene.load.once('complete', () => {
-						card.setTexture(`card-${card.card_id}`);
-					});
-					this.scene.load.start();
-				}
-				this.cards[newZone].push(card);
-
-				let scale = this.calculateScale(card, newZone);
-				card.setScale(scale);
-
-				this.updateCardPositions(newZone);
-				break;
+			if (newZone === 'hand') {
+				card.setVisible(false); // Make the card invisible if it's in the hand
+				this.cards.hand.push(card);
+				this.updateHandSize();
+				this.updateCardPositions(zone);
+				return;
 			}
+
+			card.setVisible(true);
+
+			if (newZone === 'mana_pool') {
+				card.setTexture('defaultCardSprite');
+			} else {
+				this.scene.load.image(`card-${card.card_id}`, card.action.image_url);
+				this.scene.load.once('complete', () => {
+					card.setTexture(`card-${card.card_id}`);
+				});
+				this.scene.load.start();
+			}
+			this.cards[newZone].push(card);
+
+			let scale = this.calculateScale(card, newZone);
+			card.setScale(scale);
+
+			this.updateCardPositions(newZone);
 		}
 	}
 
@@ -170,8 +164,13 @@ export default class TopPlayer extends Player {
 		let area = this.getAreaPosition(zone)
 
 		this.cards[zone].forEach((card, index) => {
-			card.x = area.x - (area.width / 2) + (index * spacing) + (spacing / 2);
-			card.y = area.y;
+			if (zone !== 'hand') {
+				card.x = area.x - (area.width / 2) + (index * spacing) + (spacing / 2);
+				card.y = area.y;
+			} else {
+				card.x = area.x
+				card.y = area.y
+			}
 		});
 	}
 

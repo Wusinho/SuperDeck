@@ -22,16 +22,14 @@ export default class Players {
 	}
 
 	handleGameActionsReceived = data => {
-		console.log('ACTION')
-		if (data.player_id !== this.playerId) return
-
-		if (data.action) {
-			// console.log(data)
+		console.log('GameActions')
+		console.log(data)
+		const player = this.players.find(player => player.playerId === data.player_id);
+		console.log(player)
+		if (player) {
+			player.moveOpponentCardToZone(data.card_id, data.new_zone, data.old_zone);
 		} else {
-			this.players.forEach(player => {
-
-				player.moveOpponentCardToZone(data.card_id, data.new_zone)
-			})
+			console.error(`Player with ID ${data.player_id} not found`);
 		}
 	}
 
