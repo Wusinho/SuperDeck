@@ -7,9 +7,13 @@ class Deck < ApplicationRecord
   after_create :shuffle_deck
 
   def initialize_deck
-    Card.all.each_with_index do |card, index|
+    Card.where.not(image_url: nil).limit(deck_size).all.each_with_index do |card, index|
       DeckCard.create(card_id: card.id, position: index + 1, deck_id: self.id)
     end
+  end
+
+  def deck_size
+    game.game_configuration.deck_size
   end
 
   def add_card(card)
