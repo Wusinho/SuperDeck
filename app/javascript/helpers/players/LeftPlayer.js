@@ -22,22 +22,29 @@ export default class LeftPlayer extends Player {
 	createUserName() {
 		let centerX = this.scene.leftPlayerUserInfo.x;
 		let centerY = this.scene.leftPlayerUserInfo.y;
-		const handSize = this.cards.hand.length
-
 		this.scene.currentUserName = this.create_text(centerX, centerY, this.playerUsername)
 			.setFontSize(14)
-			.setFontFamily("Arial")
-			.setInteractive();
-		this.scene.leftPlayerHandSize = this.create_text(centerX, centerY + 40, handSize)
-			.setFontSize(this.opponentCardFontSize)
 			.setFontFamily("Arial")
 			.setInteractive();
 	}
 
 	updateHandSize() {
 		const handSize = this.cards.hand.length;
-		this.scene.leftPlayerHandSize.setText(`${handSize}`);
+		if (this.scene.leftPlayerHandSize) {
+			// If the text object already exists, update its text
+			this.scene.leftPlayerHandSize.setText(`${handSize}`);
+		} else {
+			// If the text object does not exist, create it
+			let centerX = this.scene.leftPlayerHandArea.x;
+			let centerY = this.scene.leftPlayerHandArea.y;
+
+			this.scene.leftPlayerHandSize = this.create_text(centerX, centerY, `${handSize}`)
+				.setFontSize(14)
+				.setFontFamily("Arial")
+				.setInteractive();
+		}
 	}
+
 
 	getAreaPosition(zone) {
 		let area;

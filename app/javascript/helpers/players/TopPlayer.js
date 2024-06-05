@@ -22,21 +22,27 @@ export default class TopPlayer extends Player {
 	createUserName(){
 		let centerX = this.scene.topPlayerUserInfo.x
 		let centerY = this.scene.topPlayerUserInfo.y
-		const handSize = this.cards.hand.length
-
 		this.scene.currentUserName = this.create_text(centerX,centerY, this.playerUsername)
 			.setFontSize(14)
-			.setFontFamily("Arial")
-			.setInteractive();
-		this.scene.topPlayerHandSize = this.create_text(centerX - 40, centerY, handSize)
-			.setFontSize(this.opponentCardFontSize)
 			.setFontFamily("Arial")
 			.setInteractive();
 	}
 
 	updateHandSize() {
 		const handSize = this.cards.hand.length;
-		this.scene.topPlayerHandSize.setText(`${handSize}`);
+		if (this.scene.topPlayerHandSize) {
+			// If the text object already exists, update its text
+			this.scene.topPlayerHandSize.setText(`${handSize}`);
+		} else {
+			// If the text object does not exist, create it
+			let centerX = this.scene.topPlayerHandArea.x;
+			let centerY = this.scene.topPlayerHandArea.y;
+
+			this.scene.topPlayerHandSize = this.create_text(centerX, centerY, `${handSize}`)
+				.setFontSize(14)
+				.setFontFamily("Arial")
+				.setInteractive();
+		}
 	}
 
 	getAreaPosition(zone) {
