@@ -34,32 +34,9 @@ export default class RightPlayer extends Player {
 			.setInteractive();
 	}
 
-	addHandCardsToGame(data) {
-		data.forEach(card => {
-			this.createOpponentCard(card);
-		});
-		this.updateHandSize();
-	}
-
 	updateHandSize() {
 		const handSize = this.cards.hand.length;
 		this.scene.rightPlayerHandSize.setText(`${handSize}`);
-	}
-
-	addManaPoolCardsToGame(data) {
-		data.forEach(card => this.createOpponentCard(card));
-	}
-
-	addExileCardsToGame(data) {
-		data.forEach(card => this.createOpponentCard(card));
-	}
-
-	addGraveyardCardsToGame(data) {
-		data.forEach(card => this.createOpponentCard(card));
-	}
-
-	addPlayZoneCardsToGame(data) {
-		data.forEach(card => this.createOpponentCard(card));
 	}
 
 	getAreaPosition(zone) {
@@ -123,42 +100,6 @@ export default class RightPlayer extends Player {
 		return cardCreated;
 	}
 
-	moveOpponentCardToZone(card_id, newZone, oldZone) {
-		let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
-		console.log(this.cards)
-		console.log(cardIndex)
-		if (cardIndex !== -1) {
-			let [card] = this.cards[oldZone].splice(cardIndex, 1);
-			card.zone = newZone;
-
-			if (newZone === 'hand') {
-				card.setVisible(false); // Make the card invisible if it's in the hand
-				this.cards.hand.push(card);
-				this.updateHandSize();
-				this.updateCardPositions(zone);
-				return;
-			}
-
-			card.setVisible(true);
-
-			if (newZone === 'mana_pool') {
-				card.setTexture('defaultCardSprite');
-			} else {
-				this.scene.load.image(`card-${card.card_id}`, card.action.image_url);
-				this.scene.load.once('complete', () => {
-					card.setTexture(`card-${card.card_id}`);
-				});
-				this.scene.load.start();
-			}
-			this.cards[newZone].push(card);
-
-			let scale = this.calculateScale(card, newZone);
-			card.setScale(scale);
-
-			this.updateCardPositions(newZone);
-		}
-	}
-
 	updateCardPositions(zone) {
 		let spacing = 110; // Spacing between cards
 		let area = this.getAreaPosition(zone)
@@ -173,23 +114,4 @@ export default class RightPlayer extends Player {
 			}
 		});
 	}
-
-	calculateScale(card, zone) {
-		let desiredWidth, desiredHeight;
-		if (zone === 'hand') {
-			desiredWidth = this.hand_size.width;
-			desiredHeight = this.hand_size.height;
-		} else {
-			desiredWidth = this.other_zones.width;
-			desiredHeight = this.other_zones.height;
-		}
-
-		// Get the original size of the card
-		let originalWidth = card.width;
-		let originalHeight = card.height;
-
-		// Calculate the scale factor to maintain the aspect ratio
-		return Math.min(desiredWidth / originalWidth, desiredHeight / originalHeight);
-	}
-
 }

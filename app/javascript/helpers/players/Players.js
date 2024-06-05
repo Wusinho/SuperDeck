@@ -41,6 +41,7 @@ export default class Players {
 			const player = this.players.find(player => player.playerId === playerId);
 			if (player) {
 				player.createOpponentCard(data.card);
+				player.updateHandSize();
 			} else {
 				console.error(`Player with ID ${playerId} not found`);
 			}
