@@ -64,7 +64,12 @@ export default class Player {
 		this.updateHandSize();
 	}
 
-	moveOpponentCardToZone(card_id, newZone, oldZone) {
+	moveOpponentCardToZone(data) {
+		const card_id = data.card_id;
+		const newZone = data.new_zone;
+		const oldZone = data.old_zone;
+		const morphed = data.action === 'morphed';
+
 		let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
 		if (cardIndex !== -1) {
 			let [card] = this.cards[oldZone].splice(cardIndex, 1);
@@ -80,7 +85,7 @@ export default class Player {
 
 			card.setVisible(true);
 
-			if (newZone === 'mana_pool') {
+			if (newZone === 'mana_pool' || morphed ) {
 				card.setTexture('defaultCardSprite');
 			} else {
 				this.scene.load.image(`card-${card.card_id}`, card.action.image_url);

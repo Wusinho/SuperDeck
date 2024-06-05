@@ -31,9 +31,6 @@ export default class RightPlayer extends Player {
 			cardCreated.setVisible(false);
 		}
 
-		console.log('THIS IS THE RIGHT PLAYER')
-		console.log(this)
-
 			if (cardData.zone === 'mana_pool' || cardData.zone === 'play_zone') {
 				cardCreated.angle = -90;
 			}

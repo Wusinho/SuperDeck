@@ -22,15 +22,18 @@ export default class Players {
 	}
 
 	handleGameActionsReceived = data => {
-		console.log('GameActions')
-		console.log(data)
 		const player = this.players.find(player => player.playerId === data.player_id);
-		console.log(player)
-		if (player) {
-			player.moveOpponentCardToZone(data.card_id, data.new_zone, data.old_zone);
+
+		if (data.action && data.action !== 'morphed'){
+
 		} else {
-			console.error(`Player with ID ${data.player_id} not found`);
+			if (player) {
+				player.moveOpponentCardToZone(data);
+			} else {
+				console.error(`Player with ID ${data.player_id} not found`);
+			}
 		}
+
 	}
 
 	handleDrawCardReceived = data => {

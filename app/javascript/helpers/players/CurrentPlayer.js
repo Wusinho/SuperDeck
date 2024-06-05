@@ -202,8 +202,8 @@ export default class CurrentPlayer extends Player {
 
 		document.getElementById('play-in-play_zone-morph').onclick = () => {
 			this.moveCardToZone(card.card_id, 'play_zone');
-			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
-					new_zone: 'play_zone'} });
+			this.scene.GameActions.send({ action: "change_zone", param: { player_card_id: card.card_id,
+					new_zone: 'play_zone', action: 'morphed'} });
 			contextMenu.style.display = 'none';
 		};
 

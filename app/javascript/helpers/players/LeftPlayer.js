@@ -55,6 +55,10 @@ export default class LeftPlayer extends Player {
 				cardCreated.angle = 90 * 2;
 		}
 
+		if (cardData.action === 'morphed') {
+			cardCreated.setTexture('defaultCardSprite');
+		}
+
 		return cardCreated;
 	}
 
