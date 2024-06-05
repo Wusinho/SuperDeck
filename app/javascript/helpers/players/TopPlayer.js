@@ -39,9 +39,6 @@ export default class TopPlayer extends Player {
 			let centerY = this.scene.topPlayerHandArea.y;
 
 			this.scene.topPlayerHandSize = this.create_text(centerX, centerY, `${handSize}`)
-				.setFontSize(14)
-				.setFontFamily("Arial")
-				.setInteractive();
 		}
 	}
 

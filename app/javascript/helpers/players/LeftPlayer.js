@@ -19,6 +19,45 @@ export default class LeftPlayer extends Player {
 		this.addPlayZoneCardsToGame(player.cards.play_zone);
 	}
 
+	createOpponentCard(cardData) {
+		let initialPosition = this.getAreaPosition(cardData.zone);
+
+		let cardCreated = this.scene.add.sprite(initialPosition.x, initialPosition.y, 'defaultCardSprite').setInteractive();
+		cardCreated.card_id = cardData.player_card_id;
+		cardCreated.zone = cardData.zone;
+		cardCreated.action = cardData.action;
+
+		if (cardData.zone === 'hand') {
+			cardCreated.setVisible(false);
+		}
+
+			if (cardData.zone === 'mana_pool' || cardData.zone === 'play_zone') {
+				cardCreated.angle = 90;
+			}
+
+		this.cards[cardData.zone].push(cardCreated);
+		this.updateCardPositions(cardData.zone);
+
+		this.scene.load.image(`card-${cardData.player_card_id}`, cardData.image_url);
+		this.scene.load.once('complete', () => {
+			if (cardData.zone !== 'mana_pool') {
+				cardCreated.setTexture(`card-${cardData.player_card_id}`);
+			}
+
+			let scale = this.calculateScale(cardCreated, cardData.zone);
+			cardCreated.setScale(scale);
+
+			this.updateCardPositions(cardData.zone);
+		});
+		this.scene.load.start();
+
+		if (cardData.action === 'tapped') {
+				cardCreated.angle = 90 * 2;
+		}
+
+		return cardCreated;
+	}
+
 	createUserName() {
 		let centerX = this.scene.leftPlayerUserInfo.x;
 		let centerY = this.scene.leftPlayerUserInfo.y;
@@ -39,12 +78,8 @@ export default class LeftPlayer extends Player {
 			let centerY = this.scene.leftPlayerHandArea.y;
 
 			this.scene.leftPlayerHandSize = this.create_text(centerX, centerY, `${handSize}`)
-				.setFontSize(14)
-				.setFontFamily("Arial")
-				.setInteractive();
 		}
 	}
-
 
 	getAreaPosition(zone) {
 		let area;
@@ -70,41 +105,6 @@ export default class LeftPlayer extends Player {
 		}
 
 		return { x: area.x, y: area.y, width: area.width, height: area.height };
-	}
-
-	createOpponentCard(cardData) {
-		let initialPosition = this.getAreaPosition(cardData.zone);
-
-		let cardCreated = this.scene.add.sprite(initialPosition.x, initialPosition.y, 'defaultCardSprite').setInteractive();
-		cardCreated.card_id = cardData.player_card_id;
-		cardCreated.zone = cardData.zone;
-		cardCreated.action = cardData.action;
-
-		if (cardData.zone === 'hand') {
-			cardCreated.setVisible(false); // Make the card invisible if it's in the hand
-		}
-
-		this.cards[cardData.zone].push(cardCreated);
-		this.updateCardPositions(cardData.zone);
-
-		this.scene.load.image(`card-${cardData.player_card_id}`, cardData.image_url);
-		this.scene.load.once('complete', () => {
-			if (cardData.zone !== 'mana_pool') {
-				cardCreated.setTexture(`card-${cardData.player_card_id}`);
-			}
-
-			let scale = this.calculateScale(cardCreated, cardData.zone);
-			cardCreated.setScale(scale);
-
-			this.updateCardPositions(cardData.zone);
-		});
-		this.scene.load.start();
-
-		if (cardData.action === 'tapped') {
-			cardCreated.angle = 90;
-		}
-
-		return cardCreated;
 	}
 
 	updateCardPositions(zone) {

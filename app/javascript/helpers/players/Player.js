@@ -16,10 +16,13 @@ export default class Player {
 			graveyard: []
 		};
 		this.opponentCardFontSize = 30;
+		// this.cardAngle = 90
 	}
 
 	create_text(x,y, text) {
-		return this.scene.add.text(x,y, text )
+		return this.scene.add.text(x,y, text ).setFontSize(this.opponentCardFontSize)
+			.setFontFamily("Arial")
+			.setInteractive();
 	}
 
 	addManaPoolCardsToGame(data) {
@@ -63,8 +66,6 @@ export default class Player {
 
 	moveOpponentCardToZone(card_id, newZone, oldZone) {
 		let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
-		console.log(this.cards)
-		console.log(cardIndex)
 		if (cardIndex !== -1) {
 			let [card] = this.cards[oldZone].splice(cardIndex, 1);
 			card.zone = newZone;
@@ -95,56 +96,6 @@ export default class Player {
 
 			this.updateCardPositions(newZone);
 		}
-	}
-
-	updateCardPositions(zone) {
-		let spacing = 110; // Spacing between cards
-		let area = this.getAreaPosition(zone)
-
-		this.cards[zone].forEach((card, index) => {
-			if (zone !== 'hand') {
-				card.y = (area.height - area.y) - ((area.height - area.y) / 2) + (index * spacing) + (spacing / 2);
-				card.x = area.x;
-			} else {
-				card.y = area.y
-				card.x = area.x
-			}
-		});
-	}
-
-	createOpponentCard(cardData) {
-		let initialPosition = this.getAreaPosition(cardData.zone);
-
-		let cardCreated = this.scene.add.sprite(initialPosition.x, initialPosition.y, 'defaultCardSprite').setInteractive();
-		cardCreated.card_id = cardData.player_card_id;
-		cardCreated.zone = cardData.zone;
-		cardCreated.action = cardData.action;
-
-		if (cardData.zone === 'hand') {
-			cardCreated.setVisible(false); // Make the card invisible if it's in the hand
-		}
-
-		this.cards[cardData.zone].push(cardCreated);
-		this.updateCardPositions(cardData.zone);
-
-		this.scene.load.image(`card-${cardData.player_card_id}`, cardData.image_url);
-		this.scene.load.once('complete', () => {
-			if (cardData.zone !== 'mana_pool') {
-				cardCreated.setTexture(`card-${cardData.player_card_id}`);
-			}
-
-			let scale = this.calculateScale(cardCreated, cardData.zone);
-			cardCreated.setScale(scale);
-
-			this.updateCardPositions(cardData.zone);
-		});
-		this.scene.load.start();
-
-		if (cardData.action === 'tapped') {
-			cardCreated.angle = 90;
-		}
-
-		return cardCreated;
 	}
 
 
