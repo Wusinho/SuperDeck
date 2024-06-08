@@ -85,8 +85,14 @@ export default class TopPlayer extends Player {
 
 		this.scene.load.image(`card-${cardData.player_card_id}`, cardData.image_url);
 		this.scene.load.once('complete', () => {
-			if (cardData.zone !== 'mana_pool') {
+
+			console.log(cardData)
+			if (cardData.zone === 'play_zone' && cardData.action === 'morphed') {
+				cardCreated.setTexture('defaultCardSprite');
+			} else if (cardData.zone !== 'mana_pool') {
 				cardCreated.setTexture(`card-${cardData.player_card_id}`);
+			} else {
+				console.log('NOT DEFINED')
 			}
 
 			let scale = this.calculateScale(cardCreated, cardData.zone);

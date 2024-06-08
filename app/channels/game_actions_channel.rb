@@ -7,21 +7,29 @@ class GameActionsChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
-  def change_zone(data)
+  def morphed_from_hand(data)
     pc = PlayerCard.find_by(id: data['player_card_id'])
-
-    if data['action'].present?
-      pc.update(zone: PlayerCard.zones[data['new_zone'].to_sym], action: PlayerCard.actions[data['new_action']] )
-    else
-      pc.update(zone: PlayerCard.zones[data['new_zone'].to_sym])
-    end
     old_zone = pc.zone
+    pc.update_columns(zone: PlayerCard.zones[data['new_zone'].to_sym], action: PlayerCard.actions[data['new_action'].to_sym] )
     information = {
       player_id: pc.player_id,
       old_zone: old_zone,
       new_zone: data['new_zone'],
       card_id: data['player_card_id'],
-      action: data['action'],
+      action: pc.action,
+    }
+    ActionCable.server.broadcast("game_actions_channel", information)
+  end
+
+  def change_zone(data)
+    pc = PlayerCard.find_by(id: data['player_card_id'])
+    old_zone = pc.zone
+    pc.update(zone: PlayerCard.zones[data['new_zone'].to_sym])
+    information = {
+      player_id: pc.player_id,
+      old_zone: old_zone,
+      new_zone: data['new_zone'],
+      card_id: data['player_card_id'],
     }
     ActionCable.server.broadcast("game_actions_channel", information)
   end

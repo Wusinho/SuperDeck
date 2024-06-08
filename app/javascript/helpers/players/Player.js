@@ -16,7 +16,6 @@ export default class Player {
 			graveyard: []
 		};
 		this.opponentCardFontSize = 30;
-		// this.cardAngle = 90
 	}
 
 	create_text(x,y, text) {
@@ -84,7 +83,6 @@ export default class Player {
 			}
 
 			card.setVisible(true);
-
 			if (newZone === 'mana_pool' || morphed ) {
 				card.setTexture('defaultCardSprite');
 			} else {

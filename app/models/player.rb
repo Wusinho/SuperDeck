@@ -13,7 +13,8 @@ class Player < ApplicationRecord
   def card_collection
     zones = { hand: [], play_zone: [], graveyard: [], exile: [], mana_pool: [] }
     cards = player_cards.joins(:card).select('player_cards.zone',
-                                             'player_cards.action',
+                                             'player_cards.morphed',
+                                             'player_cards.tapped',
                                              'player_cards.current_holder_id',
                                              'player_cards.id AS player_card_id',
                                              'cards.*')

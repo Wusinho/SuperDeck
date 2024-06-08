@@ -26,6 +26,7 @@ export default class Players {
 
 		if (data.action && data.action !== 'morphed'){
 
+
 		} else {
 			if (player) {
 				player.moveOpponentCardToZone(data);
@@ -38,6 +39,7 @@ export default class Players {
 
 	handleDrawCardReceived = data => {
 		const playerId = data.id;
+		console.log(data)
 		if (playerId == this.currentPlayer.playerId) {
 			this.currentPlayer.createCard(data.card)
 		} else {
