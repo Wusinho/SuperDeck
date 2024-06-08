@@ -24,7 +24,7 @@ class GameChannel < ApplicationCable::Channel
         zone: player_card.zone,
         action: player_card.action,
         image_url: player_card.card.image_url,
-        player_card_id: player_card.id
+        card_id: player_card.id
       }
     }
 

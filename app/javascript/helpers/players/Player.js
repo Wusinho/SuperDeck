@@ -4,7 +4,7 @@ export default class Player {
 	constructor(scene, player) {
 		// new LoadGameSocketHandler(scene);
 		this.scene = scene;
-		this.playerId = player.id;
+		this.playerId = player.player_id;
 		this.playerUsername = player.username;
 		this.order = player.order;
 		this.life = player.life;
@@ -38,22 +38,6 @@ export default class Player {
 
 	addPlayZoneCardsToGame(data) {
 		data.forEach(card => this.createOpponentCard(card));
-	}
-
-	calculateScale(card, zone) {
-		let desiredWidth, desiredHeight;
-		if (zone === 'hand') {
-			desiredWidth = this.hand_size.width;
-			desiredHeight = this.hand_size.height;
-		} else {
-			desiredWidth = this.other_zones.width;
-			desiredHeight = this.other_zones.height;
-		}
-
-		let originalWidth = card.width;
-		let originalHeight = card.height;
-
-		return Math.min(desiredWidth / originalWidth, desiredHeight / originalHeight);
 	}
 
 	addHandCardsToGame(data) {

@@ -16,7 +16,7 @@ class Player < ApplicationRecord
                                              'player_cards.morphed',
                                              'player_cards.tapped',
                                              'player_cards.current_holder_id',
-                                             'player_cards.id AS player_card_id',
+                                             'player_cards.id AS card_id',
                                              'cards.*')
 
     cards_grouped_by_zone = cards.group_by(&:zone)

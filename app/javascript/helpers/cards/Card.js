@@ -1,15 +1,17 @@
 import { PlayerTypes } from "../PlayerTypes";
 
 export default class Card extends Phaser.GameObjects.Sprite {
-	constructor(scene, cardData, initialPosition, scale, handSize, otherZones, initialAngle = 0, playerType) {
+	constructor(scene, cardData, initialPosition, initialAngle = 0, playerType, handSize, otherZones) {
 		super(scene, initialPosition.x, initialPosition.y, 'defaultCardSprite');
 		this.scene = scene;
-		this.card_id = cardData.player_card_id;
+		this.card_id = cardData.card_id;
 		this.zone = cardData.zone;
 		this.morphed = cardData.morphed || false;
 		this.tapped = cardData.tapped || false;
 		this.image_url = cardData.image_url;
 		this.player_type = playerType;
+		this.hand_size = handSize;
+		this.other_zones = otherZones;
 
 		// Set the initial angle
 		this.angle = initialAngle;
@@ -17,24 +19,36 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		// Set interactive
 		this.setInteractive();
 
+		// Add to scene
+		scene.add.existing(this);
+
+		// Calculate and apply initial scale
+		this.setScale(this.calculateScale(handSize, otherZones));
+
 		// Load card image
 		this.loadCardTexture();
 
 		// Handle interactions
 		this.on('pointerdown', this.handlePointerDown, this);
+	}
 
-		// Add to scene
-		scene.add.existing(this);
+	on_hand() {
+		return this.zone === 'hand'
+	}
 
-		// Apply initial scale
-		this.setScale(scale);
+	opponent() {
+		return this.player_type === 'opponent'
+	}
 
-		// Store sizes for scaling
-		this.handSize = handSize;
-		this.otherZones = otherZones;
+	card_behaviour() {
+		if ( this.on_hand() && this.opponent() ){
+			this.setVisible(false);
+		}
 	}
 
 	loadCardTexture() {
+		this.card_behaviour();
+
 		this.scene.load.image(`card-${this.card_id}`, this.image_url);
 		this.scene.load.once('complete', () => {
 			if (this.zone === 'play_zone' && this.morphed || this.zone === 'mana_pool' ) {
@@ -49,18 +63,18 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		this.scene.load.start();
 
 		if (this.tapped) {
-			this.angle = (this.angle + 90) % 360; // Adjust initial angle if tapped
+			this.angle = (this.angle + 90) % 360;
 		}
 	}
 
-	calculateScale() {
+	calculateScale(handSize, otherZones) {
 		let desiredWidth, desiredHeight;
 		if (this.zone === 'hand') {
-			desiredWidth = this.handSize.width;
-			desiredHeight = this.handSize.height;
+			desiredWidth = this.hand_size.width;
+			desiredHeight = this.hand_size.height;
 		} else {
-			desiredWidth = this.otherZones.width;
-			desiredHeight = this.otherZones.height;
+			desiredWidth = this.other_zones.width;
+			desiredHeight = this.other_zones.height;
 		}
 
 		// Get the original size of the card
@@ -98,7 +112,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		this.scene.GameActions.send({
 			action: "change_state",
 			param: {
-				player_card_id: this.card_id,
+				card_id: this.card_id,
 				tapped: this.tapped,
 				morphed: this.morphed,
 				zone: this.zone

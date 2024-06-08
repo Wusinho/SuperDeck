@@ -36,18 +36,16 @@ export default class CurrentPlayer extends Player {
 
 	createCard(cardData) {
 		const initialPosition = this.getAreaPosition(cardData.zone);
-		const scale = this.calculateScale(cardData.zone);
 		const initialAngle = this.getInitialAngle(cardData.zone);
 
 		const card = new Card(
 			this.scene,
 			cardData,
 			initialPosition,
-			scale,
-			this.hand_size,
-			this.other_zones,
 			initialAngle,
-			PlayerTypes.CURRENT
+			PlayerTypes.CURRENT,
+			this.hand_size,
+			this.other_zones
 		);
 		this.cards[cardData.zone].push(card);
 		this.updateCardPositions(cardData.zone);
@@ -142,14 +140,14 @@ export default class CurrentPlayer extends Player {
 
 		document.getElementById('play-in-mana-pool').onclick = () => {
 			this.moveCardToZone(card.card_id, 'mana_pool');
-			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
+			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
 					new_zone: 'mana_pool'} });
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-play_zone').onclick = () => {
 			this.moveCardToZone(card.card_id, 'play_zone');
-			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
+			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
 					new_zone: 'play_zone'} });
 			contextMenu.style.display = 'none';
 		};
@@ -163,7 +161,7 @@ export default class CurrentPlayer extends Player {
 
 		document.getElementById('play-in-graveyard').onclick = () => {
 			this.moveCardToZone(card.card_id, 'graveyard');
-			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
+			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
 					new_zone: 'graveyard'} });
 			if (card.action === 'tapped') card.angle = 0
 			contextMenu.style.display = 'none';
@@ -171,7 +169,7 @@ export default class CurrentPlayer extends Player {
 
 		document.getElementById('play-in-hand').onclick = () => {
 			this.moveCardToZone(card.card_id, 'hand');
-			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
+			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
 					new_zone: 'hand'} });
 			if (card.action === 'tapped') card.angle = 0
 			contextMenu.style.display = 'none';
@@ -179,7 +177,7 @@ export default class CurrentPlayer extends Player {
 
 		document.getElementById('play-in-exile').onclick = () => {
 			this.moveCardToZone(card.card_id, 'exile');
-			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.card_id,
+			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
 					new_zone: 'exile'} });
 			if (card.action === 'tapped') card.angle = 0
 			contextMenu.style.display = 'none';

@@ -1,4 +1,6 @@
 import Player from './Player';
+import Card from "../cards/Card";
+import {PlayerTypes} from "../PlayerTypes";
 
 export default class TopPlayer extends Player {
 	constructor(scene, player){
@@ -12,11 +14,13 @@ export default class TopPlayer extends Player {
 			width: 100,
 			height: 60,
 		}
-		this.addHandCardsToGame(player.cards.hand)
-		this.addManaPoolCardsToGame(player.cards.mana_pool)
-		this.addExileCardsToGame(player.cards.exile)
-		this.addGraveyardCardsToGame(player.cards.graveyard)
-		this.addPlayZoneCardsToGame(player.cards.play_zone)
+		this.addCardsToGame(player.cards);
+	}
+
+	addCardsToGame(cards) {
+		Object.keys(cards).forEach(zone => {
+			cards[zone].forEach(cardData => this.createCard(cardData));
+		});
 	}
 
 	createUserName(){
@@ -68,45 +72,23 @@ export default class TopPlayer extends Player {
 		return { x: area.x, y: area.y, width: area.width, height: area.height };
 	}
 
-	createOpponentCard(cardData) {
-		let initialPosition = this.getAreaPosition(cardData.zone);
+	createCard(cardData) {
+		const initialPosition = this.getAreaPosition(cardData.zone);
+		const initialAngle = this.getInitialAngle(cardData.zone);
 
-		let cardCreated = this.scene.add.sprite(initialPosition.x, initialPosition.y, 'defaultCardSprite').setInteractive();
-		cardCreated.card_id = cardData.player_card_id;
-		cardCreated.zone = cardData.zone;
-		cardCreated.action = cardData.action;
-
-		if (cardData.zone === 'hand') {
-			cardCreated.setVisible(false); // Make the card invisible if it's in the hand
-		}
-
-		this.cards[cardData.zone].push(cardCreated);
+		const card = new Card(
+			this.scene,
+			cardData,
+			initialPosition,
+			initialAngle,
+			PlayerTypes.CURRENT,
+			this.hand_size,
+			this.other_zones
+		);
+		this.cards[cardData.zone].push(card);
 		this.updateCardPositions(cardData.zone);
 
-		this.scene.load.image(`card-${cardData.player_card_id}`, cardData.image_url);
-		this.scene.load.once('complete', () => {
-
-			console.log(cardData)
-			if (cardData.zone === 'play_zone' && cardData.action === 'morphed') {
-				cardCreated.setTexture('defaultCardSprite');
-			} else if (cardData.zone !== 'mana_pool') {
-				cardCreated.setTexture(`card-${cardData.player_card_id}`);
-			} else {
-				console.log('NOT DEFINED')
-			}
-
-			let scale = this.calculateScale(cardCreated, cardData.zone);
-			cardCreated.setScale(scale);
-
-			this.updateCardPositions(cardData.zone);
-		});
-		this.scene.load.start();
-
-		if (cardData.action === 'tapped') {
-			cardCreated.angle = 90;
-		}
-
-		return cardCreated;
+		return card;
 	}
 
 	updateCardPositions(zone) {
@@ -122,5 +104,18 @@ export default class TopPlayer extends Player {
 				card.y = area.y
 			}
 		});
+	}
+
+	getInitialAngle(zone) {
+		switch (zone) {
+			case 'hand':
+			case 'mana_pool':
+			case 'play_zone':
+			case 'exile':
+			case 'graveyard':
+				return -90; // Current player's cards are at angle 0
+			default:
+				return 0; // Default angle
+		}
 	}
 }

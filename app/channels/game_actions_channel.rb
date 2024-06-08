@@ -8,28 +8,34 @@ class GameActionsChannel < ApplicationCable::Channel
   end
 
   def morphed_from_hand(data)
-    pc = PlayerCard.find_by(id: data['player_card_id'])
+    pc = PlayerCard.find_by(id: data['card_id'])
     old_zone = pc.zone
     pc.update_columns(zone: PlayerCard.zones[data['new_zone'].to_sym], action: PlayerCard.actions[data['new_action'].to_sym] )
     information = {
       player_id: pc.player_id,
       old_zone: old_zone,
       new_zone: data['new_zone'],
-      card_id: data['player_card_id'],
+      card_id: data['card_id'],
       action: pc.action,
     }
     ActionCable.server.broadcast("game_actions_channel", information)
   end
 
+  def change_state(data)
+    p '*'*100
+    p data
+    p '*'*100
+  end
+
   def change_zone(data)
-    pc = PlayerCard.find_by(id: data['player_card_id'])
+    pc = PlayerCard.find_by(id: data['card_id'])
     old_zone = pc.zone
     pc.update(zone: PlayerCard.zones[data['new_zone'].to_sym])
     information = {
       player_id: pc.player_id,
       old_zone: old_zone,
       new_zone: data['new_zone'],
-      card_id: data['player_card_id'],
+      card_id: data['card_id'],
     }
     ActionCable.server.broadcast("game_actions_channel", information)
   end
@@ -43,12 +49,12 @@ class GameActionsChannel < ApplicationCable::Channel
   end
 
   def change_action(data)
-    pc = PlayerCard.find_by(id: data['player_card_id'])
+    pc = PlayerCard.find_by(id: data['card_id'])
     pc.update_column(:action, PlayerCard.actions[data['new_action'].to_sym])
 
     information = {
       player_id: pc.player_id,
-      player_card_id: pc.id,
+      card_id: pc.id,
       action: data['new_action'],
       zone: data['zone']
     }

@@ -1,4 +1,6 @@
 import Player from './Player';
+import Card from "../cards/Card";
+import {PlayerTypes} from "../PlayerTypes";
 
 export default class LeftPlayer extends Player {
 	constructor(scene, player) {
@@ -12,54 +14,32 @@ export default class LeftPlayer extends Player {
 			width: 100,
 			height: 60,
 		};
-		this.addHandCardsToGame(player.cards.hand);
-		this.addManaPoolCardsToGame(player.cards.mana_pool);
-		this.addExileCardsToGame(player.cards.exile);
-		this.addGraveyardCardsToGame(player.cards.graveyard);
-		this.addPlayZoneCardsToGame(player.cards.play_zone);
+		this.addCardsToGame(player.cards);
 	}
 
-	createOpponentCard(cardData) {
-		let initialPosition = this.getAreaPosition(cardData.zone);
+	addCardsToGame(cards) {
+		Object.keys(cards).forEach(zone => {
+			cards[zone].forEach(cardData => this.createCard(cardData));
+		});
+	}
 
-		let cardCreated = this.scene.add.sprite(initialPosition.x, initialPosition.y, 'defaultCardSprite').setInteractive();
-		cardCreated.card_id = cardData.player_card_id;
-		cardCreated.zone = cardData.zone;
-		cardCreated.action = cardData.action;
+	createCard(cardData) {
+		const initialPosition = this.getAreaPosition(cardData.zone);
+		const initialAngle = this.getInitialAngle(cardData.zone);
 
-		if (cardData.zone === 'hand') {
-			cardCreated.setVisible(false);
-		}
-
-			if (cardData.zone === 'mana_pool' || cardData.zone === 'play_zone') {
-				cardCreated.angle = 90;
-			}
-
-		this.cards[cardData.zone].push(cardCreated);
+		const card = new Card(
+			this.scene,
+			cardData,
+			initialPosition,
+			initialAngle,
+			PlayerTypes.CURRENT,
+			this.hand_size,
+			this.other_zones
+		);
+		this.cards[cardData.zone].push(card);
 		this.updateCardPositions(cardData.zone);
 
-		this.scene.load.image(`card-${cardData.player_card_id}`, cardData.image_url);
-		this.scene.load.once('complete', () => {
-			if (cardData.zone !== 'mana_pool') {
-				cardCreated.setTexture(`card-${cardData.player_card_id}`);
-			}
-
-			let scale = this.calculateScale(cardCreated, cardData.zone);
-			cardCreated.setScale(scale);
-
-			this.updateCardPositions(cardData.zone);
-		});
-		this.scene.load.start();
-
-		if (cardData.action === 'tapped') {
-				cardCreated.angle = 90 * 2;
-		}
-
-		if (cardData.action === 'morphed') {
-			cardCreated.setTexture('defaultCardSprite');
-		}
-
-		return cardCreated;
+		return card;
 	}
 
 	createUserName() {
