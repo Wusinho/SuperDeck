@@ -21,6 +21,7 @@ export default class TopPlayer extends Player {
 		Object.keys(cards).forEach(zone => {
 			cards[zone].forEach(cardData => this.createCard(cardData));
 		});
+		this.updateHandSize();
 	}
 
 	createUserName(){
@@ -81,7 +82,7 @@ export default class TopPlayer extends Player {
 			cardData,
 			initialPosition,
 			initialAngle,
-			PlayerTypes.CURRENT,
+			PlayerTypes.OPPONENT,
 			this.hand_size,
 			this.other_zones
 		);

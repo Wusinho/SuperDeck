@@ -34,6 +34,7 @@ export default class LeftPlayer extends Player {
 		Object.keys(cards).forEach(zone => {
 			cards[zone].forEach(cardData => this.createCard(cardData));
 		});
+		this.updateHandSize();
 	}
 
 	createCard(cardData) {
@@ -45,7 +46,7 @@ export default class LeftPlayer extends Player {
 			cardData,
 			initialPosition,
 			initialAngle,
-			PlayerTypes.CURRENT,
+			PlayerTypes.OPPONENT,
 			this.hand_size,
 			this.other_zones
 		);
