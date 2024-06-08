@@ -17,6 +17,19 @@ export default class LeftPlayer extends Player {
 		this.addCardsToGame(player.cards);
 	}
 
+	getInitialAngle(zone) {
+		switch (zone) {
+			case 'hand':
+			case 'mana_pool':
+			case 'play_zone':
+			case 'exile':
+			case 'graveyard':
+				return 0; // Current player's cards are at angle 0
+			default:
+				return 0; // Default angle
+		}
+	}
+
 	addCardsToGame(cards) {
 		Object.keys(cards).forEach(zone => {
 			cards[zone].forEach(cardData => this.createCard(cardData));

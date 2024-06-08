@@ -9,12 +9,20 @@ export default class Players {
 		this.scene.events.on("gameActionsReceived", this.handleGameActionsReceived, this);
 	}
 
-	addPlayer(player) {
-		this.players.push(player)
+	addPlayer(newPlayer) {
+		const existingIndex = this.players.findIndex(player => player.playerId === newPlayer.playerId);
+
+		if (existingIndex !== -1) {
+			this.players[existingIndex] = newPlayer;
+		} else {
+			this.players.push(newPlayer);
+		}
 	}
+
 
 	addCurrenPlayer(player){
 		this.currentPlayer = player
+		console.log(this.players)
 	}
 
 	onlyOpponentPlayer(players){
