@@ -93,18 +93,18 @@ export default class CurrentPlayer extends Player {
 		};
 
 		document.getElementById('play-in-graveyard').onclick = () => {
-			this.moveCardToZone(card.card_id, 'graveyard');
+			// this.moveCardToZone(card.card_id, 'graveyard');
 			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
 					new_zone: 'graveyard'} });
-			if (card.action === 'tapped') card.angle = 0
+			// if (card.action === 'tapped') card.angle = 0
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-hand').onclick = () => {
-			this.moveCardToZone(card.card_id, 'hand');
+			// this.moveCardToZone(card.card_id, 'hand');
 			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
-					new_zone: 'hand'} });
-			if (card.action === 'tapped') card.angle = 0
+					new_zone: 'hand', old_zone: 'play_zone'} });
+			// if (card.action === 'tapped') card.angle = 0
 			contextMenu.style.display = 'none';
 		};
 
@@ -112,7 +112,7 @@ export default class CurrentPlayer extends Player {
 			this.moveCardToZone(card.card_id, 'exile');
 			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
 					new_zone: 'exile'} });
-			if (card.action === 'tapped') card.angle = 0
+			// if (card.action === 'tapped') card.angle = 0
 			contextMenu.style.display = 'none';
 		};
 

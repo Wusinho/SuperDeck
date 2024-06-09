@@ -64,17 +64,20 @@ class GameActionsChannel < ApplicationCable::Channel
   end
 
   def change_action(data)
-    pc = PlayerCard.find_by(id: data['card_id'])
-    pc.update_column(:action, PlayerCard.actions[data['new_action'].to_sym])
-
-    information = {
-      player_id: pc.player_id,
-      card_id: pc.id,
-      action: data['new_action'],
-      zone: data['zone']
-    }
-
-    ActionCable.server.broadcast("game_actions_channel", information)
+    p '*'*100
+    p "NOT IMPLEMENTED"
+    p '*'*100
+    # pc = PlayerCard.find_by(id: data['card_id'])
+    # pc.update_column(:action, PlayerCard.actions[data['new_action'].to_sym])
+    #
+    # information = {
+    #   player_id: pc.player_id,
+    #   card_id: pc.id,
+    #   action: data['new_action'],
+    #   zone: data['zone']
+    # }
+    #
+    # ActionCable.server.broadcast("game_actions_channel", information)
 
   end
 
