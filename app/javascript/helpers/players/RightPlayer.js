@@ -14,6 +14,10 @@ export default class RightPlayer extends Player {
 			width: 100,
 			height: 60,
 		}
+		this.hand_area = this.scene.rightPlayerHandArea;
+		this.mana_pool_area = this.scene.rightPlayerManaPoolArea;
+		this.play_zone_area = this.scene.rightPlayerPlayZoneArea;
+		this.graveyard_area = this.scene.rightPlayerGraveyardArea;
 		this.addCardsToGame(player.cards);
 	}
 
@@ -150,9 +154,4 @@ export default class RightPlayer extends Player {
 			console.error(`Card with ID ${card_id} not found in ${oldZone}`);
 		}
 	}
-
-
-
-
-
 }

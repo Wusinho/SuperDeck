@@ -58,7 +58,7 @@ export default class Players {
 		if (playerId === this.currentPlayer.player_id) {
 			this.currentPlayer.createCard(data.card)
 		} else {
-			const player = this.players.find(player => player.playerId === playerId);
+			const player = this.players.find(player => player.player_id === playerId);
 			if (player) {
 				player.createCard(data.card);
 				// player.updateHandSize();

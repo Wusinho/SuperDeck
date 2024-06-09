@@ -14,6 +14,10 @@ export default class TopPlayer extends Player {
 			width: 100,
 			height: 60,
 		}
+		this.hand_area = this.scene.topPlayerHandArea;
+		this.mana_pool_area = this.scene.topPlayerManaPoolArea;
+		this.play_zone_area = this.scene.topPlayerPlayZoneArea;
+		this.graveyard_area = this.scene.topPlayerGraveyardArea;
 		this.addCardsToGame(player.cards);
 	}
 
