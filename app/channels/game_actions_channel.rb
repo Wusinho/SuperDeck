@@ -43,7 +43,6 @@ class GameActionsChannel < ApplicationCable::Channel
   def change_zone(data)
     pc = PlayerCard.find_by(id: data['card_id'])
     old_zone = pc.zone
-    pc.update(zone: PlayerCard.zones[data['new_zone'].to_sym])
     information = {
       player_id: pc.player_id,
       old_zone: old_zone,
@@ -52,6 +51,8 @@ class GameActionsChannel < ApplicationCable::Channel
       morphed: pc.morphed,
       tapped: pc.tapped,
     }
+    pc.update(zone: PlayerCard.zones[data['new_zone'].to_sym])
+
     ActionCable.server.broadcast("game_actions_channel", information)
   end
 

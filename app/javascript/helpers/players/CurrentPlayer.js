@@ -79,32 +79,26 @@ export default class CurrentPlayer extends Player {
 		};
 
 		document.getElementById('play-in-play_zone').onclick = () => {
-			// this.moveCardToZone(card.card_id, 'play_zone');
 			this.scene.GameActions.send({ action: "change_zone", param: { card_id: card.card_id,
 					new_zone: 'play_zone'} });
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-play_zone-morph').onclick = () => {
-			// this.moveCardToZone(card.card_id, 'play_zone');
 			this.scene.GameActions.send({ action: "morphed_from_hand", param: { card_id: card.card_id,
 					new_zone: 'play_zone', morphed: !card.morphed, tapped: card.tapped, old_zone: 'hand' } });
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-graveyard').onclick = () => {
-			// this.moveCardToZone(card.card_id, 'graveyard');
 			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
 					new_zone: 'graveyard'} });
-			// if (card.action === 'tapped') card.angle = 0
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-hand').onclick = () => {
-			// this.moveCardToZone(card.card_id, 'hand');
 			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
 					new_zone: 'hand', old_zone: 'play_zone'} });
-			// if (card.action === 'tapped') card.angle = 0
 			contextMenu.style.display = 'none';
 		};
 
@@ -112,7 +106,6 @@ export default class CurrentPlayer extends Player {
 			this.moveCardToZone(card.card_id, 'exile');
 			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
 					new_zone: 'exile'} });
-			// if (card.action === 'tapped') card.angle = 0
 			contextMenu.style.display = 'none';
 		};
 
