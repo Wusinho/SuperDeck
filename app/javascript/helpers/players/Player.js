@@ -1,3 +1,6 @@
+import Card from "../cards/Card";
+import {PlayerTypes} from "../PlayerTypes";
+
 export default class Player {
 
 	// userType 0 => self, 1 => opponent
@@ -27,7 +30,37 @@ export default class Player {
 		Object.keys(cards).forEach(zone => {
 			cards[zone].forEach(cardData => this.createCard(cardData));
 		});
-		console.log(this)
+	}
+
+	getPlayerType(){
+		return this.player_type;
+	}
+
+	getHandSize(){
+		return this.hand_size;
+	}
+
+	getOtherZones(){
+		return this.other_zones;
+	}
+
+	createCard(cardData) {
+		const initialPosition = this.getAreaPosition(cardData.zone);
+		const initialAngle = this.getInitialAngle(cardData.zone);
+
+		const card = new Card(
+			this.scene,
+			cardData,
+			initialPosition,
+			initialAngle,
+			this.getPlayerType(),
+			this.getHandSize(),
+			this.getOtherZones()
+		);
+		this.cards[cardData.zone].push(card);
+		this.updateCardPositions(cardData.zone);
+
+		return card;
 	}
 
 	moveCardToZone(data) {

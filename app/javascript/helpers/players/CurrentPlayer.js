@@ -6,6 +6,7 @@ import {get} from "@rails/request.js";
 export default class CurrentPlayer extends Player {
 	constructor(scene, player) {
 		super(scene, player);
+		this.player_type = PlayerTypes.CURRENT
 		this.createUserName()
 		this.hand_size = {
 			width: 150,
@@ -22,33 +23,6 @@ export default class CurrentPlayer extends Player {
 		this.addCardsToGame(player.cards);
 	}
 
-	// moveCardToZone(data) {
-	// 	const card_id = data.card_id;
-	// 	const newZone = data.new_zone;
-	// 	const oldZone = data.old_zone;
-	//
-	// 	// Find the index of the card in the old zone
-	// 	let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
-	//
-	// 	if (cardIndex !== -1) {
-	// 		// Remove the card from the old zone
-	// 		let [card] = this.cards[oldZone].splice(cardIndex, 1);
-	// 		card.zone = newZone;
-	//
-	// 		if (newZone === oldZone) return
-	// 		card.setVisible(false);
-	//
-	// 		this.cards[newZone].push(card);
-	//
-	// 		this.updateCardPositions(oldZone);
-	// 		this.updateCardPositions(newZone);
-	// 		card.loadCardTexture()
-	//
-	// 	} else {
-	// 		console.error(`Card with ID ${card_id} not found in ${oldZone}`);
-	// 	}
-	// }
-
 	createUserName(){
 		let centerX = this.scene.currentPlayerInformation.x
 		let centerY = this.scene.currentPlayerInformation.y
@@ -57,25 +31,6 @@ export default class CurrentPlayer extends Player {
 			.setFontSize(40)
 			.setFontFamily("Arial")
 			.setInteractive();
-	}
-
-	createCard(cardData) {
-		const initialPosition = this.getAreaPosition(cardData.zone);
-		const initialAngle = this.getInitialAngle(cardData.zone);
-
-		const card = new Card(
-			this.scene,
-			cardData,
-			initialPosition,
-			initialAngle,
-			PlayerTypes.CURRENT,
-			this.hand_size,
-			this.other_zones
-		);
-		this.cards[cardData.zone].push(card);
-		this.updateCardPositions(cardData.zone);
-
-		return card;
 	}
 
 	getAreaPosition(zone) {

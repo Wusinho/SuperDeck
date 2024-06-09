@@ -5,7 +5,7 @@ import {PlayerTypes} from "../PlayerTypes";
 export default class LeftPlayer extends Player {
 	constructor(scene, player) {
 		super(scene, player);
-
+		this.player_type = PlayerTypes.OPPONENT
 		this.createUserName();
 		this.hand_size = {
 			width: 150,
@@ -33,32 +33,6 @@ export default class LeftPlayer extends Player {
 			default:
 				return 0; // Default angle
 		}
-	}
-
-	// addCardsToGame(cards) {
-	// 	Object.keys(cards).forEach(zone => {
-	// 		cards[zone].forEach(cardData => this.createCard(cardData));
-	// 	});
-	// 	this.updateHandSize();
-	// }
-
-	createCard(cardData) {
-		const initialPosition = this.getAreaPosition(cardData.zone);
-		const initialAngle = this.getInitialAngle(cardData.zone);
-
-		const card = new Card(
-			this.scene,
-			cardData,
-			initialPosition,
-			initialAngle,
-			PlayerTypes.OPPONENT,
-			this.hand_size,
-			this.other_zones
-		);
-		this.cards[cardData.zone].push(card);
-		this.updateCardPositions(cardData.zone);
-
-		return card;
 	}
 
 	createUserName() {
