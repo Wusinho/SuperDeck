@@ -44,6 +44,23 @@ export default class Player {
 		return this.other_zones;
 	}
 
+	getCardAngle(){
+		return this.card_angle;
+	}
+
+	getInitialAngle(zone) {
+		switch (zone) {
+			case 'hand':
+			case 'mana_pool':
+			case 'play_zone':
+			case 'exile':
+			case 'graveyard':
+				return this.getCardAngle(); // Current player's cards are at angle 0
+			default:
+				return 0; // Default angle
+		}
+	}
+
 	getAreaPosition(zone) {
 		let area;
 		switch (zone) {

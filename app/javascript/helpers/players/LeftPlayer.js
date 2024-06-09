@@ -6,6 +6,7 @@ export default class LeftPlayer extends Player {
 	constructor(scene, player) {
 		super(scene, player);
 		this.player_type = PlayerTypes.OPPONENT
+		this.card_angle = -90
 		this.createUserName();
 		this.hand_size = {
 			width: 150,
@@ -20,19 +21,6 @@ export default class LeftPlayer extends Player {
 		this.play_zone_area = this.scene.leftPlayerPlayZoneArea;
 		this.graveyard_area = this.scene.leftPlayerGraveyardArea;
 		this.addCardsToGame(player.cards);
-	}
-
-	getInitialAngle(zone) {
-		switch (zone) {
-			case 'hand':
-			case 'mana_pool':
-			case 'play_zone':
-			case 'exile':
-			case 'graveyard':
-				return 0; // Current player's cards are at angle 0
-			default:
-				return 0; // Default angle
-		}
 	}
 
 	createUserName() {

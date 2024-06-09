@@ -7,6 +7,7 @@ export default class CurrentPlayer extends Player {
 	constructor(scene, player) {
 		super(scene, player);
 		this.player_type = PlayerTypes.CURRENT
+		this.card_angle = 0
 		this.createUserName()
 		this.hand_size = {
 			width: 150,
@@ -41,19 +42,6 @@ export default class CurrentPlayer extends Player {
 			card.x = area.x - (area.width / 2) + (index * spacing) + (spacing / 2);
 			card.y = area.y;
 		});
-	}
-
-	getInitialAngle(zone) {
-		switch (zone) {
-			case 'hand':
-			case 'mana_pool':
-			case 'play_zone':
-			case 'exile':
-			case 'graveyard':
-				return 0; // Current player's cards are at angle 0
-			default:
-				return 0; // Default angle
-		}
 	}
 
 	showContextMenu(pointer, card) {
