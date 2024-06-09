@@ -34,6 +34,23 @@ export default class CurrentPlayer extends Player {
 			.setInteractive();
 	}
 
+	updateHandSize() {
+		const handSize = this.cards.hand.length;
+		if (this.scene.currentPlayerPlayerHandSize) {
+			// If the text object already exists, update its text
+			this.scene.currentPlayerPlayerHandSize.setText(`${handSize}`);
+		} else {
+			// If the text object does not exist, create it
+			let centerX = this.scene.currentPlayerHandArea.x;
+			let centerY = this.scene.currentPlayerHandArea.y;
+
+			this.scene.currentPlayerPlayerHandSize = this.create_text(centerX, centerY, `${handSize}`)
+				.setFontSize(14)
+				.setFontFamily("Arial")
+				.setInteractive();
+		}
+	}
+
 	updateCardPositions(zone) {
 		let spacing = 110; // Spacing between cards
 		let area = this.getAreaPosition(zone)

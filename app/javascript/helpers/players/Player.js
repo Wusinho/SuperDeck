@@ -30,6 +30,7 @@ export default class Player {
 		Object.keys(cards).forEach(zone => {
 			cards[zone].forEach(cardData => this.createCard(cardData));
 		});
+		this.updateHandSize();
 	}
 
 	getPlayerType(){
