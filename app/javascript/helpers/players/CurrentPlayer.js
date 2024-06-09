@@ -15,6 +15,10 @@ export default class CurrentPlayer extends Player {
 			width: 100,
 			height: 100,
 		}
+		this.hand_area = this.scene.currentPlayerHandArea;
+		this.mana_pool_area = this.scene.currentPlayerManaPoolArea;
+		this.play_zone_area = this.scene.currentPlayerPlayZoneArea;
+		this.graveyard_area = this.scene.currentPlayerGraveyardArea;
 		this.addCardsToGame(player.cards);
 	}
 
@@ -29,21 +33,16 @@ export default class CurrentPlayer extends Player {
 		if (cardIndex !== -1) {
 			// Remove the card from the old zone
 			let [card] = this.cards[oldZone].splice(cardIndex, 1);
-
 			card.zone = newZone;
+
+			if (newZone === oldZone) return
 			console.log(card)
 			card.setVisible(false);
 
-			// Add the card to the new zone
 			this.cards[newZone].push(card);
 
 			this.updateCardPositions(oldZone);
 			this.updateCardPositions(newZone);
-
-			// Additional handling for `hand` zone
-			// if (newZone === 'hand') {
-			// 	this.updateHandSize();
-			// }
 			card.loadCardTexture()
 
 		} else {
@@ -90,26 +89,26 @@ export default class CurrentPlayer extends Player {
 		let area;
 		switch (zone) {
 			case 'hand':
-				area = this.scene.currentPlayerHandArea;
+				area = this.hand_area;
 				break;
 			case 'mana_pool':
-				area = this.scene.currentPlayerManaPoolArea;
+				area = this.mana_pool_area;
 				break;
 			case 'play_zone':
-				area = this.scene.currentPlayerPlayZoneArea;
+				area = this.play_zone_area;
 				break;
 			case 'exile':
-				area = this.scene.currentPlayerGraveyardArea;
+				area = this.graveyard_area;
 				break;
 			case 'graveyard':
-				area = this.scene.currentPlayerGraveyardArea;
+				area = this.graveyard_area
 				break;
 			default:
 				console.error(`Unknown zone: ${zone}`);
 				return { x: 0, y: 0 };
 		}
 
-		return { x: area.x, y: area.y, width: area.width };
+		return { x: area.x, y: area.y, width: area.width, height: area.height };
 	}
 
 	updateCardPositions(zone) {

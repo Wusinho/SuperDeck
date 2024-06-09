@@ -14,6 +14,10 @@ export default class LeftPlayer extends Player {
 			width: 100,
 			height: 60,
 		};
+		this.hand_area = this.scene.leftPlayerHandArea;
+		this.mana_pool_area = this.scene.leftPlayerManaPoolArea;
+		this.play_zone_area = this.scene.leftPlayerPlayZoneArea;
+		this.graveyard_area = this.scene.leftPlayerGraveyardArea;
 		this.addCardsToGame(player.cards);
 	}
 
@@ -83,19 +87,19 @@ export default class LeftPlayer extends Player {
 		let area;
 		switch (zone) {
 			case 'hand':
-				area = this.scene.leftPlayerHandArea;
+				area = this.hand_area;
 				break;
 			case 'mana_pool':
-				area = this.scene.leftPlayerManaPoolArea;
+				area = this.mana_pool_area;
 				break;
 			case 'play_zone':
-				area = this.scene.leftPlayerPlayZoneArea;
+				area = this.play_zone_area;
 				break;
 			case 'exile':
-				area = this.scene.leftPlayerGraveyardArea;
+				area = this.graveyard_area;
 				break;
 			case 'graveyard':
-				area = this.scene.leftPlayerGraveyardArea;
+				area = this.graveyard_area
 				break;
 			default:
 				console.error(`Unknown zone: ${zone}`);
@@ -124,7 +128,6 @@ export default class LeftPlayer extends Player {
 	}
 
 	moveOpponentCardToZone(data) {
-		console.log(data);
 		const card_id = data.card_id;
 		const newZone = data.new_zone;
 		const oldZone = data.old_zone;
@@ -135,22 +138,16 @@ export default class LeftPlayer extends Player {
 		if (cardIndex !== -1) {
 			// Remove the card from the old zone
 			let [card] = this.cards[oldZone].splice(cardIndex, 1);
-			console.log(`Cards from LEFTPLAYER in ${oldZone}: ${this.cards[oldZone].length}`);
-			// console.log(card)
-			console.log(`Card old zone ${oldZone}: ${this.cards[oldZone].length}`);
-			// Ensure card is not in the display list of the old zone
 			card.zone = newZone;
-			console.log(`Card new zone ${newZone}: ${this.cards[newZone].length}`);
 
+			if (newZone === oldZone) return
+			console.log(card)
 			card.setVisible(false);
-			// Update card zone
-			//
-			// // Add the card to the new zone
+
 			this.cards[newZone].push(card);
-			//
+
 			this.updateCardPositions(oldZone);
 			this.updateCardPositions(newZone);
-
 			card.loadCardTexture()
 
 		} else {

@@ -2,7 +2,6 @@ export default class Player {
 
 	// userType 0 => self, 1 => opponent
 	constructor(scene, player) {
-		// new LoadGameSocketHandler(scene);
 		this.scene = scene;
 		this.player_id = player.id;
 		this.playerUsername = player.username;

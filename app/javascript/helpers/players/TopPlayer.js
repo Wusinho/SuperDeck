@@ -51,19 +51,19 @@ export default class TopPlayer extends Player {
 		let area;
 		switch (zone) {
 			case 'hand':
-				area = this.scene.topPlayerHandArea;
+				area = this.hand_area;
 				break;
 			case 'mana_pool':
-				area = this.scene.topPlayerManaPoolArea;
+				area = this.mana_pool_area;
 				break;
 			case 'play_zone':
-				area = this.scene.topPlayerPlayZoneArea;
+				area = this.play_zone_area;
 				break;
 			case 'exile':
-				area = this.scene.topPlayerGraveyardArea;
+				area = this.graveyard_area;
 				break;
 			case 'graveyard':
-				area = this.scene.topPlayerGraveyardArea;
+				area = this.graveyard_area
 				break;
 			default:
 				console.error(`Unknown zone: ${zone}`);
@@ -124,33 +124,28 @@ export default class TopPlayer extends Player {
 		const card_id = data.card_id;
 		const newZone = data.new_zone;
 		const oldZone = data.old_zone;
-		console.log(this)
 
+		// Find the index of the card in the old zone
 		let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
+
 		if (cardIndex !== -1) {
+			// Remove the card from the old zone
 			let [card] = this.cards[oldZone].splice(cardIndex, 1);
 			card.zone = newZone;
 
-			if (newZone === 'hand') {
-				card.setVisible(false); // Make the card invisible if it's in the hand
-				this.updateHandSize();
-				this.updateCardPositions(zone);
-				return;
-			}
+			if (newZone === oldZone) return
+			console.log(card)
+			card.setVisible(false);
 
-			card.setVisible(true);
-			if (newZone === 'mana_pool' || morphed ) {
-				card.setTexture('defaultCardSprite');
-			} else {
-				this.scene.load.image(`card-${card.card_id}`, card.image_url);
-				this.scene.load.once('complete', () => {
-					card.setTexture(`card-${card.card_id}`);
-				});
-				this.scene.load.start();
-			}
 			this.cards[newZone].push(card);
 
+			this.updateCardPositions(oldZone);
 			this.updateCardPositions(newZone);
+			card.loadCardTexture()
+
+		} else {
+			console.error(`Card with ID ${card_id} not found in ${oldZone}`);
 		}
 	}
+
 }

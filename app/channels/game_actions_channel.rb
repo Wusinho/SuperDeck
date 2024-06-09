@@ -23,7 +23,8 @@ class GameActionsChannel < ApplicationCable::Channel
 
   def change_state(data)
     p '*'*100
-    p data
+    p 'CHANGE_STATE'
+    p 'NOT YET IMPLEMENTED'
     p '*'*100
   end
 

@@ -70,19 +70,19 @@ export default class RightPlayer extends Player {
 		let area;
 		switch (zone) {
 			case 'hand':
-				area = this.scene.rightPlayerHandArea;
+				area = this.hand_area;
 				break;
 			case 'mana_pool':
-				area = this.scene.rightPlayerManaPoolArea;
+				area = this.mana_pool_area;
 				break;
 			case 'play_zone':
-				area = this.scene.rightPlayerPlayZoneArea;
+				area = this.play_zone_area;
 				break;
 			case 'exile':
-				area = this.scene.rightPlayerGraveyardArea;
+				area = this.graveyard_area;
 				break;
 			case 'graveyard':
-				area = this.scene.rightPlayerGraveyardArea;
+				area = this.graveyard_area
 				break;
 			default:
 				console.error(`Unknown zone: ${zone}`);
@@ -134,22 +134,16 @@ export default class RightPlayer extends Player {
 		if (cardIndex !== -1) {
 			// Remove the card from the old zone
 			let [card] = this.cards[oldZone].splice(cardIndex, 1);
-			console.log(`Card from RIGHTPLAYER in ${oldZone}: ${this.cards[oldZone].length}`);
-
-			// Ensure card is not in the display list of the old zone
-			// Update card zone
-			console.log(`Card old zone ${oldZone}: ${this.cards[oldZone].length}`);
 			card.zone = newZone;
-			console.log(`Card new zone ${newZone}: ${this.cards[newZone].length}`);
 
+			if (newZone === oldZone) return
+			console.log(card)
 			card.setVisible(false);
-			// // Add the card to the new zone
+
 			this.cards[newZone].push(card);
-			//
-			// // Re-add the card to the scene for the new zone and update its properties
+
 			this.updateCardPositions(oldZone);
 			this.updateCardPositions(newZone);
-			//
 			card.loadCardTexture()
 
 		} else {

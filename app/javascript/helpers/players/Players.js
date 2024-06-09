@@ -43,7 +43,6 @@ export default class Players {
 
 		if (playerId === this.currentPlayer.player_id) {
 			this.currentPlayer.moveCardToZone(data);
-
 		} else {
 			const player = this.players.find(player => player.player_id === data.player_id);
 			if (player) {
