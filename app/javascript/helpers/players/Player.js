@@ -48,6 +48,10 @@ export default class Player {
 		return this.card_angle;
 	}
 
+	getPlayerId(){
+		return this.player_id;
+	}
+
 	getInitialAngle(zone) {
 		switch (zone) {
 			case 'hand':
@@ -94,6 +98,7 @@ export default class Player {
 		const card = new Card(
 			this.scene,
 			cardData,
+			this.getPlayerId(),
 			initialPosition,
 			initialAngle,
 			this.getPlayerType(),

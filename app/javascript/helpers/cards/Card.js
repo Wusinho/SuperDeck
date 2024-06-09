@@ -1,17 +1,19 @@
 import { PlayerTypes } from "../PlayerTypes";
 
 export default class Card extends Phaser.GameObjects.Sprite {
-	constructor(scene, cardData, initialPosition, initialAngle = 0, playerType, handSize, otherZones) {
+	constructor(scene, cardData, player_id, initialPosition, initialAngle = 0, playerType, handSize, otherZones) {
 		super(scene, initialPosition.x, initialPosition.y, 'defaultCardSprite');
 		this.scene = scene;
 		this.card_id = cardData.card_id;
 		this.zone = cardData.zone;
+		this.card_name = cardData.name;
 		this.morphed = cardData.morphed || false;
 		this.tapped = cardData.tapped || false;
 		this.image_url = cardData.image_url;
 		this.player_type = playerType;
 		this.hand_size = handSize;
 		this.other_zones = otherZones;
+		this.owner_id = player_id;
 
 		// Set the initial angle
 		this.angle = initialAngle;
@@ -30,6 +32,33 @@ export default class Card extends Phaser.GameObjects.Sprite {
 
 		// Handle interactions
 		this.on('pointerdown', this.handlePointerDown, this);
+		this.on('pointerover', this.showCard, this)
+	}
+
+	getPlayerCardId(){
+		return this.owner_id
+	}
+
+	showCard() {
+		if (this.scene.LoadGame.players.currentPlayer.player_id === this.getPlayerCardId()) {
+			if (this.zone !== 'mana_pool') {
+				this.scene.BoardCreation.updateCardViewer({
+					title: this.card_name ,
+					image_url: this.image_url,
+					card_id: this.card_id
+				});
+			} else {
+				console.log('CANT SHOW MY MANA POOL');
+			}
+		} else if (this.zone === 'play_zone' && !this.morphed) {
+			this.scene.BoardCreation.updateCardViewer({
+				title: this.card_name ,
+				image_url: this.image_url,
+				card_id: this.card_id
+			});
+		} else {
+			console.log('CANT SHOW Other PPL MANA POOL OR MORPHED');
+		}
 	}
 
 	on_hand() {

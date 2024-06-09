@@ -21,7 +21,7 @@ export default class BoardCreation {
 		const cardViewerHeight = 600;
 
 		// Create a container to hold the viewer elements
-		const cardViewerContainer = this.scene.add.container(centerX, centerY);
+		this.scene.cardViewerContainer = this.scene.add.container(centerX, centerY);
 
 		// Create a semi-transparent background
 		const background = this.scene.add.graphics();
@@ -29,7 +29,7 @@ export default class BoardCreation {
 		background.fillRoundedRect(-cardViewerWidth / 2, -cardViewerHeight / 2, cardViewerWidth, cardViewerHeight, 15);
 
 		// Add placeholder text
-		const placeholderText = this.scene.add.text(0, 0, 'Card Viewer Placeholder', {
+		this.scene.cardViewerText = this.scene.add.text(0, 0, 'Card Viewer Placeholder', {
 			fontSize: '24px',
 			fontFamily: 'Arial',
 			color: '#ffffff',
@@ -37,16 +37,70 @@ export default class BoardCreation {
 		}).setOrigin(0.5);
 
 		// Add the background and text to the container
-		cardViewerContainer.add([background, placeholderText]);
-
-		// Store references for later use if needed
-		this.cardViewerContainer = cardViewerContainer;
-		this.cardViewerText = placeholderText;
+		this.scene.cardViewerContainer.add([background, this.scene.cardViewerText]);
 
 		// Initially hide the card viewer
-		this.cardViewerContainer.setVisible(false);
+		this.scene.cardViewerContainer.setVisible(false);
 	}
 
+	updateCardViewer(cardData) {
+		// Ensure cardViewerContainer is initialized
+		if (!this.scene.cardViewerContainer) {
+			console.error("cardViewerContainer is not initialized.");
+			return;
+		}
+
+		// Clear the container first
+		this.scene.cardViewerContainer.removeAll(true);
+
+		const cardViewerWidth = 400;
+		const cardViewerHeight = 600;
+
+		// Create a new background
+		const background = this.scene.add.graphics();
+		background.fillStyle(0x333333, 0.8); // Darker background for better visibility
+		background.fillRoundedRect(-cardViewerWidth / 2, -cardViewerHeight / 2, cardViewerWidth, cardViewerHeight, 15);
+
+		// Create the card image
+		const cardImage = this.scene.add.image(0, 0, 'defaultCardSprite');
+
+		// Load the actual card texture
+		this.scene.load.image(`card-${cardData.card_id}`, cardData.image_url);
+		this.scene.load.once('complete', () => {
+			cardImage.setTexture(`card-${cardData.card_id}`);
+			// Calculate scaling to fit the container
+			this.scaleCardImage(cardImage, cardViewerWidth - 40, cardViewerHeight - 60); // Adjust size with margin
+		});
+		this.scene.load.start();
+
+		// Add title text
+		const title = this.scene.add.text(0, -cardViewerHeight / 2 + 20, cardData.title, {
+			fontSize: '20px',
+			fontFamily: 'Arial',
+			color: '#ffffff',
+			align: 'center'
+		}).setOrigin(0.5);
+
+		// Add everything to the container
+		this.scene.cardViewerContainer.add([background, cardImage, title]);
+
+		// Show the container
+		this.scene.cardViewerContainer.setVisible(true);
+	}
+
+	scaleCardImage(cardImage, targetWidth, targetHeight) {
+		// Get original dimensions
+		const originalWidth = cardImage.width;
+		const originalHeight = cardImage.height;
+
+		// Calculate scale factor to fit the image within target dimensions
+		const scaleX = targetWidth / originalWidth;
+		const scaleY = targetHeight / originalHeight;
+		const scale = Math.min(scaleX, scaleY);
+
+		// Apply scaling
+		cardImage.setScale(scale);
+	}
 
 	buildDrawButton = () => {
 		const width = this.scene.game.config.width;
