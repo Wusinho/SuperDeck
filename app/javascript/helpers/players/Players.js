@@ -30,7 +30,7 @@ export default class Players {
 		}
 	}
 
-	addCurrenPlayer(player){
+	addCurrentPlayer(player){
 		this.currentPlayer = player
 	}
 
@@ -42,11 +42,11 @@ export default class Players {
 		const playerId = data.player_id;
 
 		if (playerId === this.currentPlayer.player_id) {
-			this.currentPlayer.moveCardToZone(data);
+			this.currentPlayer.cardTransaction(data);
 		} else {
 			const player = this.players.find(player => player.player_id === data.player_id);
 			if (player) {
-				player.moveOpponentCardToZone(data);
+				player.cardTransaction(data);
 			} else {
 				console.error(`Player with ID ${data.player_id} not found`);
 			}

@@ -28,7 +28,7 @@ export default class LoadGame {
 	handleBoardReceived(data) {
 
 		if ( this.players.currentPlayer === null) {
-			this.players.addCurrenPlayer(new CurrentPlayer(this.scene, data[0]));
+			this.players.addCurrentPlayer(new CurrentPlayer(this.scene, data[0]));
 		}
 
 		const onlyOpponents = this.players.filterOpponents(data[1])
