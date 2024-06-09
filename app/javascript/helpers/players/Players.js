@@ -1,3 +1,7 @@
+import TopPlayer from "./TopPlayer";
+import LeftPlayer from "./LeftPlayer";
+import RightPlayer from "./RightPlayer";
+
 export default class Players {
 	constructor(scene) {
 		this.scene = scene;
@@ -7,12 +11,22 @@ export default class Players {
 		this.scene.events.on("gameActionsReceived", this.handleGameActionsReceived, this);
 	}
 
-	addPlayer(newPlayer) {
-		const existingIndex = this.players.findIndex(player => player.player_id === newPlayer.player_id);
+	addPlayer(typeOfPlayer, newPlayer) {
+		const existingIndex = this.players.findIndex(player => player.player_id === newPlayer.id);
 		if (existingIndex !== -1) {
-			this.players[existingIndex] = newPlayer;
+			console.log("NO SE CREA EL USUARIO EXISTENTE")
 		} else {
-			this.players.push(newPlayer);
+			if (newPlayer.player_id === this.currentPlayer.player_id) return
+			console.log('USUARIO NUEVO')
+			if (typeOfPlayer === 'TOP'){
+				this.players.push(new TopPlayer(this.scene, newPlayer))
+			} else if (typeOfPlayer === 'LEFT'){
+				this.players.push(new LeftPlayer(this.scene, newPlayer))
+			} else if (typeOfPlayer === 'RIGHT'){
+				this.players.push(new RightPlayer(this.scene, newPlayer))
+			} else{
+				console.log("SOMETHING WENT WRONG")
+			}
 		}
 	}
 
@@ -20,8 +34,8 @@ export default class Players {
 		this.currentPlayer = player
 	}
 
-	onlyOpponentPlayer(players){
-		return players.filter(opponent => opponent.id != this.currentPlayer.player_id);
+	filterOpponents(players){
+		return players.filter(player => player.id !== this.currentPlayer.player_id);
 	}
 
 	handleGameActionsReceived = data => {

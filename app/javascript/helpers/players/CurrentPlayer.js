@@ -30,10 +30,8 @@ export default class CurrentPlayer extends Player {
 			// Remove the card from the old zone
 			let [card] = this.cards[oldZone].splice(cardIndex, 1);
 
-			// Remove the card from the old zone's display
-
-			// Update card zone
 			card.zone = newZone;
+			console.log(card)
 			card.setVisible(false);
 
 			// Add the card to the new zone
@@ -136,64 +134,6 @@ export default class CurrentPlayer extends Player {
 				return 0; // Default angle
 		}
 	}
-
-	// moveCardToZone(data) {
-	//
-	// 	const card_id = data.card_id;
-	// 	const newZone = data.new_zone;
-	// 	const oldZone = data.old_zone;
-	//
-	// 	// Find the index of the card in the old zone
-	// 	let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
-	//
-	// 	if (cardIndex !== -1) {
-	// 		// Remove the card from the old zone
-	// 		let [card] = this.cards[oldZone].splice(cardIndex, 1);
-	// 		console.log(`Cards left in ${oldZone}: ${this.cards[oldZone].length}`);
-	//
-	// 		// Remove the card from the old zone's display
-	// 		card.setVisible(false);
-	// 		card.setActive(false);
-	//
-	// 		// Update card zone
-	// 		card.zone = newZone;
-	//
-	// 		// Handle visibility and texture based on the new zone
-	// 		if (newZone === 'hand') {
-	// 			card.setVisible(false); // Hide the card if it's moved to the hand
-	// 		} else {
-	// 			card.setVisible(true);
-	//
-	// 			// Clear texture conditions to ensure correct updates
-	// 			if (newZone === 'mana_pool' || data.morphed) {
-	// 				card.setTexture('defaultCardSprite');
-	// 			} else {
-	// 				this.scene.load.image(`card-${card.card_id}`, card.image_url);
-	// 				this.scene.load.once('complete', () => {
-	// 					card.setTexture(`card-${card.card_id}`);
-	// 					this.updateCardPositions(newZone);
-	// 				});
-	// 				this.scene.load.start();
-	// 			}
-	// 		}
-	//
-	// 		// Add the card to the new zone
-	// 		this.cards[newZone].push(card);
-	//
-	// 		// Re-add the card to the scene and update its position
-	// 		this.scene.children.add(card);
-	// 		card.setVisible(true);
-	// 		card.setActive(true);
-	// 		this.updateCardPositions(newZone);
-	//
-	// 		// Additional handling for `hand` zone
-	// 		if (newZone === 'hand') {
-	// 			this.updateHandSize();
-	// 		}
-	// 	} else {
-	// 		console.error(`Card with ID ${card_id} not found in ${oldZone}`);
-	// 	}
-	// }
 
 	showContextMenu(pointer, card) {
 		const contextMenu = document.getElementById('context-menu');

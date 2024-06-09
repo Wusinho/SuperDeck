@@ -97,8 +97,7 @@ export default class RightPlayer extends Player {
 		let area = this.getAreaPosition(zone)
 
 		console.log('-------------------')
-		console.log(this)
-		console.log(zone + " " + this.cards[zone].length)
+		console.log(zone + " " + this.cards[zone].length + '  from RIght player')
 		this.cards[zone].forEach((card, index) => {
 			console.log(card)
 			if (zone !== 'hand') {
@@ -135,22 +134,23 @@ export default class RightPlayer extends Player {
 		if (cardIndex !== -1) {
 			// Remove the card from the old zone
 			let [card] = this.cards[oldZone].splice(cardIndex, 1);
-			console.log(`Cards left in ${oldZone}: ${this.cards[oldZone].length}`);
+			console.log(`Card from RIGHTPLAYER in ${oldZone}: ${this.cards[oldZone].length}`);
 
 			// Ensure card is not in the display list of the old zone
-			console.log(card)
 			// Update card zone
+			console.log(`Card old zone ${oldZone}: ${this.cards[oldZone].length}`);
 			card.zone = newZone;
+			console.log(`Card new zone ${newZone}: ${this.cards[newZone].length}`);
 
 			card.setVisible(false);
 			// // Add the card to the new zone
-			// this.cards[newZone].push(card);
+			this.cards[newZone].push(card);
 			//
 			// // Re-add the card to the scene for the new zone and update its properties
-			// this.updateCardPositions(oldZone);
-			// this.updateCardPositions(newZone);
+			this.updateCardPositions(oldZone);
+			this.updateCardPositions(newZone);
 			//
-			// card.loadCardTexture()
+			card.loadCardTexture()
 
 		} else {
 			console.error(`Card with ID ${card_id} not found in ${oldZone}`);

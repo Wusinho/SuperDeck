@@ -31,31 +31,30 @@ export default class LoadGame {
 			this.players.addCurrenPlayer(new CurrentPlayer(this.scene, data[0]));
 		}
 
-		const filtered_data = this.players.onlyOpponentPlayer(data[1])
-		filtered_data.forEach(opponent => this.order_player_position(opponent))
+		const onlyOpponents = this.players.filterOpponents(data[1])
+		onlyOpponents.forEach(opponent => this.order_player_position(opponent))
 	}
 
 	order_player_position(opponent){
-		let player;
+		let opponentOrder;
 		let currentPlayerOrder = this.players.currentPlayer.order
-
 		if(currentPlayerOrder === 3){
 			if (opponent.order === 1) {
-				player = new TopPlayer(this.scene, opponent);
+				opponentOrder = 'TOP';
 			} else if (opponent.order === 2) {
-				player = new LeftPlayer(this.scene, opponent);
+				opponentOrder = 'LEFT'
 			} else {
-				player = new RightPlayer(this.scene, opponent);
+				opponentOrder = 'RIGHT';
 			}
 		} else {
 			if ( currentPlayerOrder - opponent.order === -1 ) {
-				player = new RightPlayer(this.scene, opponent);
+				opponentOrder = 'RIGHT'
 			} else if (Math.abs(currentPlayerOrder - opponent.order) === 2 ) {
-				player = new TopPlayer(this.scene, opponent);
+				opponentOrder = 'TOP'
 			} else {
-				player = new LeftPlayer(this.scene, opponent);
+				opponentOrder = 'LEFT'
 			}
 		}
-		this.players.addPlayer(player);
+		this.players.addPlayer(opponentOrder, opponent);
 	}
 }

@@ -110,7 +110,7 @@ export default class LeftPlayer extends Player {
 		let area = this.getAreaPosition(zone);
 
 		console.log('-------------------')
-		console.log(zone + " " + this.cards[zone].length)
+		console.log(zone + " " + this.cards[zone].length + ' From LEft Player')
 		this.cards[zone].forEach((card, index) => {
 			console.log(card)
 			if (zone !== 'hand') {
@@ -135,22 +135,23 @@ export default class LeftPlayer extends Player {
 		if (cardIndex !== -1) {
 			// Remove the card from the old zone
 			let [card] = this.cards[oldZone].splice(cardIndex, 1);
-			// console.log(`Cards left in ${oldZone}: ${this.cards[oldZone].length}`);
+			console.log(`Cards from LEFTPLAYER in ${oldZone}: ${this.cards[oldZone].length}`);
 			// console.log(card)
-
+			console.log(`Card old zone ${oldZone}: ${this.cards[oldZone].length}`);
 			// Ensure card is not in the display list of the old zone
 			card.zone = newZone;
+			console.log(`Card new zone ${newZone}: ${this.cards[newZone].length}`);
+
 			card.setVisible(false);
 			// Update card zone
-			// card.zone = newZone;
 			//
 			// // Add the card to the new zone
-			// this.cards[newZone].push(card);
+			this.cards[newZone].push(card);
 			//
-			// this.updateCardPositions(oldZone);
-			// this.updateCardPositions(newZone);
-			//
-			// card.loadCardTexture()
+			this.updateCardPositions(oldZone);
+			this.updateCardPositions(newZone);
+
+			card.loadCardTexture()
 
 		} else {
 			console.error(`Card with ID ${card_id} not found in ${oldZone}`);
