@@ -7,6 +7,7 @@ export default class LeftPlayer extends Player {
 		super(scene, player);
 		this.player_type = PlayerTypes.OPPONENT
 		this.card_angle = -90
+		this.card_spacing = 60
 		this.createUserName();
 		this.hand_size = {
 			width: 150,
@@ -47,7 +48,7 @@ export default class LeftPlayer extends Player {
 	}
 
 	updateCardPositions(zone) {
-		let spacing = 110; // Spacing between cards
+		let spacing = this.card_spacing ; // Spacing between cards
 		let area = this.getAreaPosition(zone);
 
 		this.cards[zone].forEach((card, index) => {
