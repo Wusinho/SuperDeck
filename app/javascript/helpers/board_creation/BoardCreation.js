@@ -6,15 +6,53 @@ export default class BoardCreation {
 		this.scene = scene;
 		this.drawCardHandler = new DrawCardSocketHandler(scene);
 
+		this.buildCardViewer();
 		this.buildPlayerAreas();
 		this.buildDrawButton();
 	}
+
+	buildCardViewer() {
+		const width = this.scene.game.config.width;
+		const height = this.scene.game.config.height;
+		const centerX = width / 2;
+		const centerY = height - (height / 2) - 100; // Position at the bottom third
+
+		const cardViewerWidth = 400;
+		const cardViewerHeight = 600;
+
+		// Create a container to hold the viewer elements
+		const cardViewerContainer = this.scene.add.container(centerX, centerY);
+
+		// Create a semi-transparent background
+		const background = this.scene.add.graphics();
+		background.fillStyle(0x333333, 0.5); // Gray with 50% opacity
+		background.fillRoundedRect(-cardViewerWidth / 2, -cardViewerHeight / 2, cardViewerWidth, cardViewerHeight, 15);
+
+		// Add placeholder text
+		const placeholderText = this.scene.add.text(0, 0, 'Card Viewer Placeholder', {
+			fontSize: '24px',
+			fontFamily: 'Arial',
+			color: '#ffffff',
+			align: 'center'
+		}).setOrigin(0.5);
+
+		// Add the background and text to the container
+		cardViewerContainer.add([background, placeholderText]);
+
+		// Store references for later use if needed
+		this.cardViewerContainer = cardViewerContainer;
+		this.cardViewerText = placeholderText;
+
+		// Initially hide the card viewer
+		this.cardViewerContainer.setVisible(false);
+	}
+
 
 	buildDrawButton = () => {
 		const width = this.scene.game.config.width;
 		const height = this.scene.game.config.height;
 		const centerX = width / 2;
-		const centerY = height / 2;
+		const centerY = height - (height / 3) + 20;
 
 		// Button dimensions
 		const buttonWidth = 120;
