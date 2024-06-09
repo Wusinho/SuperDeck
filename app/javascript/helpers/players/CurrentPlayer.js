@@ -18,6 +18,41 @@ export default class CurrentPlayer extends Player {
 		this.addCardsToGame(player.cards);
 	}
 
+	moveCardToZone(data) {
+		const card_id = data.card_id;
+		const newZone = data.new_zone;
+		const oldZone = data.old_zone;
+
+		// Find the index of the card in the old zone
+		let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
+
+		if (cardIndex !== -1) {
+			// Remove the card from the old zone
+			let [card] = this.cards[oldZone].splice(cardIndex, 1);
+
+			// Remove the card from the old zone's display
+
+			// Update card zone
+			card.zone = newZone;
+			card.setVisible(false);
+
+			// Add the card to the new zone
+			this.cards[newZone].push(card);
+
+			this.updateCardPositions(oldZone);
+			this.updateCardPositions(newZone);
+
+			// Additional handling for `hand` zone
+			// if (newZone === 'hand') {
+			// 	this.updateHandSize();
+			// }
+			card.loadCardTexture()
+
+		} else {
+			console.error(`Card with ID ${card_id} not found in ${oldZone}`);
+		}
+	}
+
 	createUserName(){
 		let centerX = this.scene.currentPlayerInformation.x
 		let centerY = this.scene.currentPlayerInformation.y
@@ -102,33 +137,63 @@ export default class CurrentPlayer extends Player {
 		}
 	}
 
-	moveCardToZone(card_id, newZone) {
-		for (let zone in this.cards) {
-			let cardIndex = this.cards[zone].findIndex(card => card.card_id === card_id);
-			if (cardIndex !== -1) {
-				let [card] = this.cards[zone].splice(cardIndex, 1);
-				card.zone = newZone;
-
-				if (newZone === 'mana_pool' ) {
-					card.setTexture('defaultCardSprite');
-				} else {
-					this.scene.load.image(`card-${card.card_id}`, card.image_url);
-					this.scene.load.once('complete', () => {
-						card.setTexture(`card-${card.card_id}`);
-					});
-					this.scene.load.start();
-				}
-
-				let scale = this.calculateScale(card, newZone);
-				card.setScale(scale);
-				this.cards[newZone].push(card);
-
-				this.updateCardPositions(zone);
-				this.updateCardPositions(newZone);
-				break;
-			}
-		}
-	}
+	// moveCardToZone(data) {
+	//
+	// 	const card_id = data.card_id;
+	// 	const newZone = data.new_zone;
+	// 	const oldZone = data.old_zone;
+	//
+	// 	// Find the index of the card in the old zone
+	// 	let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
+	//
+	// 	if (cardIndex !== -1) {
+	// 		// Remove the card from the old zone
+	// 		let [card] = this.cards[oldZone].splice(cardIndex, 1);
+	// 		console.log(`Cards left in ${oldZone}: ${this.cards[oldZone].length}`);
+	//
+	// 		// Remove the card from the old zone's display
+	// 		card.setVisible(false);
+	// 		card.setActive(false);
+	//
+	// 		// Update card zone
+	// 		card.zone = newZone;
+	//
+	// 		// Handle visibility and texture based on the new zone
+	// 		if (newZone === 'hand') {
+	// 			card.setVisible(false); // Hide the card if it's moved to the hand
+	// 		} else {
+	// 			card.setVisible(true);
+	//
+	// 			// Clear texture conditions to ensure correct updates
+	// 			if (newZone === 'mana_pool' || data.morphed) {
+	// 				card.setTexture('defaultCardSprite');
+	// 			} else {
+	// 				this.scene.load.image(`card-${card.card_id}`, card.image_url);
+	// 				this.scene.load.once('complete', () => {
+	// 					card.setTexture(`card-${card.card_id}`);
+	// 					this.updateCardPositions(newZone);
+	// 				});
+	// 				this.scene.load.start();
+	// 			}
+	// 		}
+	//
+	// 		// Add the card to the new zone
+	// 		this.cards[newZone].push(card);
+	//
+	// 		// Re-add the card to the scene and update its position
+	// 		this.scene.children.add(card);
+	// 		card.setVisible(true);
+	// 		card.setActive(true);
+	// 		this.updateCardPositions(newZone);
+	//
+	// 		// Additional handling for `hand` zone
+	// 		if (newZone === 'hand') {
+	// 			this.updateHandSize();
+	// 		}
+	// 	} else {
+	// 		console.error(`Card with ID ${card_id} not found in ${oldZone}`);
+	// 	}
+	// }
 
 	showContextMenu(pointer, card) {
 		const contextMenu = document.getElementById('context-menu');
@@ -139,21 +204,21 @@ export default class CurrentPlayer extends Player {
 		contextMenu.card = card;
 
 		document.getElementById('play-in-mana-pool').onclick = () => {
-			this.moveCardToZone(card.card_id, 'mana_pool');
-			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
+			// this.moveCardToZone(card.card_id, 'mana_pool');
+			this.scene.GameActions.send({ action: "change_zone", param: { card_id: card.card_id,
 					new_zone: 'mana_pool'} });
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-play_zone').onclick = () => {
-			this.moveCardToZone(card.card_id, 'play_zone');
-			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
+			// this.moveCardToZone(card.card_id, 'play_zone');
+			this.scene.GameActions.send({ action: "change_zone", param: { card_id: card.card_id,
 					new_zone: 'play_zone'} });
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-play_zone-morph').onclick = () => {
-			this.moveCardToZone(card.card_id, 'play_zone');
+			// this.moveCardToZone(card.card_id, 'play_zone');
 			this.scene.GameActions.send({ action: "morphed_from_hand", param: { player_card_id: card.card_id,
 					new_zone: 'play_zone', new_action: 'morphed'} });
 			contextMenu.style.display = 'none';

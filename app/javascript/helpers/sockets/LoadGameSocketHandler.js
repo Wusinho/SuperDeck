@@ -16,13 +16,11 @@ export default class LoadGameSocketHandler {
 	}
 
 	onConnected() {
-		console.log("Connected to LoadGameChannel");
 		this.loadGameChannel.perform('connected');
 		this.scene.events.emit("loadGameConnected");
 	}
 
 	onDisconnected() {
-		console.log("Disconnected from loadGameConnected");
 	}
 
 	onReceived(data) {

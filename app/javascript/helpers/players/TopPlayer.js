@@ -119,4 +119,38 @@ export default class TopPlayer extends Player {
 				return 0; // Default angle
 		}
 	}
+
+	moveOpponentCardToZone(data) {
+		const card_id = data.card_id;
+		const newZone = data.new_zone;
+		const oldZone = data.old_zone;
+		console.log(this)
+
+		let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
+		if (cardIndex !== -1) {
+			let [card] = this.cards[oldZone].splice(cardIndex, 1);
+			card.zone = newZone;
+
+			if (newZone === 'hand') {
+				card.setVisible(false); // Make the card invisible if it's in the hand
+				this.updateHandSize();
+				this.updateCardPositions(zone);
+				return;
+			}
+
+			card.setVisible(true);
+			if (newZone === 'mana_pool' || morphed ) {
+				card.setTexture('defaultCardSprite');
+			} else {
+				this.scene.load.image(`card-${card.card_id}`, card.image_url);
+				this.scene.load.once('complete', () => {
+					card.setTexture(`card-${card.card_id}`);
+				});
+				this.scene.load.start();
+			}
+			this.cards[newZone].push(card);
+
+			this.updateCardPositions(newZone);
+		}
+	}
 }

@@ -16,12 +16,10 @@ export default class DrawCardSocketHandler {
 	}
 
 	onConnected() {
-		console.log("Connected to DrawCardChannel");
 		this.scene.events.emit("drawCardConnected");
 	}
 
 	onDisconnected() {
-		console.log("Disconnected from DrawCardChannel");
 	}
 
 	onReceived(data) {

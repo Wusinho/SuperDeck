@@ -3,15 +3,12 @@ export default class Players {
 		this.scene = scene;
 		this.players = []
 		this.currentPlayer = null
-		// this.addPlayer = this.addPlayer.bind(this);
-		// this.onlyOpponentPlayer = this.onlyOpponentPlayer.bind(this);
 		this.scene.events.on("drawCardReceived", this.handleDrawCardReceived, this);
 		this.scene.events.on("gameActionsReceived", this.handleGameActionsReceived, this);
 	}
 
 	addPlayer(newPlayer) {
-		const existingIndex = this.players.findIndex(player => player.playerId === newPlayer.playerId);
-
+		const existingIndex = this.players.findIndex(player => player.player_id === newPlayer.player_id);
 		if (existingIndex !== -1) {
 			this.players[existingIndex] = newPlayer;
 		} else {
@@ -19,36 +16,33 @@ export default class Players {
 		}
 	}
 
-
 	addCurrenPlayer(player){
 		this.currentPlayer = player
-		console.log(this.players)
 	}
 
 	onlyOpponentPlayer(players){
-		return players.filter(opponent => opponent.id != this.currentPlayer.playerId);
+		return players.filter(opponent => opponent.id != this.currentPlayer.player_id);
 	}
 
 	handleGameActionsReceived = data => {
-		const player = this.players.find(player => player.playerId === data.player_id);
+		const playerId = data.player_id;
 
-		if (data.action && data.action !== 'morphed'){
-
+		if (playerId === this.currentPlayer.player_id) {
+			this.currentPlayer.moveCardToZone(data);
 
 		} else {
+			const player = this.players.find(player => player.player_id === data.player_id);
 			if (player) {
 				player.moveOpponentCardToZone(data);
 			} else {
 				console.error(`Player with ID ${data.player_id} not found`);
 			}
 		}
-
 	}
 
 	handleDrawCardReceived = data => {
 		const playerId = data.player_id;
-		console.log(data)
-		if (playerId == this.currentPlayer.playerId) {
+		if (playerId === this.currentPlayer.player_id) {
 			this.currentPlayer.createCard(data.card)
 		} else {
 			const player = this.players.find(player => player.playerId === playerId);

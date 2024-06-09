@@ -16,12 +16,10 @@ export default class GameActionSocketHandler {
 	}
 
 	onConnected() {
-		console.log("Connected to GameActionsChannel");
 		this.scene.events.emit("gameActionsConnected");
 	}
 
 	onDisconnected() {
-		console.log("Disconnected from GameActionsChannel");
 	}
 
 	onReceived(data) {

@@ -13,7 +13,6 @@ export default class extends Controller {
     // },
     //     {
     //       received(data) {
-    //         console.log(data)
     //       }
     //     })
   }

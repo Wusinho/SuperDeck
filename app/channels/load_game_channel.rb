@@ -13,7 +13,7 @@ class LoadGameChannel < ApplicationCable::Channel
 
     players = current_user.current_game_players
     player_information = {
-      player_id: current_player.id,
+      id: current_player.id,
       username: current_player.username,
       order: current_player.order,
       life: current_player.life,

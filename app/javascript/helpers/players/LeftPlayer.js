@@ -34,7 +34,7 @@ export default class LeftPlayer extends Player {
 		Object.keys(cards).forEach(zone => {
 			cards[zone].forEach(cardData => this.createCard(cardData));
 		});
-		this.updateHandSize();
+		// this.updateHandSize();
 	}
 
 	createCard(cardData) {
@@ -109,7 +109,10 @@ export default class LeftPlayer extends Player {
 		let spacing = 110; // Spacing between cards
 		let area = this.getAreaPosition(zone);
 
+		console.log('-------------------')
+		console.log(zone + " " + this.cards[zone].length)
 		this.cards[zone].forEach((card, index) => {
+			console.log(card)
 			if (zone !== 'hand') {
 				card.y = (area.height - area.y) - ((area.height - area.y) / 2) + (index * spacing) + (spacing / 2);
 				card.x = area.x;
@@ -119,4 +122,39 @@ export default class LeftPlayer extends Player {
 			}
 		});
 	}
+
+	moveOpponentCardToZone(data) {
+		console.log(data);
+		const card_id = data.card_id;
+		const newZone = data.new_zone;
+		const oldZone = data.old_zone;
+
+		// Find the index of the card in the old zone
+		let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
+
+		if (cardIndex !== -1) {
+			// Remove the card from the old zone
+			let [card] = this.cards[oldZone].splice(cardIndex, 1);
+			// console.log(`Cards left in ${oldZone}: ${this.cards[oldZone].length}`);
+			// console.log(card)
+
+			// Ensure card is not in the display list of the old zone
+			card.zone = newZone;
+			card.setVisible(false);
+			// Update card zone
+			// card.zone = newZone;
+			//
+			// // Add the card to the new zone
+			// this.cards[newZone].push(card);
+			//
+			// this.updateCardPositions(oldZone);
+			// this.updateCardPositions(newZone);
+			//
+			// card.loadCardTexture()
+
+		} else {
+			console.error(`Card with ID ${card_id} not found in ${oldZone}`);
+		}
+	}
+
 }

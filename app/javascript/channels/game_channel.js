@@ -10,8 +10,6 @@
 //   },
 //
 //   received(data) {
-//     // console.log('RECEIVED')
-//     // console.log(data)
 //     // Called when there's incoming data on the websocket for this channel
 //     if (window.uiHandler) {
 //       window.uiHandler.handleCardReceived(data);
@@ -30,8 +28,6 @@
 //     },
 //     {
 //       connected() {
-//         console.log('CONNECTING')
-//         console.log(this)
 //         // Called when the subscription is ready for use on the server
 //       },
 //
@@ -41,7 +37,6 @@
 //
 //       received(data) {
 //         let div = document.createElement('div')
-//         console.log(data)
 //       }
 //     });
 //

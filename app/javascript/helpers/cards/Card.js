@@ -43,12 +43,13 @@ export default class Card extends Phaser.GameObjects.Sprite {
 	card_behaviour() {
 		if ( this.on_hand() && this.opponent() ){
 			this.setVisible(false);
+		} else {
+			this.setVisible(true);
 		}
 	}
 
 	loadCardTexture() {
 		this.card_behaviour();
-
 		this.scene.load.image(`card-${this.card_id}`, this.image_url);
 		this.scene.load.once('complete', () => {
 			if (this.zone === 'play_zone' && this.morphed || this.zone === 'mana_pool' ) {
@@ -56,14 +57,14 @@ export default class Card extends Phaser.GameObjects.Sprite {
 			} else if (this.zone !== 'mana_pool') {
 				this.setTexture(`card-${this.card_id}`);
 			} else {
-				console.log('NOT DEFINED');
+				// this.setTexture('defaultCardSprite'); // For `mana_pool`, always set to default sprite
 			}
-			this.setScale(this.calculateScale());
+			this.setScale(this.calculateScale(this.handSize, this.otherZones));
 		});
 		this.scene.load.start();
 
 		if (this.tapped) {
-			this.angle = (this.angle + 90) % 360;
+			this.angle = (this.angle + 90) % 360; // Adjust initial angle if tapped
 		}
 	}
 

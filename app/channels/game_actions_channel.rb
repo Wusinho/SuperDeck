@@ -36,6 +36,8 @@ class GameActionsChannel < ApplicationCable::Channel
       old_zone: old_zone,
       new_zone: data['new_zone'],
       card_id: data['card_id'],
+      morphed: pc.morphed,
+      tapped: pc.tapped,
     }
     ActionCable.server.broadcast("game_actions_channel", information)
   end
