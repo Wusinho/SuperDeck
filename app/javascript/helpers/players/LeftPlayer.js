@@ -5,6 +5,7 @@ import {PlayerTypes} from "../PlayerTypes";
 export default class LeftPlayer extends Player {
 	constructor(scene, player) {
 		super(scene, player);
+
 		this.createUserName();
 		this.hand_size = {
 			width: 150,
@@ -34,12 +35,12 @@ export default class LeftPlayer extends Player {
 		}
 	}
 
-	addCardsToGame(cards) {
-		Object.keys(cards).forEach(zone => {
-			cards[zone].forEach(cardData => this.createCard(cardData));
-		});
-		// this.updateHandSize();
-	}
+	// addCardsToGame(cards) {
+	// 	Object.keys(cards).forEach(zone => {
+	// 		cards[zone].forEach(cardData => this.createCard(cardData));
+	// 	});
+	// 	this.updateHandSize();
+	// }
 
 	createCard(cardData) {
 		const initialPosition = this.getAreaPosition(cardData.zone);

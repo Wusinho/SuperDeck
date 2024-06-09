@@ -21,13 +21,6 @@ export default class TopPlayer extends Player {
 		this.addCardsToGame(player.cards);
 	}
 
-	addCardsToGame(cards) {
-		Object.keys(cards).forEach(zone => {
-			cards[zone].forEach(cardData => this.createCard(cardData));
-		});
-		this.updateHandSize();
-	}
-
 	createUserName(){
 		let centerX = this.scene.topPlayerUserInfo.x
 		let centerY = this.scene.topPlayerUserInfo.y

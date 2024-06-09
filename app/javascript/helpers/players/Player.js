@@ -23,4 +23,10 @@ export default class Player {
 			.setInteractive();
 	}
 
+	addCardsToGame(cards) {
+		Object.keys(cards).forEach(zone => {
+			cards[zone].forEach(cardData => this.createCard(cardData));
+		});
+	}
+
 }

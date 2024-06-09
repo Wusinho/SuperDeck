@@ -21,13 +21,6 @@ export default class RightPlayer extends Player {
 		this.addCardsToGame(player.cards);
 	}
 
-	addCardsToGame(cards) {
-		Object.keys(cards).forEach(zone => {
-			cards[zone].forEach(cardData => this.createCard(cardData));
-		});
-		// this.updateHandSize();
-	}
-
 	createCard(cardData) {
 		const initialPosition = this.getAreaPosition(cardData.zone);
 		const initialAngle = this.getInitialAngle(cardData.zone);

@@ -60,12 +60,6 @@ export default class CurrentPlayer extends Player {
 			.setInteractive();
 	}
 
-	addCardsToGame(cards) {
-		Object.keys(cards).forEach(zone => {
-			cards[zone].forEach(cardData => this.createCard(cardData, zone));
-		});
-	}
-
 	createCard(cardData) {
 		const initialPosition = this.getAreaPosition(cardData.zone);
 		const initialAngle = this.getInitialAngle(cardData.zone);
