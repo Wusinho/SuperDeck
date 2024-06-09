@@ -46,7 +46,7 @@ export default class RightPlayer extends Player {
 	createUserName(){
 		let centerX = this.scene.rightPlayerUserInfo.x
 		let centerY = this.scene.rightPlayerUserInfo.y
-		this.scene.currentUserName = this.create_text(centerX,centerY, this.playerUsername)
+		this.scene.currentUserName = this.create_text(centerX,centerY, this.player_name)
 	}
 
 	updateHandSize() {

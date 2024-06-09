@@ -4,7 +4,7 @@ export default class Player {
 	constructor(scene, player) {
 		this.scene = scene;
 		this.player_id = player.id;
-		this.playerUsername = player.username;
+		this.player_name = player.username;
 		this.order = player.order;
 		this.life = player.life;
 		this.cards = {

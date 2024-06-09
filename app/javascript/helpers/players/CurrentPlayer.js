@@ -54,7 +54,7 @@ export default class CurrentPlayer extends Player {
 		let centerX = this.scene.currentPlayerInformation.x
 		let centerY = this.scene.currentPlayerInformation.y
 
-		this.scene.currentUserName = this.create_text(centerX,centerY, this.playerUsername)
+		this.scene.currentUserName = this.create_text(centerX,centerY, this.player_name)
 			.setFontSize(40)
 			.setFontFamily("Arial")
 			.setInteractive();
