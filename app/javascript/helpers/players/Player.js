@@ -123,14 +123,18 @@ export default class Player {
 			// Remove the card from the old zone
 			let [card] = this.cards[oldZone].splice(cardIndex, 1);
 			card.zone = newZone;
+			card.morphed = data.morphed;
+			card.tapped = data.tapped;
 
-			if (newZone === oldZone) return
-			card.setVisible(false);
+			if (newZone !== oldZone) {
+				card.setVisible(false);
 
-			this.cards[newZone].push(card);
+				this.cards[newZone].push(card);
 
-			this.updateCardPositions(oldZone);
-			this.updateCardPositions(newZone);
+				this.updateCardPositions(oldZone);
+				this.updateCardPositions(newZone);
+			}
+
 			card.loadCardTexture()
 
 		} else {

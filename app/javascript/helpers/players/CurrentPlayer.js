@@ -87,8 +87,8 @@ export default class CurrentPlayer extends Player {
 
 		document.getElementById('play-in-play_zone-morph').onclick = () => {
 			// this.moveCardToZone(card.card_id, 'play_zone');
-			this.scene.GameActions.send({ action: "morphed_from_hand", param: { player_card_id: card.card_id,
-					new_zone: 'play_zone', new_action: 'morphed'} });
+			this.scene.GameActions.send({ action: "morphed_from_hand", param: { card_id: card.card_id,
+					new_zone: 'play_zone', morphed: !card.morphed, tapped: card.tapped, old_zone: 'hand' } });
 			contextMenu.style.display = 'none';
 		};
 

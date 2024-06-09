@@ -48,7 +48,6 @@ export default class Card extends Phaser.GameObjects.Sprite {
 					card_id: this.card_id
 				});
 			} else {
-				console.log('CANT SHOW MY MANA POOL');
 			}
 		} else if (this.zone === 'play_zone' && !this.morphed) {
 			this.scene.BoardCreation.updateCardViewer({
@@ -57,7 +56,6 @@ export default class Card extends Phaser.GameObjects.Sprite {
 				card_id: this.card_id
 			});
 		} else {
-			console.log('CANT SHOW Other PPL MANA POOL OR MORPHED');
 		}
 	}
 
@@ -92,8 +90,8 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		});
 		this.scene.load.start();
 
-		if (this.tapped) {
-			this.angle = (this.angle + 90) % 360; // Adjust initial angle if tapped
+		if (this.zone === 'mana_pool' || this.zone === 'play_zone') {
+			this.angle = this.tappedLogic()
 		}
 	}
 
@@ -136,14 +134,16 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		}
 	}
 
+	tappedLogic(){
+		return this.tapped ? (this.angle + 90) % 360 : (this.angle + 360) % 360;
+	}
+
 	toggleTapped() {
-		this.tapped = !this.tapped;
-		this.angle = this.tapped ? (this.angle + 90) % 360 : (this.angle - 90 + 360) % 360;
 		this.scene.GameActions.send({
 			action: "change_state",
 			param: {
 				card_id: this.card_id,
-				tapped: this.tapped,
+				tapped: !this.tapped,
 				morphed: this.morphed,
 				zone: this.zone
 			}
