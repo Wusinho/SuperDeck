@@ -60,6 +60,7 @@ export default class RightPlayer extends Player {
 				card.x = area.x
 			}
 		});
+		this.updateHandSize()
 	}
 
 }

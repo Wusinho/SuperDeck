@@ -30,7 +30,6 @@ export default class Player {
 		Object.keys(cards).forEach(zone => {
 			cards[zone].forEach(cardData => this.createCard(cardData));
 		});
-		this.updateHandSize();
 	}
 
 	getPlayerType(){
@@ -125,8 +124,8 @@ export default class Player {
 
 			this.cards[newZone].push(card);
 
-			this.updateCardPositions(newZone, oldZone);
-			// this.updateCardPositions(newZone);
+			this.updateCardPositions(oldZone);
+			this.updateCardPositions(newZone);
 			card.loadCardTexture()
 
 		} else {

@@ -6,7 +6,7 @@ export default class LeftPlayer extends Player {
 	constructor(scene, player) {
 		super(scene, player);
 		this.player_type = PlayerTypes.OPPONENT
-		this.card_angle = -90
+		this.card_angle = 90
 		this.card_spacing = 60
 		this.createUserName();
 		this.hand_size = {
@@ -60,6 +60,7 @@ export default class LeftPlayer extends Player {
 				card.x = area.x
 			}
 		});
+		this.updateHandSize()
 	}
 
 }

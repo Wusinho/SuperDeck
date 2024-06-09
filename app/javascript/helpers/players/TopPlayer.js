@@ -6,7 +6,7 @@ export default class TopPlayer extends Player {
 	constructor(scene, player){
 		super(scene, player);
 		this.player_type = PlayerTypes.OPPONENT
-		this.card_angle = 0
+		this.card_angle = 180
 		this.card_spacing = 80
 		this.createUserName()
 		this.hand_size = {
@@ -60,6 +60,7 @@ export default class TopPlayer extends Player {
 				card.y = area.y
 			}
 		});
+		this.updateHandSize()
 	}
 
 }

@@ -60,6 +60,7 @@ export default class CurrentPlayer extends Player {
 			card.x = area.x - (area.width / 2) + (index * spacing) + (spacing / 2);
 			card.y = area.y;
 		});
+		this.updateHandSize()
 	}
 
 	showContextMenu(pointer, card) {
