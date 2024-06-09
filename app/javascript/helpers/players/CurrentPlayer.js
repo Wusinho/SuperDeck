@@ -116,15 +116,6 @@ export default class CurrentPlayer extends Player {
 			contextMenu.style.display = 'none';
 		};
 
-		document.getElementById('read-card').onclick = () => {
-			const card_id = card.card_id
-			const url = `/player_cards/${card_id}`
-
-			get(url, {
-				responseKind: "turbo-stream"
-			})
-		};
-
 		document.addEventListener('click', (event) => {
 			if (contextMenu.style.display === 'block' && !contextMenu.contains(event.target)) {
 				contextMenu.style.display = 'none';

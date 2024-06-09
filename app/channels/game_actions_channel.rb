@@ -22,10 +22,19 @@ class GameActionsChannel < ApplicationCable::Channel
   end
 
   def change_state(data)
-    p '*'*100
-    p 'CHANGE_STATE'
-    p 'NOT YET IMPLEMENTED'
-    p '*'*100
+    pc = PlayerCard.find_by(id: data['card_id'])
+    pc.update_columns(tapped: data['tapped'], morphed: data['morphed'] )
+
+    information = {
+      player_id: pc.player_id,
+      old_zone: data['zone'],
+      new_zone: data['zone'],
+      card_id: data['card_id'],
+      morphed: data['tapped'],
+      tapped: data['morphed'],
+    }
+
+    ActionCable.server.broadcast("game_actions_channel", information)
   end
 
   def change_zone(data)
