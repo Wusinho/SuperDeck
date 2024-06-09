@@ -93,10 +93,7 @@ export default class RightPlayer extends Player {
 		let spacing = 110; // Spacing between cards
 		let area = this.getAreaPosition(zone)
 
-		console.log('-------------------')
-		console.log(zone + " " + this.cards[zone].length + '  from RIght player')
 		this.cards[zone].forEach((card, index) => {
-			console.log(card)
 			if (zone !== 'hand') {
 				card.y = (area.height - area.y) - ((area.height - area.y) / 2) + (index * spacing) + (spacing / 2);
 				card.x = area.x;
@@ -120,31 +117,4 @@ export default class RightPlayer extends Player {
 		}
 	}
 
-	moveOpponentCardToZone(data) {
-		const card_id = data.card_id;
-		const newZone = data.new_zone;
-		const oldZone = data.old_zone;
-
-		// Find the index of the card in the old zone
-		let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
-
-		if (cardIndex !== -1) {
-			// Remove the card from the old zone
-			let [card] = this.cards[oldZone].splice(cardIndex, 1);
-			card.zone = newZone;
-
-			if (newZone === oldZone) return
-			console.log(card)
-			card.setVisible(false);
-
-			this.cards[newZone].push(card);
-
-			this.updateCardPositions(oldZone);
-			this.updateCardPositions(newZone);
-			card.loadCardTexture()
-
-		} else {
-			console.error(`Card with ID ${card_id} not found in ${oldZone}`);
-		}
-	}
 }
