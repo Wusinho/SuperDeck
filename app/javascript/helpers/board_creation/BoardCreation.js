@@ -15,13 +15,44 @@ export default class BoardCreation {
 		const height = this.scene.game.config.height;
 		const centerX = width / 2;
 		const centerY = height / 2;
-		this.scene.dealCards = this.scene.add.text(centerX, centerY, "Draw Card")
-			.setFontSize(14)
-			.setFontFamily("Arial")
-			.setInteractive();
 
-		this.scene.dealCards.on("pointerdown", this.handleDrawCardClick.bind(this));
+		// Button dimensions
+		const buttonWidth = 120;
+		const buttonHeight = 40;
+
+		// Create a graphics object for the button background
+		const buttonBackground = this.scene.add.graphics();
+		buttonBackground.fillStyle(0x008CBA, 1); // Button color (e.g., blue)
+		buttonBackground.fillRoundedRect(centerX - buttonWidth / 2, centerY - buttonHeight / 2, buttonWidth, buttonHeight, 10); // Rounded corners
+
+		// Create text for the button
+		const buttonText = this.scene.add.text(centerX, centerY, "Draw Card", {
+			fontSize: "14px",
+			fontFamily: "Arial",
+			color: "#ffffff" // Text color
+		}).setOrigin(0.5);
+
+		// Create a container to group the background and text
+		const button = this.scene.add.container(0, 0, [buttonBackground, buttonText])
+			.setInteractive(new Phaser.Geom.Rectangle(centerX - buttonWidth / 2, centerY - buttonHeight / 2, buttonWidth, buttonHeight), Phaser.Geom.Rectangle.Contains)
+			.on('pointerdown', this.handleDrawCardClick.bind(this));
+
+		// Add hover effect
+		button.on('pointerover', () => {
+			buttonBackground.clear();
+			buttonBackground.fillStyle(0x005f75, 1); // Darker color on hover
+			buttonBackground.fillRoundedRect(centerX - buttonWidth / 2, centerY - buttonHeight / 2, buttonWidth, buttonHeight, 10);
+			this.scene.input.setDefaultCursor('pointer'); // Change cursor to pointer
+		});
+
+		button.on('pointerout', () => {
+			buttonBackground.clear();
+			buttonBackground.fillStyle(0x008CBA, 1); // Original color
+			buttonBackground.fillRoundedRect(centerX - buttonWidth / 2, centerY - buttonHeight / 2, buttonWidth, buttonHeight, 10);
+			this.scene.input.setDefaultCursor('default'); // Change cursor to default
+		});
 	};
+
 
 	handleDrawCardClick = () => {
 		this.drawCardHandler.send({ action: "draw_card" });
