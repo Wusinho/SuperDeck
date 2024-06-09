@@ -44,6 +44,32 @@ export default class Player {
 		return this.other_zones;
 	}
 
+	getAreaPosition(zone) {
+		let area;
+		switch (zone) {
+			case 'hand':
+				area = this.hand_area;
+				break;
+			case 'mana_pool':
+				area = this.mana_pool_area;
+				break;
+			case 'play_zone':
+				area = this.play_zone_area;
+				break;
+			case 'exile':
+				area = this.graveyard_area;
+				break;
+			case 'graveyard':
+				area = this.graveyard_area
+				break;
+			default:
+				console.error(`Unknown zone: ${zone}`);
+				return { x: 0, y: 0 };
+		}
+
+		return { x: area.x, y: area.y, width: area.width, height: area.height };
+	}
+
 	createCard(cardData) {
 		const initialPosition = this.getAreaPosition(cardData.zone);
 		const initialAngle = this.getInitialAngle(cardData.zone);
