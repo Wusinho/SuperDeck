@@ -40,7 +40,6 @@ export default class Players {
 		const playerId = data.player_id;
 
 		if (playerId === this.currentPlayer.player_id) {
-			console.log('Current Player transaction')
 			this.currentPlayer.cardTransaction(data);
 		} else {
 			const player = this.players.find(player => player.player_id === data.player_id);

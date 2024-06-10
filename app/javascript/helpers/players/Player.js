@@ -136,7 +136,6 @@ export default class Player {
 
 			} else {
 				let card = this.cards[oldZone][cardIndex]
-				console.log('UPDATING CARD')
 				card.morphed = data.morphed;
 				card.tapped = data.tapped;
 				card.loadCardTexture()
