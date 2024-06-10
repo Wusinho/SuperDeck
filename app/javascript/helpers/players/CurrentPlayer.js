@@ -85,8 +85,9 @@ export default class CurrentPlayer extends Player {
 		};
 
 		document.getElementById('play-in-play_zone-morph').onclick = () => {
+			const response = card.zone === 'play_zone' ? !card.morphed : true;
 			this.scene.GameActions.send({ action: "morphed_from_hand", param: { card_id: card.card_id,
-					new_zone: 'play_zone', morphed: !card.morphed, tapped: card.tapped, old_zone: 'hand' } });
+					new_zone: 'play_zone', morphed: response, tapped: card.tapped, old_zone: 'hand' } });
 			contextMenu.style.display = 'none';
 		};
 

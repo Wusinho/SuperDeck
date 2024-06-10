@@ -18,7 +18,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		// Set the initial angle
 		this.angle = initialAngle;
 		this.initial_angle = initialAngle;
-		this.tapped_angle = initialAngle * 2;
+		this.tapped_angle = this.correctInitialAngle(this.initial_angle);
 		// Set interactive
 		this.setInteractive();
 
@@ -34,6 +34,10 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		// Handle interactions
 		this.on('pointerdown', this.handlePointerDown, this);
 		this.on('pointerover', this.showCard, this)
+	}
+
+	correctInitialAngle(initialAngle){
+		return initialAngle === 0 ? 90 : initialAngle * 2;
 	}
 
 	getPlayerCardId(){
@@ -139,7 +143,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 	}
 
 	tappedLogic(){
-		return this.tapped ? this.initial_angle : this.tapped_angle;
+		return this.tapped ? this.tapped_angle : this.initial_angle;
 	}
 
 	toggleTapped() {

@@ -9,32 +9,37 @@ class GameActionsChannel < ApplicationCable::Channel
 
   def morphed_from_hand(data)
     pc = PlayerCard.find_by(id: data['card_id'])
+    old_zone = pc.zone
     pc.update(morphed: data['morphed'], zone: PlayerCard.zones[data['new_zone'].to_sym] )
+    pc = PlayerCard.find_by(id: data['card_id'])
+
     information = {
       player_id: pc.player_id,
-      old_zone: data['old_zone'],
-      new_zone: data['new_zone'],
-      card_id: data['card_id'],
-      morphed: data['morphed'],
-      tapped: data['tapped'],
+      old_zone: old_zone,
+      new_zone: pc.zone,
+      card_id: pc.id,
+      morphed: pc.morphed,
+      tapped: pc.tapped,
     }
     ActionCable.server.broadcast("game_actions_channel", information)
   end
 
   def change_state(data)
     pc = PlayerCard.find_by(id: data['card_id'])
+    olc_zone = pc.zone
+    pc.update(tapped: data['tapped'], morphed: data['morphed'] )
 
+    pc = PlayerCard.find_by(id: data['card_id'])
 
     information = {
       player_id: pc.player_id,
-      old_zone: data['new_zone'],
-      new_zone: data['new_zone'],
-      card_id: data['card_id'],
-      morphed: data['morphed'],
-      tapped: data['tapped'],
+      old_zone: olc_zone,
+      new_zone: pc.zone,
+      card_id: pc.id,
+      morphed: pc.morphed,
+      tapped: pc.tapped,
     }
 
-    pc.update(tapped: data['tapped'], morphed: data['morphed'] )
 
     ActionCable.server.broadcast("game_actions_channel", information)
   end
@@ -42,15 +47,17 @@ class GameActionsChannel < ApplicationCable::Channel
   def change_zone(data)
     pc = PlayerCard.find_by(id: data['card_id'])
     old_zone = pc.zone
+    pc.update(zone: PlayerCard.zones[data['new_zone'].to_sym])
+    pc = PlayerCard.find_by(id: data['card_id'])
+
     information = {
       player_id: pc.player_id,
       old_zone: old_zone,
-      new_zone: data['new_zone'],
-      card_id: data['card_id'],
+      new_zone: pc.zone,
+      card_id: pc.id,
       morphed: pc.morphed,
       tapped: pc.tapped,
     }
-    pc.update(zone: PlayerCard.zones[data['new_zone'].to_sym])
 
     ActionCable.server.broadcast("game_actions_channel", information)
   end

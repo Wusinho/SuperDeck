@@ -112,8 +112,6 @@ export default class Player {
 	}
 
 	cardTransaction(data) {
-		console.log(data)
-		console.log(data.card_id)
 		const card_id = data.card_id;
 		const newZone = data.new_zone;
 		const oldZone = data.old_zone;
