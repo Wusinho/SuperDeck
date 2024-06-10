@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
   include Crudatable
   include ActionView::RecordIdentifier
+  before_action :authenticate_user!
 
   def show
     unless @resource.user_in_game?(current_user)
