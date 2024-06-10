@@ -14,10 +14,8 @@ export default class Players {
 	addPlayer(typeOfPlayer, newPlayer) {
 		const existingIndex = this.players.findIndex(player => player.player_id === newPlayer.id);
 		if (existingIndex !== -1) {
-			console.log("NO SE CREA EL USUARIO EXISTENTE")
 		} else {
 			if (newPlayer.player_id === this.currentPlayer.player_id) return
-			console.log('USUARIO NUEVO')
 			if (typeOfPlayer === 'TOP'){
 				this.players.push(new TopPlayer(this.scene, newPlayer))
 			} else if (typeOfPlayer === 'LEFT'){

@@ -9,10 +9,7 @@ class GameActionsChannel < ApplicationCable::Channel
 
   def morphed_from_hand(data)
     pc = PlayerCard.find_by(id: data['card_id'])
-    p '*'*100
-    p data['morphed']
-    p '*'*100
-    pc.update_columns(morphed: data['morphed'], zone: PlayerCard.zones[data['new_zone'].to_sym] )
+    pc.update(morphed: data['morphed'], zone: PlayerCard.zones[data['new_zone'].to_sym] )
     information = {
       player_id: pc.player_id,
       old_zone: data['old_zone'],
@@ -37,11 +34,7 @@ class GameActionsChannel < ApplicationCable::Channel
       tapped: data['tapped'],
     }
 
-    p '*'*100
-    p information
-    p '*'*100
-
-    pc.update_columns(tapped: data['tapped'], morphed: data['morphed'] )
+    pc.update(tapped: data['tapped'], morphed: data['morphed'] )
 
     ActionCable.server.broadcast("game_actions_channel", information)
   end
@@ -60,14 +53,6 @@ class GameActionsChannel < ApplicationCable::Channel
     pc.update(zone: PlayerCard.zones[data['new_zone'].to_sym])
 
     ActionCable.server.broadcast("game_actions_channel", information)
-  end
-
-  def data_recollected(player_card, from)
-    {
-      player_id: player_card.player_id,
-      from: from,
-      to: player_card.zone,
-    }
   end
 
   def change_action(data)

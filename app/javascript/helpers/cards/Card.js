@@ -17,7 +17,8 @@ export default class Card extends Phaser.GameObjects.Sprite {
 
 		// Set the initial angle
 		this.angle = initialAngle;
-
+		this.initial_angle = initialAngle;
+		this.tapped_angle = initialAngle * 2;
 		// Set interactive
 		this.setInteractive();
 
@@ -79,12 +80,15 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		this.card_behaviour();
 		this.scene.load.image(`card-${this.card_id}`, this.image_url);
 		this.scene.load.once('complete', () => {
-			if (this.zone === 'play_zone' && this.morphed || this.zone === 'mana_pool' ) {
+			if (this.zone === 'play_zone' && this.morphed ) {
+				this.setTexture('defaultCardSprite');
+			} else if (this.zone === 'mana_pool') {
 				this.setTexture('defaultCardSprite');
 			} else if (this.zone !== 'mana_pool') {
 				this.setTexture(`card-${this.card_id}`);
 			} else {
-				// this.setTexture('defaultCardSprite'); // For `mana_pool`, always set to default sprite
+				console.log('DONDE ESTARA??')
+				// this.setTexture(`card-${this.card_id}`);
 			}
 			this.setScale(this.calculateScale(this.handSize, this.otherZones));
 		});
@@ -135,7 +139,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 	}
 
 	tappedLogic(){
-		return this.tapped ? (this.angle + 90) % 360 : (this.angle + 360) % 360;
+		return this.tapped ? this.initial_angle : this.tapped_angle;
 	}
 
 	toggleTapped() {

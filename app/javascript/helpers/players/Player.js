@@ -125,6 +125,8 @@ export default class Player {
 			if (newZone !== oldZone) {
 				let [card] = this.cards[oldZone].splice(cardIndex, 1);
 				card.zone = newZone;
+				card.morphed = data.morphed;
+				card.tapped = data.tapped;
 
 				card.setVisible(false);
 
@@ -136,6 +138,7 @@ export default class Player {
 
 			} else {
 				let card = this.cards[oldZone][cardIndex]
+				console.log('UPDATING CARD')
 				card.morphed = data.morphed;
 				card.tapped = data.tapped;
 				card.loadCardTexture()

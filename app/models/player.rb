@@ -5,9 +5,12 @@ class Player < ApplicationRecord
   has_many :cards, through: :player_cards
   before_save :update_username
 
-
   def hand_cards
-    player_cards.joins(:card).where(zone: 0).select('player_cards.zone', 'player_cards.morphed', 'players_cards.tapped', 'player_cards.current_holder_id','cards.*')
+    player_cards.joins(:card).where(zone: 0).select('player_cards.zone',
+                                                    'player_cards.morphed',
+                                                    'players_cards.tapped',
+                                                    'player_cards.current_holder_id',
+                                                    'cards.*')
   end
 
   def card_collection

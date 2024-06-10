@@ -22,7 +22,6 @@ export default class TopPlayer extends Player {
 		this.play_zone_area = this.scene.topPlayerPlayZoneArea;
 		this.graveyard_area = this.scene.topPlayerGraveyardArea;
 		this.addCardsToGame(player.cards);
-		console.log(this)
 	}
 
 	createUserName(){
