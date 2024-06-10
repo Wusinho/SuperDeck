@@ -97,8 +97,13 @@ export default class CurrentPlayer extends Player {
 		};
 
 		document.getElementById('play-in-hand').onclick = () => {
-			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
-					new_zone: 'hand', old_zone: 'play_zone'} });
+			this.scene.GameActions.send({
+				action: "change_zone",
+				param: {
+					card_id: card.card_id,
+					new_zone: 'hand'
+				}
+			});
 			contextMenu.style.display = 'none';
 		};
 

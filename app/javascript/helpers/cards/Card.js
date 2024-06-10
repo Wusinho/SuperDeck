@@ -7,8 +7,8 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		this.card_id = cardData.card_id;
 		this.zone = cardData.zone;
 		this.card_name = cardData.name;
-		this.morphed = cardData.morphed || false;
-		this.tapped = cardData.tapped || false;
+		this.morphed = cardData.morphed;
+		this.tapped = cardData.tapped;
 		this.image_url = cardData.image_url;
 		this.player_type = playerType;
 		this.hand_size = handSize;
@@ -49,7 +49,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 				});
 			} else {
 			}
-		} else if (this.zone === 'play_zone' && !this.morphed) {
+		} else if (this.zone === 'play_zone' && this.morphed === false) {
 			this.scene.BoardCreation.updateCardViewer({
 				title: this.card_name ,
 				image_url: this.image_url,
@@ -145,7 +145,8 @@ export default class Card extends Phaser.GameObjects.Sprite {
 				card_id: this.card_id,
 				tapped: !this.tapped,
 				morphed: this.morphed,
-				zone: this.zone
+				new_zone: this.zone,
+				old_zone: this.zone
 			}
 		});
 	}

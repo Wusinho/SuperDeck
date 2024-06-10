@@ -122,25 +122,29 @@ export default class Player {
 		let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
 
 		if (cardIndex !== -1) {
-			// Remove the card from the old zone
-			let [card] = this.cards[oldZone].splice(cardIndex, 1);
-			card.zone = newZone;
-			card.morphed = data.morphed;
-			card.tapped = data.tapped;
-
 			if (newZone !== oldZone) {
+				let [card] = this.cards[oldZone].splice(cardIndex, 1);
+				card.zone = newZone;
+
 				card.setVisible(false);
 
 				this.cards[newZone].push(card);
 
 				this.updateCardPositions(oldZone);
 				this.updateCardPositions(newZone);
-			}
+				card.loadCardTexture()
 
-			card.loadCardTexture()
+			} else {
+				let card = this.cards[oldZone][cardIndex]
+				card.morphed = data.morphed;
+				card.tapped = data.tapped;
+				card.loadCardTexture()
+			}
 
 		} else {
 			console.error(`Card with ID ${card_id} not found in ${oldZone}`);
+			console.log(this.cards[oldZone])
+			console.log('-----------------------')
 		}
 	}
 
