@@ -3,6 +3,7 @@ class Player < ApplicationRecord
   belongs_to :game
   has_many :player_cards
   has_many :cards, through: :player_cards
+  has_many :stolen_cards, through: :player_cards, foreign_key: :current_holder
   before_save :update_username
 
   def hand_cards
