@@ -14,6 +14,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		this.hand_size = handSize;
 		this.other_zones = otherZones;
 		this.owner_id = player_id;
+		this.current_holder_id = player_id;
 
 		// Set the initial angle
 		this.angle = initialAngle;
@@ -37,7 +38,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 	}
 
 	correctInitialAngle(initialAngle){
-		return initialAngle === 0 ? 90 : initialAngle * 2;
+		return initialAngle >= 0 ? initialAngle + 90 : initialAngle - 90;
 	}
 
 	getPlayerCardId(){

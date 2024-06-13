@@ -115,6 +115,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_12_003654) do
     t.datetime "updated_at", null: false
     t.boolean "tapped", default: false, null: false
     t.uuid "current_holder_id"
+    t.uuid "card_attached_id"
+    t.index ["card_attached_id"], name: "index_player_cards_on_card_attached_id"
     t.index ["card_id"], name: "index_player_cards_on_card_id"
     t.index ["current_holder_id"], name: "index_player_cards_on_current_holder_id"
     t.index ["player_id"], name: "index_player_cards_on_player_id"
@@ -153,6 +155,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_12_003654) do
   add_foreign_key "game_configurations", "games", on_delete: :cascade
   add_foreign_key "games", "users", column: "owner_id"
   add_foreign_key "player_cards", "cards"
+  add_foreign_key "player_cards", "player_cards", column: "card_attached_id"
   add_foreign_key "player_cards", "players", column: "current_holder_id"
   add_foreign_key "player_cards", "players", on_delete: :cascade
   add_foreign_key "players", "games", on_delete: :cascade

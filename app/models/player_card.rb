@@ -1,14 +1,40 @@
 class PlayerCard < ApplicationRecord
   belongs_to :player
   belongs_to :current_holder, class_name: 'Player', foreign_key: :current_holder_id
+  belongs_to :card_attached, class_name: 'PlayerCard', foreign_key: 'card_attached_id', optional: true
   belongs_to :card
   enum zone: { hand: 0, play_zone: 1, mana_pool: 2, graveyard: 3, exile: 4 }
   before_validation :set_current_holder, on: :create
   # after_update :reset_action_if_zone_changes
+  before_update :handle_zone_change
   before_update :reset_if_hand
 
   def set_current_holder
     self.current_holder_id ||= player_id
+  end
+
+  def handle_zone_change
+    if zone_changed? && !%w[play_zone mana_pool].include?(zone)
+      detach_attached_cards
+    end
+  end
+
+  def detach_attached_cards
+    return unless card_attached
+
+    # Store current zone to reassign attached card
+    previous_zone = zone
+
+    # Move attached card back to its original zone
+    card_attached.update_columns(zone: previous_zone, card_attached_id: nil, tapped: false, morphed: false)
+
+    # Detach further attached cards and send them to the graveyard
+    current = card_attached
+    while current.card_attached
+      next_card = current.card_attached
+      current.update_columns(card_attached_id: nil, zone: :graveyard ,tapped: false, morphed: false)
+      current = next_card
+    end
   end
 
   def reset_if_hand
