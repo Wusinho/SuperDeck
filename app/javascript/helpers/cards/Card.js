@@ -19,7 +19,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		// Set the initial angle
 		this.angle = initialAngle;
 		this.initial_angle = initialAngle;
-		this.tapped_angle = this.correctInitialAngle(this.initial_angle);
+		this.tapped_angle = initialAngle + 45;
 		// Set interactive
 		this.setInteractive();
 
@@ -35,10 +35,6 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		// Handle interactions
 		this.on('pointerdown', this.handlePointerDown, this);
 		this.on('pointerover', this.showCard, this)
-	}
-
-	correctInitialAngle(initialAngle){
-		return initialAngle >= 0 ? initialAngle + 90 : initialAngle - 90;
 	}
 
 	getPlayerCardId(){
@@ -134,6 +130,8 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		} else if (this.player_type === PlayerTypes.OPPONENT) {
 			// Define opponent-specific behavior
 			if (pointer.rightButtonDown()) {
+				const opponent = this.scene.LoadGame.players.findOpponent(this.owner_id)
+				opponent.showOpponentMenu(pointer, this);
 				console.log('Richt clicked')
 			} else if (pointer.leftButtonDown()) {
 				console.log("Opponent card clicked");

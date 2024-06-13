@@ -1,5 +1,5 @@
   <div data-controller="phaser-game" data-userId="<%= current_user.id %>">
-    <div id="context-menu" data-phaser-game-target="menu">
+    <div id="context-menu" class="menu" data-phaser-game-target="menu">
       <ul>
         <li id="play-in-mana-pool">Mana</li>
         <li id="play-in-play_zone">Juego</li>
@@ -7,6 +7,11 @@
         <li id="play-in-graveyard">Cementerio</li>
         <li id="play-in-hand">Hand</li>
         <li id="play-in-exile">Exile</li>
+      </ul>
+    </div>
+    <div id="opponent-menu" class="menu" data-phaser-game-target="opponentMenu">
+      <ul>
+        <li id="play-in-rob">Robar</li>
       </ul>
     </div>
     <div id='read' data-phaser-game-target="read"></div>

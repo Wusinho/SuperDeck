@@ -148,31 +148,29 @@ export default class Player {
 		}
 	}
 
-	// moveOpponentCardToZone(data) {
-	// 	const card_id = data.card_id;
-	// 	const newZone = data.new_zone;
-	// 	const oldZone = data.old_zone;
-	//
-	// 	// Find the index of the card in the old zone
-	// 	let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
-	//
-	// 	if (cardIndex !== -1) {
-	// 		// Remove the card from the old zone
-	// 		let [card] = this.cards[oldZone].splice(cardIndex, 1);
-	// 		card.zone = newZone;
-	//
-	// 		if (newZone === oldZone) return
-	// 		card.setVisible(false);
-	//
-	// 		this.cards[newZone].push(card);
-	//
-	// 		this.updateCardPositions(oldZone);
-	// 		this.updateCardPositions(newZone);
-	// 		card.loadCardTexture()
-	//
-	// 	} else {
-	// 		console.error(`Card with ID ${card_id} not found in ${oldZone}`);
-	// 	}
-	// }
+	showOpponentMenu(pointer, card) {
+		const contextMenu = document.getElementById('opponent-menu');
+		contextMenu.style.display = 'block';
+		contextMenu.style.left = `${pointer.event.clientX}px`;
+		contextMenu.style.top = `${pointer.event.clientY}px`;
 
+		contextMenu.card = card;
+
+		document.getElementById('play-in-rob').onclick = () => {
+			console.log(card)
+			// this.scene.GameActions.send({ action: "change_zone", param: { card_id: card.card_id,
+			// 		new_zone: 'mana_pool'} });
+			contextMenu.style.display = 'none';
+		};
+
+		document.addEventListener('click', (event) => {
+			if (contextMenu.style.display === 'block' && !contextMenu.contains(event.target)) {
+				contextMenu.style.display = 'none';
+			}
+		});
+
+		contextMenu.addEventListener('click', (event) => {
+			event.stopPropagation();
+		});
+	}
 }

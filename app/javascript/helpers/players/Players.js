@@ -28,6 +28,10 @@ export default class Players {
 		}
 	}
 
+	findOpponent(opponent_id){
+		return this.players.find(player => player.player_id === opponent_id);
+	}
+
 	addCurrentPlayer(player){
 		this.currentPlayer = player
 	}
