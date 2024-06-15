@@ -9,6 +9,7 @@ export default class Players {
 		this.currentPlayer = null
 		this.scene.events.on("drawCardReceived", this.handleDrawCardReceived, this);
 		this.scene.events.on("gameActionsReceived", this.handleGameActionsReceived, this);
+		this.scene.events.on("specialActionsReceived", this.handleGameSpecialActionsReceived, this);
 	}
 
 	addPlayer(typeOfPlayer, newPlayer) {
@@ -38,6 +39,22 @@ export default class Players {
 
 	filterOpponents(players){
 		return players.filter(player => player.id !== this.currentPlayer.player_id);
+	}
+
+	handleGameSpecialActionsReceived = data => {
+		const playerId = data.current_player_id;
+
+		if (playerId === this.currentPlayer.player_id) {
+			const old_holder = this.players.find(player => player.player_id === data.current_holder_id);
+			this.currentPlayer.specialCardTransaction(data, old_holder);
+		} else {
+			// const player = this.players.find(player => player.player_id === playerId);
+			// if (player) {
+			// 	player.specialCardTransaction(data);
+			// } else {
+			// 	console.error(`Player with ID ${data.player_id} not found`);
+			// }
+		}
 	}
 
 	handleGameActionsReceived = data => {

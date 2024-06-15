@@ -37,6 +37,14 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		this.on('pointerover', this.showCard, this)
 	}
 
+	updateNewHolder(holder_id, initialAngle, handSize, otherZones) {
+		this.current_holder_id = holder_id;
+		this.angle = initialAngle;
+		this.initial_angle = initialAngle;
+		this.tapped_angle = initialAngle + 45;
+		this.setScale(this.calculateScale(handSize, otherZones));
+	}
+
 	getPlayerCardId(){
 		return this.owner_id
 	}
@@ -118,25 +126,32 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		return Math.min(desiredWidth / originalWidth, desiredHeight / originalHeight);
 	}
 
+	cardBorrowed(){
+		return this.owner_id !== this.current_holder_id
+	}
+
 	handlePointerDown(pointer) {
-		if (this.player_type === PlayerTypes.CURRENT) {
-			if (pointer.rightButtonDown()) {
-				this.scene.LoadGame.players.currentPlayer.showContextMenu(pointer, this);
-			} else if (pointer.leftButtonDown() && this.zone !== 'hand') {
-				this.toggleTapped();
-			} else {
-				console.log("Not Implemented");
-			}
-		} else if (this.player_type === PlayerTypes.OPPONENT) {
-			// Define opponent-specific behavior
-			if (pointer.rightButtonDown()) {
-				const opponent = this.scene.LoadGame.players.findOpponent(this.owner_id)
-				opponent.showOpponentMenu(pointer, this);
-				console.log('Richt clicked')
-			} else if (pointer.leftButtonDown()) {
-				console.log("Opponent card clicked");
-			} else {
-				console.log("Not Implemented");
+		if( this.cardBorrowed()){
+			this.toggleTapped();
+		} else {
+			if (this.player_type === PlayerTypes.CURRENT) {
+				if (pointer.rightButtonDown()) {
+					this.scene.LoadGame.players.currentPlayer.showContextMenu(pointer, this);
+				} else if (pointer.leftButtonDown() && this.zone !== 'hand') {
+					this.toggleTapped();
+				} else {
+					console.log("Not Implemented");
+				}
+			} else if (this.player_type === PlayerTypes.OPPONENT) {
+				// Define opponent-specific behavior
+				if (pointer.rightButtonDown()) {
+					const opponent = this.scene.LoadGame.players.findOpponent(this.owner_id)
+					opponent.showOpponentMenu(pointer, this);
+				} else if (pointer.leftButtonDown()) {
+					console.log("Opponent card clicked");
+				} else {
+					console.log("Not Implemented");
+				}
 			}
 		}
 	}
@@ -146,6 +161,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 	}
 
 	toggleTapped() {
+		console.log("Tappgin Card")
 		this.scene.GameActions.send({
 			action: "change_state",
 			param: {

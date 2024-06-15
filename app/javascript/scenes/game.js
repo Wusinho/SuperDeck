@@ -1,6 +1,7 @@
 import BoardCreation from "../helpers/board_creation/BoardCreation";
 import LoadGame from "../helpers/load_game/LoadGame";
 import GameActionSocketHandler from "../helpers/sockets/GameActionSocketHandler";
+import SpecialActionSocketHandler from "../helpers/sockets/SpecialActionsSocketHandler";
 import Players from '../helpers/players/Players'
 
 export default class Game extends Phaser.Scene {
@@ -17,6 +18,7 @@ export default class Game extends Phaser.Scene {
 
 	create(){
 		this.GameActions = new GameActionSocketHandler(this);
+		this.SpecialActions = new SpecialActionSocketHandler(this)
 		this.LoadGame = new LoadGame(this);
 		this.BoardCreation = new BoardCreation(this);
 	}

@@ -142,10 +142,34 @@ export default class Player {
 			}
 
 		} else {
-			console.error(`Card with ID ${card_id} not found in ${oldZone}`);
+			console.error(`Card with ID ${card_id} not found in ${oldZone} for player ${this.player_name}`);
 			console.log(this.cards[oldZone])
 			console.log('-----------------------')
 		}
+	}
+
+	specialCardTransaction = (data, current_holder) => {
+		const card_id = data.card_id;
+		const newZone = data.new_zone;
+		const oldZone = data.old_zone;
+
+		let cardIndex = current_holder.cards[oldZone].findIndex(card => card.card_id === card_id);
+		if (cardIndex === -1) {
+			console.log(`Card with ID not found in ${card_id}, method SpecialCardTransaction`);
+			return
+		}
+
+		let [card] = current_holder.cards[oldZone].splice(cardIndex, 1);
+		current_holder.updateCardPositions(oldZone);
+		card.updateNewHolder(this.player_id,
+												 this.getCardAngle(),
+												 this.getHandSize(),
+												 this.getOtherZones() )
+
+		this.cards[newZone].push(card);
+		card.loadCardTexture()
+
+		this.updateCardPositions(newZone);
 	}
 
 	showOpponentMenu(pointer, card) {
@@ -157,9 +181,8 @@ export default class Player {
 		contextMenu.card = card;
 
 		document.getElementById('play-in-rob').onclick = () => {
-			console.log(card)
-			// this.scene.GameActions.send({ action: "change_zone", param: { card_id: card.card_id,
-			// 		new_zone: 'mana_pool'} });
+			this.scene.SpecialActions.send({ action: "special_action", param: { card_id: card.card_id,
+					current_holder_id: card.current_holder_id, zone: card.zone, current_player_id: this.scene.LoadGame.players.currentPlayer.player_id } });
 			contextMenu.style.display = 'none';
 		};
 
