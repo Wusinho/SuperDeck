@@ -99,6 +99,7 @@ export default class Player {
 			this.scene,
 			cardData,
 			this.getPlayerId(),
+			cardData.current_holder_id,
 			initialPosition,
 			initialAngle,
 			this.getPlayerType(),
@@ -148,19 +149,19 @@ export default class Player {
 		}
 	}
 
-	specialCardTransaction = (data, current_holder) => {
+	specialCardTransaction = (data, old_holder) => {
 		const card_id = data.card_id;
 		const newZone = data.new_zone;
 		const oldZone = data.old_zone;
 
-		let cardIndex = current_holder.cards[oldZone].findIndex(card => card.card_id === card_id);
+		let cardIndex = old_holder.cards[oldZone].findIndex(card => card.card_id === card_id);
 		if (cardIndex === -1) {
 			console.log(`Card with ID not found in ${card_id}, method SpecialCardTransaction`);
 			return
 		}
 
-		let [card] = current_holder.cards[oldZone].splice(cardIndex, 1);
-		current_holder.updateCardPositions(oldZone);
+		let [card] = old_holder.cards[oldZone].splice(cardIndex, 1);
+		old_holder.updateCardPositions(oldZone);
 		card.updateNewHolder(this.player_id,
 												 this.getCardAngle(),
 												 this.getHandSize(),
@@ -168,7 +169,6 @@ export default class Player {
 
 		this.cards[newZone].push(card);
 		card.loadCardTexture()
-
 		this.updateCardPositions(newZone);
 	}
 

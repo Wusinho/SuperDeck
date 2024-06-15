@@ -1,7 +1,7 @@
 import { PlayerTypes } from "../PlayerTypes";
 
 export default class Card extends Phaser.GameObjects.Sprite {
-	constructor(scene, cardData, player_id, initialPosition, initialAngle = 0, playerType, handSize, otherZones) {
+	constructor(scene, cardData, player_id, current_holder_id, initialPosition, initialAngle = 0, playerType, handSize, otherZones) {
 		super(scene, initialPosition.x, initialPosition.y, 'defaultCardSprite');
 		this.scene = scene;
 		this.card_id = cardData.card_id;
@@ -14,7 +14,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		this.hand_size = handSize;
 		this.other_zones = otherZones;
 		this.owner_id = player_id;
-		this.current_holder_id = player_id;
+		this.current_holder_id = current_holder_id;
 
 		// Set the initial angle
 		this.angle = initialAngle;

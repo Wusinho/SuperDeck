@@ -20,6 +20,7 @@ class Player < ApplicationRecord
                                              'player_cards.morphed',
                                              'player_cards.tapped',
                                              'player_cards.current_holder_id',
+                                             'player_cards.player_id AS owner_id',
                                              'player_cards.id AS card_id',
                                              'cards.*')
 
