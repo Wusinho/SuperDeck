@@ -1,7 +1,5 @@
 import Player from './Player';
-import Card from '../cards/Card'
 import { PlayerTypes } from "../PlayerTypes";
-import {get} from "@rails/request.js";
 
 export default class CurrentPlayer extends Player {
 	constructor(scene, player) {
@@ -73,26 +71,26 @@ export default class CurrentPlayer extends Player {
 
 		document.getElementById('play-in-mana-pool').onclick = () => {
 			// this.moveCardToZone(card.card_id, 'mana_pool');
-			this.scene.GameActions.send({ action: "change_zone", param: { card_id: card.card_id,
+			this.scene.GameActions.send({ action: "change_zone", param: { player_card_id: card.player_card_id,
 					new_zone: 'mana_pool'} });
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-play_zone').onclick = () => {
-			this.scene.GameActions.send({ action: "change_zone", param: { card_id: card.card_id,
+			this.scene.GameActions.send({ action: "change_zone", param: { player_card_id: card.player_card_id,
 					new_zone: 'play_zone'} });
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-play_zone-morph').onclick = () => {
 			const response = card.zone === 'play_zone' ? !card.morphed : true;
-			this.scene.GameActions.send({ action: "morphed_from_hand", param: { card_id: card.card_id,
+			this.scene.GameActions.send({ action: "morphed_from_hand", param: { player_card_id: card.player_card_id,
 					new_zone: 'play_zone', morphed: response, tapped: card.tapped, old_zone: 'hand' } });
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-graveyard').onclick = () => {
-			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
+			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.player_card_id,
 					new_zone: 'graveyard'} });
 			contextMenu.style.display = 'none';
 		};
@@ -101,7 +99,7 @@ export default class CurrentPlayer extends Player {
 			this.scene.GameActions.send({
 				action: "change_zone",
 				param: {
-					card_id: card.card_id,
+					player_card_id: card.player_card_id,
 					new_zone: 'hand'
 				}
 			});
@@ -109,8 +107,8 @@ export default class CurrentPlayer extends Player {
 		};
 
 		document.getElementById('play-in-exile').onclick = () => {
-			this.moveCardToZone(card.card_id, 'exile');
-			this.scene.GameActions.send({ action: "change_zone", param: {card_id: card.card_id,
+			this.moveCardToZone(card.player_card_id, 'exile');
+			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.player_card_id,
 					new_zone: 'exile'} });
 			contextMenu.style.display = 'none';
 		};

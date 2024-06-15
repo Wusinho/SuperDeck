@@ -65,9 +65,9 @@ export default class BoardCreation {
 		const cardImage = this.scene.add.image(0, 0, 'defaultCardSprite');
 
 		// Load the actual card texture
-		this.scene.load.image(`card-${cardData.card_id}`, cardData.image_url);
+		this.scene.load.image(`card-${cardData.player_card_id}`, cardData.image_url);
 		this.scene.load.once('complete', () => {
-			cardImage.setTexture(`card-${cardData.card_id}`);
+			cardImage.setTexture(`card-${cardData.player_card_id}`);
 			// Calculate scaling to fit the container
 			this.scaleCardImage(cardImage, cardViewerWidth - 40, cardViewerHeight - 60); // Adjust size with margin
 		});

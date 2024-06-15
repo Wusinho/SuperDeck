@@ -25,11 +25,11 @@ class GameActionsChannel < ApplicationCable::Channel
   end
 
   def change_state(data)
-    pc = PlayerCard.find_by(id: data['card_id'])
+    pc = PlayerCard.find_by(id: data['player_card_id'])
     olc_zone = pc.zone
     pc.update(tapped: data['tapped'], morphed: data['morphed'] )
 
-    pc = PlayerCard.find_by(id: data['card_id'])
+    pc = PlayerCard.find_by(id: data['player_card_id'])
 
     information = {
       current_holder_id: pc.current_holder_id,
@@ -44,10 +44,10 @@ class GameActionsChannel < ApplicationCable::Channel
   end
 
   def change_zone(data)
-    pc = PlayerCard.find_by(id: data['card_id'])
+    pc = PlayerCard.find_by(id: data['player_card_id'])
     old_zone = pc.zone
-    pc.update(zone: PlayerCard.zones[data['new_zone'].to_sym], current_holder_id:  data['current_holder_id'])
-    pc = PlayerCard.find_by(id: data['card_id'])
+    pc.update(zone: PlayerCard.zones[data['new_zone'].to_sym])
+    pc = PlayerCard.find_by(id: data['player_card_id'])
 
     information = {
       current_holder_id: pc.current_holder_id,

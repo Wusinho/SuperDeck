@@ -67,7 +67,7 @@ export default class Players {
 			if (player) {
 				player.cardTransaction(data);
 			} else {
-				console.error(`Player with ID ${data.player_id} not found`);
+				console.error(`Player with ID ${data.current_holder_id} not found`);
 			}
 		}
 	}

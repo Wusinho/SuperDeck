@@ -113,12 +113,12 @@ export default class Player {
 	}
 
 	cardTransaction(data) {
-		const card_id = data.card_id;
+		const player_card_id = data.player_card_id;
 		const newZone = data.new_zone;
 		const oldZone = data.old_zone;
 
 		// Find the index of the card in the old zone
-		let cardIndex = this.cards[oldZone].findIndex(card => card.card_id === card_id);
+		let cardIndex = this.cards[oldZone].findIndex(card => card.player_card_id === player_card_id);
 
 		if (cardIndex !== -1) {
 			if (newZone !== oldZone) {
@@ -143,20 +143,20 @@ export default class Player {
 			}
 
 		} else {
-			console.error(`Card with ID ${card_id} not found in ${oldZone} for player ${this.player_username}`);
+			console.error(`Card with ID ${player_card_id} not found in ${oldZone} for player ${this.player_username}`);
 			console.log(this.cards[oldZone])
 			console.log('-----------------------')
 		}
 	}
 
 	specialCardTransaction = (data, old_holder) => {
-		const card_id = data.card_id;
+		const player_card_id = data.player_card_id;
 		const newZone = data.new_zone;
 		const oldZone = data.old_zone;
 
-		let cardIndex = old_holder.cards[oldZone].findIndex(card => card.card_id === card_id);
+		let cardIndex = old_holder.cards[oldZone].findIndex(card => card.card_id === player_card_id);
 		if (cardIndex === -1) {
-			console.log(`Card with ID not found in ${card_id}, method SpecialCardTransaction`);
+			console.log(`Card with ID not found in ${player_card_id}, method SpecialCardTransaction`);
 			return
 		}
 
@@ -181,7 +181,7 @@ export default class Player {
 		contextMenu.card = card;
 
 		document.getElementById('play-in-rob').onclick = () => {
-			this.scene.SpecialActions.send({ action: "special_action", param: { card_id: card.card_id,
+			this.scene.SpecialActions.send({ action: "special_action", param: { player_card_id: card.player_card_id,
 					current_holder_id: card.current_holder_id, zone: card.zone, current_player_id: this.scene.LoadGame.players.currentPlayer.player_id } });
 			contextMenu.style.display = 'none';
 		};

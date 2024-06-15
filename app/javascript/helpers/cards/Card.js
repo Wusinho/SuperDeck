@@ -4,7 +4,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 	constructor(scene, cardData, player_id, current_holder_id, initialPosition, initialAngle = 0, playerType, handSize, otherZones) {
 		super(scene, initialPosition.x, initialPosition.y, 'defaultCardSprite');
 		this.scene = scene;
-		this.card_id = cardData.card_id;
+		this.player_card_id = cardData.player_card_id;
 		this.zone = cardData.zone;
 		this.card_name = cardData.name;
 		this.morphed = cardData.morphed;
@@ -55,7 +55,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 				this.scene.BoardCreation.updateCardViewer({
 					title: this.card_name ,
 					image_url: this.image_url,
-					card_id: this.card_id
+					player_card_id: this.player_card_id
 				});
 			} else {
 			}
@@ -63,7 +63,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 			this.scene.BoardCreation.updateCardViewer({
 				title: this.card_name ,
 				image_url: this.image_url,
-				card_id: this.card_id
+				player_card_id: this.player_card_id
 			});
 		} else {
 		}
@@ -87,14 +87,14 @@ export default class Card extends Phaser.GameObjects.Sprite {
 
 	loadCardTexture() {
 		this.card_behaviour();
-		this.scene.load.image(`card-${this.card_id}`, this.image_url);
+		this.scene.load.image(`card-${this.player_card_id}`, this.image_url);
 		this.scene.load.once('complete', () => {
 			if (this.zone === 'play_zone' && this.morphed ) {
 				this.setTexture('defaultCardSprite');
 			} else if (this.zone === 'mana_pool') {
 				this.setTexture('defaultCardSprite');
 			} else if (this.zone !== 'mana_pool') {
-				this.setTexture(`card-${this.card_id}`);
+				this.setTexture(`card-${this.player_card_id}`);
 			} else {
 				console.log('DONDE ESTARA??')
 				// this.setTexture(`card-${this.card_id}`);
@@ -143,7 +143,6 @@ export default class Card extends Phaser.GameObjects.Sprite {
 					console.log("Not Implemented");
 				}
 			} else if (this.player_type === PlayerTypes.OPPONENT) {
-				// Define opponent-specific behavior
 				if (pointer.rightButtonDown()) {
 					const opponent = this.scene.LoadGame.players.findOpponent(this.owner_id)
 					opponent.showOpponentMenu(pointer, this);
@@ -165,7 +164,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		this.scene.GameActions.send({
 			action: "change_state",
 			param: {
-				card_id: this.card_id,
+				player_card_id: this.player_card_id,
 				tapped: !this.tapped,
 				morphed: this.morphed,
 				new_zone: this.zone,
