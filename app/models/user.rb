@@ -24,7 +24,7 @@ class User < ApplicationRecord
   def current_game_players
     current_game.players.map do |player|
       {
-        id: player.id,
+        player_id: player.id,
         username: player.username,
         order: player.order,
         life: player.life,

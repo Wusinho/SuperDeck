@@ -20,9 +20,11 @@ class Player < ApplicationRecord
                                              'player_cards.morphed',
                                              'player_cards.tapped',
                                              'player_cards.current_holder_id',
-                                             'player_cards.player_id AS owner_id',
-                                             'player_cards.id AS card_id',
-                                             'cards.*')
+                                             'player_cards.owner_id',
+                                             'player_cards.id AS player_card_id',
+                                             'cards.image_url AS image_url',
+                                             'cards.name',
+                                             )
 
     cards_grouped_by_zone = cards.group_by(&:zone)
 

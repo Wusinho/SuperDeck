@@ -1,5 +1,5 @@
 class PlayerCard < ApplicationRecord
-  belongs_to :player
+  belongs_to :owner, class_name: 'Player', foreign_key: 'owner_id'
   belongs_to :current_holder, class_name: 'Player', foreign_key: :current_holder_id
   belongs_to :card_attached, class_name: 'PlayerCard', foreign_key: 'card_attached_id', optional: true
   belongs_to :card
@@ -10,7 +10,7 @@ class PlayerCard < ApplicationRecord
   before_update :reset_if_hand
 
   def set_current_holder
-    self.current_holder_id ||= player_id
+    self.current_holder_id ||= owner_id
   end
 
   def handle_zone_change

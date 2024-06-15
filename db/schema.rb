@@ -106,7 +106,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_12_003654) do
   end
 
   create_table "player_cards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "player_id"
     t.uuid "card_id", null: false
     t.boolean "morphed", default: false, null: false
     t.integer "zone", default: 0, null: false
@@ -114,12 +113,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_12_003654) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "tapped", default: false, null: false
+    t.uuid "owner_id"
     t.uuid "current_holder_id"
     t.uuid "card_attached_id"
     t.index ["card_attached_id"], name: "index_player_cards_on_card_attached_id"
     t.index ["card_id"], name: "index_player_cards_on_card_id"
     t.index ["current_holder_id"], name: "index_player_cards_on_current_holder_id"
-    t.index ["player_id"], name: "index_player_cards_on_player_id"
+    t.index ["owner_id"], name: "index_player_cards_on_owner_id"
     t.index ["zone"], name: "index_player_cards_on_zone"
   end
 
@@ -157,7 +157,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_12_003654) do
   add_foreign_key "player_cards", "cards"
   add_foreign_key "player_cards", "player_cards", column: "card_attached_id"
   add_foreign_key "player_cards", "players", column: "current_holder_id"
-  add_foreign_key "player_cards", "players", on_delete: :cascade
+  add_foreign_key "player_cards", "players", column: "owner_id"
   add_foreign_key "players", "games", on_delete: :cascade
   add_foreign_key "players", "users"
 end

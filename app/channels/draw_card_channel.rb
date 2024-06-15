@@ -11,13 +11,13 @@ class DrawCardChannel < ApplicationCable::Channel
     player_card = current_user.draw_card_from_game
 
     information = {
-      player_id: player_card.player_id,
+      current_user_id: player_card.current_holder_id,
       card: {
         zone: player_card.zone,
         morphed: player_card.morphed,
         tapped: player_card.tapped,
         image_url: player_card.card.image_url,
-        card_id: player_card.id
+        player_card_id: player_card.id
       }
     }
 
