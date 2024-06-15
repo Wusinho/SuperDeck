@@ -27,7 +27,7 @@ export default class TopPlayer extends Player {
 	createUserName(){
 		let centerX = this.scene.topPlayerUserInfo.x
 		let centerY = this.scene.topPlayerUserInfo.y
-		this.scene.currentUserName = this.create_text(centerX,centerY, this.player_name)
+		this.scene.currentUserName = this.create_text(centerX,centerY, this.player_username)
 			.setFontSize(14)
 			.setFontFamily("Arial")
 			.setInteractive();

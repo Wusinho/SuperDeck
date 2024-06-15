@@ -6,8 +6,8 @@ export default class Player {
 	// userType 0 => self, 1 => opponent
 	constructor(scene, player) {
 		this.scene = scene;
-		this.player_id = player.id;
-		this.player_name = player.username;
+		this.player_id = player.player_id;
+		this.player_username = player.username;
 		this.order = player.order;
 		this.life = player.life;
 		this.cards = {
@@ -143,7 +143,7 @@ export default class Player {
 			}
 
 		} else {
-			console.error(`Card with ID ${card_id} not found in ${oldZone} for player ${this.player_name}`);
+			console.error(`Card with ID ${card_id} not found in ${oldZone} for player ${this.player_username}`);
 			console.log(this.cards[oldZone])
 			console.log('-----------------------')
 		}

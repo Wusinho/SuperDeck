@@ -13,7 +13,7 @@ export default class Players {
 	}
 
 	addPlayer(typeOfPlayer, newPlayer) {
-		const existingIndex = this.players.findIndex(player => player.player_id === newPlayer.id);
+		const existingIndex = this.players.findIndex(player => player.player_id === newPlayer.player_id);
 		if (existingIndex !== -1) {
 		} else {
 			if (newPlayer.player_id === this.currentPlayer.player_id) return
@@ -58,7 +58,7 @@ export default class Players {
 	}
 
 	handleGameActionsReceived = data => {
-		const playerId = data.player_id;
+		const playerId = data.current_holder_id;
 
 		if (playerId === this.currentPlayer.player_id) {
 			this.currentPlayer.cardTransaction(data);
@@ -73,7 +73,7 @@ export default class Players {
 	}
 
 	handleDrawCardReceived = data => {
-		const playerId = data.player_id;
+		const playerId = data.current_holder_id;
 		if (playerId === this.currentPlayer.player_id) {
 			this.currentPlayer.createCard(data.card)
 		} else {
