@@ -134,7 +134,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		if( this.cardBorrowed()){
 			this.toggleTapped();
 		} else {
-			if (this.player_type === PlayerTypes.CURRENT) {
+			if (this.isMyCard()) {
 				if (pointer.rightButtonDown()) {
 					this.scene.LoadGame.players.currentPlayer.showContextMenu(pointer, this);
 				} else if (pointer.leftButtonDown() && this.zone !== 'hand') {
@@ -153,6 +153,10 @@ export default class Card extends Phaser.GameObjects.Sprite {
 				}
 			}
 		}
+	}
+
+	isMyCard(){
+		return this.scene.LoadGame.players.currentPlayer.player_id === this.current_holder_id
 	}
 
 	tappedLogic(){

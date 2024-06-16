@@ -41,20 +41,24 @@ export default class Players {
 		return players.filter(player => player.id !== this.currentPlayer.player_id);
 	}
 
-	handleGameSpecialActionsReceived = data => {
-		const playerId = data.current_player_id;
+	isCurrentPlayer(player_id){
+		return player_id === this.currentPlayer.player_id;
+	}
 
-		if (playerId === this.currentPlayer.player_id) {
-			const old_holder = this.players.find(player => player.player_id === data.current_holder_id);
-			this.currentPlayer.specialCardTransaction(data, old_holder);
-		} else {
-			// const player = this.players.find(player => player.player_id === playerId);
-			// if (player) {
-			// 	player.specialCardTransaction(data);
-			// } else {
-			// 	console.error(`Player with ID ${data.player_id} not found`);
-			// }
-		}
+	handleGameSpecialActionsReceived = data => {
+		const current_holder_id = data.current_holder_id;
+		const former_holder_id = data.former_holder_id;
+		let new_holder, former_holder;
+
+		if (this.isCurrentPlayer(current_holder_id) ) new_holder = this.currentPlayer
+		if (this.isCurrentPlayer(former_holder_id) ) former_holder = this.currentPlayer
+
+		if (!new_holder) new_holder = this.findOpponent(current_holder_id);
+	  if (!former_holder)  former_holder = this.findOpponent(former_holder_id);
+
+		new_holder.specialCardTransaction(data, former_holder);
+
+
 	}
 
 	handleGameActionsReceived = data => {
@@ -63,7 +67,7 @@ export default class Players {
 		if (playerId === this.currentPlayer.player_id) {
 			this.currentPlayer.cardTransaction(data);
 		} else {
-			const player = this.players.find(player => player.player_id === data.player_id);
+			const player = this.players.find(player => player.player_id === playerId);
 			if (player) {
 				player.cardTransaction(data);
 			} else {

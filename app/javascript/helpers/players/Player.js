@@ -154,7 +154,7 @@ export default class Player {
 		const newZone = data.new_zone;
 		const oldZone = data.old_zone;
 
-		let cardIndex = old_holder.cards[oldZone].findIndex(card => card.card_id === player_card_id);
+		let cardIndex = old_holder.cards[oldZone].findIndex(card => card.player_card_id === player_card_id);
 		if (cardIndex === -1) {
 			console.log(`Card with ID not found in ${player_card_id}, method SpecialCardTransaction`);
 			return

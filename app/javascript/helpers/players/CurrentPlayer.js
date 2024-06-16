@@ -33,22 +33,22 @@ export default class CurrentPlayer extends Player {
 			.setInteractive();
 	}
 
-	updateHandSize() {
-		const handSize = this.cards.hand.length;
-		if (this.scene.currentPlayerPlayerHandSize) {
-			// If the text object already exists, update its text
-			this.scene.currentPlayerPlayerHandSize.setText(`${handSize}`);
-		} else {
-			// If the text object does not exist, create it
-			let centerX = this.scene.currentPlayerHandArea.x;
-			let centerY = this.scene.currentPlayerHandArea.y;
-
-			this.scene.currentPlayerPlayerHandSize = this.create_text(centerX, centerY, `${handSize}`)
-				.setFontSize(14)
-				.setFontFamily("Arial")
-				.setInteractive();
-		}
-	}
+	// updateHandSize() {
+	// 	const handSize = this.cards.hand.length;
+	// 	if (this.scene.currentPlayerPlayerHandSize) {
+	// 		// If the text object already exists, update its text
+	// 		this.scene.currentPlayerPlayerHandSize.setText(`${handSize}`);
+	// 	} else {
+	// 		// If the text object does not exist, create it
+	// 		let centerX = this.scene.currentPlayerHandArea.x;
+	// 		let centerY = this.scene.currentPlayerHandArea.y;
+	//
+	// 		this.scene.currentPlayerPlayerHandSize = this.create_text(centerX, centerY, `${handSize}`)
+	// 			.setFontSize(14)
+	// 			.setFontFamily("Arial")
+	// 			.setInteractive();
+	// 	}
+	// }
 
 	updateCardPositions(zone) {
 		let spacing = this.card_spacing; // Spacing between cards
@@ -58,7 +58,7 @@ export default class CurrentPlayer extends Player {
 			card.x = area.x - (area.width / 2) + (index * spacing) + (spacing / 2);
 			card.y = area.y;
 		});
-		this.updateHandSize()
+		// this.updateHandSize()
 	}
 
 	showContextMenu(pointer, card) {

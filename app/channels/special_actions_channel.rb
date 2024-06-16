@@ -8,13 +8,14 @@ class SpecialActionsChannel < ApplicationCable::Channel
   end
 
   def special_action(data)
-    p '*'*100
     pc = PlayerCard.find(data['player_card_id'])
-    pc.update(zone: 'play_zone', current_holder_id: data['current_player_id'])
+    pc.update(zone: PlayerCard.zones['play_zone'.to_sym],
+              current_holder_id: data['current_player_id'])
     pc = PlayerCard.find(data['player_card_id'])
 
     information = {
       current_holder_id: pc.current_holder_id,
+      former_holder_id: data['current_holder_id'],
       owner_id: pc.owner_id,
       player_card_id: pc.id,
       old_zone: data['zone'],
