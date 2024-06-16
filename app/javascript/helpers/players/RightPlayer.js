@@ -15,7 +15,7 @@ export default class RightPlayer extends Player {
 		}
 		this.other_zones = {
 			width: 100,
-			height: 60,
+			height: 100,
 		}
 		this.hand_area = this.scene.rightPlayerHandArea;
 		this.mana_pool_area = this.scene.rightPlayerManaPoolArea;

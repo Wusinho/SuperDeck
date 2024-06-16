@@ -69,16 +69,12 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		}
 	}
 
-	on_hand() {
-		return this.zone === 'hand'
-	}
-
 	opponent() {
 		return this.player_type === 'opponent'
 	}
 
 	card_behaviour() {
-		if ( this.on_hand() && this.opponent() ){
+		if ( this.inHand() && this.opponent() ){
 			this.setVisible(false);
 		} else {
 			this.setVisible(true);
@@ -89,11 +85,11 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		this.card_behaviour();
 		this.scene.load.image(`card-${this.player_card_id}`, this.image_url);
 		this.scene.load.once('complete', () => {
-			if (this.zone === 'play_zone' && this.morphed ) {
+			if (this.inPlayzone() && this.morphed ) {
 				this.setTexture('defaultCardSprite');
-			} else if (this.zone === 'mana_pool') {
+			} else if (this.inManaPool()) {
 				this.setTexture('defaultCardSprite');
-			} else if (this.zone !== 'mana_pool') {
+			} else if (!this.inManaPool()) {
 				this.setTexture(`card-${this.player_card_id}`);
 			} else {
 				console.log('DONDE ESTARA??')
@@ -103,7 +99,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		});
 		this.scene.load.start();
 
-		if (this.zone === 'mana_pool' || this.zone === 'play_zone') {
+		if (this.inManaPool() || this.inPlayzone()) {
 			this.angle = this.tappedLogic()
 		}
 	}
@@ -128,6 +124,18 @@ export default class Card extends Phaser.GameObjects.Sprite {
 
 	cardBorrowed(){
 		return this.owner_id !== this.current_holder_id
+	}
+
+	inManaPool() {
+		return this.zone === 'mana_pool'
+	}
+
+	inHand() {
+		return this.zone === 'hand'
+	}
+
+	inPlayzone(){
+		return this.zone === 'play_zone'
 	}
 
 	handlePointerDown(pointer) {
@@ -164,7 +172,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 	}
 
 	toggleTapped() {
-		console.log("Tappgin Card")
+		console.log("Tapping Card")
 		this.scene.GameActions.send({
 			action: "change_state",
 			param: {

@@ -120,7 +120,11 @@ export default class Player {
 		// Find the index of the card in the old zone
 		let cardIndex = this.cards[oldZone].findIndex(card => card.player_card_id === player_card_id);
 
-		if (cardIndex !== -1) {
+		if (cardIndex === -1) {
+			console.log(`Cant find Card with ID ${player_card_id}`);
+			return
+		}
+
 			if (newZone !== oldZone) {
 				let [card] = this.cards[oldZone].splice(cardIndex, 1);
 				card.zone = newZone;
@@ -142,11 +146,7 @@ export default class Player {
 				card.loadCardTexture()
 			}
 
-		} else {
-			console.error(`Card with ID ${player_card_id} not found in ${oldZone} for player ${this.player_username}`);
-			console.log(this.cards[oldZone])
-			console.log('-----------------------')
-		}
+
 	}
 
 	specialCardTransaction = (data, old_holder) => {
@@ -179,6 +179,10 @@ export default class Player {
 		contextMenu.style.top = `${pointer.event.clientY}px`;
 
 		contextMenu.card = card;
+
+		let liElement = document.getElementById('play-in-rob')
+		liElement.innerHTML = card.inManaPool() ? 'Robar Tierra' : `Robar ${card.card_name}`;
+
 
 		document.getElementById('play-in-rob').onclick = () => {
 			this.scene.SpecialActions.send({ action: "special_action", param: { player_card_id: card.player_card_id,
