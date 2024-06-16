@@ -140,7 +140,12 @@ export default class Card extends Phaser.GameObjects.Sprite {
 
 	handlePointerDown(pointer) {
 		if( this.cardRobbed()){
-			this.toggleTapped();
+			if (pointer.rightButtonDown()){
+				this.scene.LoadGame.players.currentPlayer.showContextMenu(pointer, this);
+			}
+			if (pointer.leftButtonDown()){
+				this.toggleTapped();
+			}
 		} else {
 			if (this.isMyCard()) {
 				if (pointer.rightButtonDown()) {

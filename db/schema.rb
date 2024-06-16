@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_12_003654) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_16_042016) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -155,9 +155,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_12_003654) do
   add_foreign_key "game_configurations", "games", on_delete: :cascade
   add_foreign_key "games", "users", column: "owner_id"
   add_foreign_key "player_cards", "cards"
-  add_foreign_key "player_cards", "player_cards", column: "card_attached_id"
-  add_foreign_key "player_cards", "players", column: "current_holder_id"
-  add_foreign_key "player_cards", "players", column: "owner_id"
+  add_foreign_key "player_cards", "player_cards", column: "card_attached_id", on_delete: :cascade
+  add_foreign_key "player_cards", "players", column: "current_holder_id", on_delete: :cascade
+  add_foreign_key "player_cards", "players", column: "owner_id", on_delete: :cascade
   add_foreign_key "players", "games", on_delete: :cascade
   add_foreign_key "players", "users"
 end

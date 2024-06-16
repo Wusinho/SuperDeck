@@ -6,11 +6,15 @@ class PlayerCard < ApplicationRecord
   enum zone: { hand: 0, play_zone: 1, mana_pool: 2, graveyard: 3, exile: 4 }
   before_validation :set_current_holder, on: :create
   # after_update :reset_action_if_zone_changes
-  before_update :handle_zone_change
+  before_update :handle_zone_change, if: :card_attached_changed?
   before_update :reset_if_hand
 
   def set_current_holder
     self.current_holder_id ||= owner_id
+  end
+
+  def card_attached?
+    card_attached.present?
   end
 
   def handle_zone_change
