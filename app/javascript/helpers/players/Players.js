@@ -57,8 +57,6 @@ export default class Players {
 	  if (!former_holder)  former_holder = this.findOpponent(former_holder_id);
 
 		new_holder.specialCardTransaction(data, former_holder);
-
-
 	}
 
 	handleGameActionsReceived = data => {

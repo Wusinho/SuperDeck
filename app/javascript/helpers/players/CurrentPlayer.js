@@ -96,13 +96,25 @@ export default class CurrentPlayer extends Player {
 		};
 
 		document.getElementById('play-in-hand').onclick = () => {
-			this.scene.GameActions.send({
-				action: "change_zone",
-				param: {
-					player_card_id: card.player_card_id,
-					new_zone: 'hand'
-				}
-			});
+			if (card.cardRobbed()){
+				this.scene.SpecialActions.send({
+					action: "player_actions",
+					param: {
+						player_card_id: card.player_card_id,
+						current_holder_id: card.current_holder_id,
+						current_player_id: this.scene.LoadGame.players.currentPlayer.player_id,
+						new_zone: 'hand'
+					}
+				});
+			} else {
+				this.scene.GameActions.send({
+					action: "change_zone",
+					param: {
+						player_card_id: card.player_card_id,
+						new_zone: 'hand'
+					}
+				});
+			}
 			contextMenu.style.display = 'none';
 		};
 

@@ -122,7 +122,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		return Math.min(desiredWidth / originalWidth, desiredHeight / originalHeight);
 	}
 
-	cardBorrowed(){
+	cardRobbed(){
 		return this.owner_id !== this.current_holder_id
 	}
 
@@ -139,7 +139,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 	}
 
 	handlePointerDown(pointer) {
-		if( this.cardBorrowed()){
+		if( this.cardRobbed()){
 			this.toggleTapped();
 		} else {
 			if (this.isMyCard()) {
