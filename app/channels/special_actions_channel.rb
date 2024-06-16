@@ -7,19 +7,22 @@ class SpecialActionsChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
-  def special_action(data)
-    pc = PlayerCard.find(data['player_card_id'])
-    pc.update(zone: PlayerCard.zones['play_zone'.to_sym],
-              current_holder_id: data['current_player_id'])
-    pc = PlayerCard.find(data['player_card_id'])
+  def rob_card(data)
+    player_card_id = data['player_card_id']
+    current_player_id = data['current_player_id']
+    former_holder_id = data['current_holder_id']
+
+    player_card = PlayerCard.find(player_card_id)
+
+    player_card.update!(current_holder_id: current_player_id)
 
     information = {
-      current_holder_id: pc.current_holder_id,
-      former_holder_id: data['current_holder_id'],
-      owner_id: pc.owner_id,
-      player_card_id: pc.id,
-      old_zone: data['zone'],
-      new_zone: 'play_zone',
+      current_holder_id: player_card.current_holder_id,
+      former_holder_id: former_holder_id,
+      owner_id: player_card.owner_id,
+      player_card_id: player_card.id,
+      old_zone: player_card.zone,
+      new_zone: player_card.zone,
     }
 
     ActionCable.server.broadcast("special_actions_channel", information)

@@ -183,10 +183,12 @@ export default class Player {
 		let liElement = document.getElementById('play-in-rob')
 		liElement.innerHTML = card.inManaPool() ? 'Robar Tierra' : `Robar ${card.card_name}`;
 
-
 		document.getElementById('play-in-rob').onclick = () => {
-			this.scene.SpecialActions.send({ action: "special_action", param: { player_card_id: card.player_card_id,
-					current_holder_id: card.current_holder_id, zone: card.zone, current_player_id: this.scene.LoadGame.players.currentPlayer.player_id } });
+			this.scene.SpecialActions.send({ action: "rob_card", param: {
+				player_card_id: card.player_card_id,
+				current_holder_id: card.current_holder_id,
+				zone: card.zone,
+				current_player_id: this.scene.LoadGame.players.currentPlayer.player_id } });
 			contextMenu.style.display = 'none';
 		};
 
