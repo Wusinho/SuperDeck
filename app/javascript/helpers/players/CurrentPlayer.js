@@ -125,6 +125,7 @@ export default class CurrentPlayer extends Player {
 
 		document.getElementById('play-in-hand').onclick = () => {
 			console.log(`Is card robbed? = ${card.cardRobbed()}`)
+			console.log(card)
 				this.scene.GameActions.send({
 					action: action,
 					param: {

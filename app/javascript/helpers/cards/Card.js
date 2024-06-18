@@ -144,8 +144,8 @@ export default class Card extends Phaser.GameObjects.Sprite {
 				if (card.leftButtonDown() && (this.inPlayzone() || this.inManaPool()) ) this.toggleTapped();
 			} else {
 				if (card.rightButtonDown()) {
-					const opponent = this.scene.LoadGame.players.findOpponent(this.owner_id)
-					opponent.showOpponentMenu(card, this);
+					const player = this.scene.LoadGame.players.findOpponent(this.owner_id) || this.scene.LoadGame.players.currentPlayer
+					player.showOpponentMenu(card, this);
 				}
 			}
 	}
