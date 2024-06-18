@@ -98,8 +98,6 @@ export default class Player {
 		const card = new Card(
 			this.scene,
 			cardData,
-			this.getPlayerId(),
-			cardData.current_holder_id,
 			initialPosition,
 			initialAngle,
 			this.getPlayerType(),

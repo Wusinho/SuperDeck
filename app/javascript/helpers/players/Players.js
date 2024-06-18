@@ -46,6 +46,7 @@ export default class Players {
 	}
 
 	handleGameSpecialActionsReceived = data => {
+		console.log(data)
 		const current_holder_id = data.current_holder_id;
 		const former_holder_id = data.former_holder_id;
 		let new_holder, former_holder;

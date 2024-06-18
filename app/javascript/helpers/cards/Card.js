@@ -1,7 +1,7 @@
 import { PlayerTypes } from "../PlayerTypes";
 
 export default class Card extends Phaser.GameObjects.Sprite {
-	constructor(scene, cardData, player_id, current_holder_id, initialPosition, initialAngle = 0, playerType, handSize, otherZones) {
+	constructor(scene, cardData, initialPosition, initialAngle = 0, playerType, handSize, otherZones) {
 		super(scene, initialPosition.x, initialPosition.y, 'defaultCardSprite');
 		this.scene = scene;
 		this.player_card_id = cardData.player_card_id;
@@ -13,8 +13,8 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		this.player_type = playerType;
 		this.hand_size = handSize;
 		this.other_zones = otherZones;
-		this.owner_id = player_id;
-		this.current_holder_id = current_holder_id;
+		this.owner_id = cardData.owner_id;
+		this.current_holder_id = cardData.current_holder_id;
 
 		// Set the initial angle
 		this.angle = initialAngle;
@@ -164,6 +164,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 
 	toggleTapped() {
 		console.log("Tapping Card")
+		console.log(this)
 		this.scene.GameActions.send({
 			action: "change_state",
 			param: {

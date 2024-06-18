@@ -24,6 +24,9 @@ class GameActionsChannel < ApplicationCable::Channel
       old_zone: data['old_zone'] || player_card.zone,
       new_zone: player_card.zone,
     }
+    p '*' *100
+    p information
+    p '*' *100
 
     ActionCable.server.broadcast("game_actions_channel", ['across_player_zones', information])
   end
