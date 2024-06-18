@@ -14,7 +14,11 @@ class GameActionsChannel < ApplicationCable::Channel
 
     player_card = PlayerCard.find(player_card_id)
 
-    player_card.update!(current_holder_id: current_player_id)
+    if data['new_zone']
+      player_card.update!(current_holder_id: current_player_id, zone: PlayerCard.zones[data['new_zone'].to_sym])
+    else
+      player_card.update!(current_holder_id: current_player_id)
+    end
 
     information = {
       current_holder_id: player_card.current_holder_id,
@@ -24,9 +28,6 @@ class GameActionsChannel < ApplicationCable::Channel
       old_zone: data['old_zone'] || player_card.zone,
       new_zone: player_card.zone,
     }
-    p '*' *100
-    p information
-    p '*' *100
 
     ActionCable.server.broadcast("game_actions_channel", ['across_player_zones', information])
   end

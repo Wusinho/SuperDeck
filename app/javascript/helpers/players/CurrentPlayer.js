@@ -69,6 +69,8 @@ export default class CurrentPlayer extends Player {
 
 		contextMenu.card = card;
 		const action = card.cardRobbed() ? "player_actions" : "change_zone"
+		const current_player_id = this.scene.LoadGame.players.currentPlayer.player_id
+		console.log(`Card is Robbed? ${card.cardRobbed()}`)
 
 		document.getElementById('play-in-mana-pool').onclick = () => {
 			this.scene.GameActions.send({
@@ -76,7 +78,7 @@ export default class CurrentPlayer extends Player {
 				param: {
 					player_card_id: card.player_card_id,
 					current_holder_id: card.current_holder_id,
-					current_player_id: this.scene.LoadGame.players.currentPlayer.player_id,
+					current_player_id:  current_player_id,
 					new_zone: 'mana_pool'
 				}
 			});
@@ -89,7 +91,7 @@ export default class CurrentPlayer extends Player {
 				param: {
 					player_card_id: card.player_card_id,
 					current_holder_id: card.current_holder_id,
-					current_player_id: this.scene.LoadGame.players.currentPlayer.player_id,
+					current_player_id: current_player_id,
 					new_zone: 'play_zone'
 				}
 			});
@@ -116,7 +118,7 @@ export default class CurrentPlayer extends Player {
 				param: {
 					player_card_id: card.player_card_id,
 					current_holder_id: card.current_holder_id,
-					current_player_id: this.scene.LoadGame.players.currentPlayer.player_id,
+					current_player_id: current_player_id,
 					new_zone: 'graveyard'
 				}
 			});
@@ -124,33 +126,33 @@ export default class CurrentPlayer extends Player {
 		};
 
 		document.getElementById('play-in-hand').onclick = () => {
-			console.log(`Is card robbed? = ${card.cardRobbed()}`)
 			console.log(card)
 				this.scene.GameActions.send({
 					action: action,
 					param: {
 						player_card_id: card.player_card_id,
 						current_holder_id: card.current_holder_id,
-						current_player_id: this.scene.LoadGame.players.currentPlayer.player_id,
+						current_player_id: card.cardRobbed() ? card.owner_id  : current_player_id,
+						old_zone: card.zone,
 						new_zone: 'hand'
 					}
 				})
 			contextMenu.style.display = 'none';
 		};
 
-		document.getElementById('play-in-exile').onclick = () => {
-			this.moveCardToZone(card.player_card_id, 'exile');
-			this.scene.GameActions.send({
-				action: action,
-				param: {
-					player_card_id: card.player_card_id,
-					current_holder_id: card.current_holder_id,
-					current_player_id: this.scene.LoadGame.players.currentPlayer.player_id,
-					new_zone: 'exile'
-				}
-			});
-			contextMenu.style.display = 'none';
-		};
+		// document.getElementById('play-in-exile').onclick = () => {
+		// 	this.moveCardToZone(card.player_card_id, 'exile');
+		// 	this.scene.GameActions.send({
+		// 		action: action,
+		// 		param: {
+		// 			player_card_id: card.player_card_id,
+		// 			current_holder_id: card.current_holder_id,
+		// 			current_player_id: current_player_id,
+		// 			new_zone: 'exile'
+		// 		}
+		// 	});
+		// 	contextMenu.style.display = 'none';
+		// };
 
 		document.addEventListener('click', (event) => {
 			if (contextMenu.style.display === 'block' && !contextMenu.contains(event.target)) {

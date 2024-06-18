@@ -164,7 +164,6 @@ export default class Card extends Phaser.GameObjects.Sprite {
 
 	toggleTapped() {
 		console.log("Tapping Card")
-		console.log(this)
 		this.scene.GameActions.send({
 			action: "change_state",
 			param: {
