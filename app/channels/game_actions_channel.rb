@@ -7,6 +7,27 @@ class GameActionsChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
+  def player_actions(data)
+    player_card_id = data['player_card_id']
+    current_player_id = data['current_player_id']
+    former_holder_id = data['current_holder_id']
+
+    player_card = PlayerCard.find(player_card_id)
+
+    player_card.update!(current_holder_id: current_player_id)
+
+    information = {
+      current_holder_id: player_card.current_holder_id,
+      former_holder_id: former_holder_id,
+      owner_id: player_card.owner_id,
+      player_card_id: player_card.id,
+      old_zone: data['old_zone'] || player_card.zone,
+      new_zone: player_card.zone,
+    }
+
+    ActionCable.server.broadcast("game_actions_channel", ['across_player_zones', information])
+  end
+
   def morphed_from_hand(data)
     pc = PlayerCard.find_by(id: data['card_id'])
     old_zone = pc.zone
@@ -21,7 +42,7 @@ class GameActionsChannel < ApplicationCable::Channel
       morphed: pc.morphed,
       tapped: pc.tapped,
     }
-    ActionCable.server.broadcast("game_actions_channel", information)
+    ActionCable.server.broadcast("game_actions_channel", ['own_zone', information])
   end
 
   def change_state(data)
@@ -40,7 +61,7 @@ class GameActionsChannel < ApplicationCable::Channel
       tapped: pc.tapped,
     }
 
-    ActionCable.server.broadcast("game_actions_channel", information)
+    ActionCable.server.broadcast("game_actions_channel", ['own_zone', information])
   end
 
   def change_zone(data)
@@ -58,31 +79,7 @@ class GameActionsChannel < ApplicationCable::Channel
       tapped: pc.tapped,
     }
 
-    ActionCable.server.broadcast("game_actions_channel", information)
+    ActionCable.server.broadcast("game_actions_channel", ['own_zone', information])
   end
 
-  def change_action(data)
-    p '*'*100
-    p "NOT IMPLEMENTED"
-    p '*'*100
-    # pc = PlayerCard.find_by(id: data['card_id'])
-    # pc.update_column(:action, PlayerCard.actions[data['new_action'].to_sym])
-    #
-    # information = {
-    #   player_id: pc.player_id,
-    #   card_id: pc.id,
-    #   action: data['new_action'],
-    #   zone: data['zone']
-    # }
-    #
-    # ActionCable.server.broadcast("game_actions_channel", information)
-
-  end
-
-
-  def update(data)
-    p '*'*100
-    p data
-    p '*'*100
-  end
 end

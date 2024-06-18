@@ -9,7 +9,7 @@ export default class Players {
 		this.currentPlayer = null
 		this.scene.events.on("drawCardReceived", this.handleDrawCardReceived, this);
 		this.scene.events.on("gameActionsReceived", this.handleGameActionsReceived, this);
-		this.scene.events.on("specialActionsReceived", this.handleGameSpecialActionsReceived, this);
+		this.scene.events.on("acrossPlayersActionsReceived", this.handleGameSpecialActionsReceived, this);
 	}
 
 	addPlayer(typeOfPlayer, newPlayer) {

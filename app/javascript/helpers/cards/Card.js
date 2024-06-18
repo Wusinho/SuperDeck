@@ -138,37 +138,23 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		return this.zone === 'play_zone'
 	}
 
-	handlePointerDown(pointer) {
-		if( this.cardRobbed()){
-			if (pointer.rightButtonDown()){
-				this.scene.LoadGame.players.currentPlayer.showContextMenu(pointer, this);
-			}
-			if (pointer.leftButtonDown()){
-				this.toggleTapped();
-			}
-		} else {
-			if (this.isMyCard()) {
-				if (pointer.rightButtonDown()) {
-					this.scene.LoadGame.players.currentPlayer.showContextMenu(pointer, this);
-				} else if (pointer.leftButtonDown() && this.zone !== 'hand') {
-					this.toggleTapped();
-				} else {
-					console.log("Not Implemented");
-				}
-			} else if (this.player_type === PlayerTypes.OPPONENT) {
-				if (pointer.rightButtonDown()) {
+	handlePointerDown(card) {
+			if (this.cardInMyPossession() ) {
+				if (card.rightButtonDown()) this.scene.LoadGame.players.currentPlayer.showContextMenu(card, this);
+				if (card.leftButtonDown() && (this.inPlayzone() || this.inManaPool()) ) this.toggleTapped();
+			} else {
+				if (card.rightButtonDown()) {
 					const opponent = this.scene.LoadGame.players.findOpponent(this.owner_id)
-					opponent.showOpponentMenu(pointer, this);
-				} else if (pointer.leftButtonDown()) {
-					console.log("Opponent card clicked");
-				} else {
-					console.log("Not Implemented");
+					opponent.showOpponentMenu(card, this);
 				}
 			}
-		}
 	}
 
 	isMyCard(){
+		return this.scene.LoadGame.players.currentPlayer.player_id === this.owner_id
+	}
+
+	cardInMyPossession(){
 		return this.scene.LoadGame.players.currentPlayer.player_id === this.current_holder_id
 	}
 

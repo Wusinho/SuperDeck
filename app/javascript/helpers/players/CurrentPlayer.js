@@ -68,60 +68,86 @@ export default class CurrentPlayer extends Player {
 		contextMenu.style.top = `${pointer.event.clientY}px`;
 
 		contextMenu.card = card;
+		const action = card.cardRobbed() ? "player_actions" : "change_zone"
 
 		document.getElementById('play-in-mana-pool').onclick = () => {
-			// this.moveCardToZone(card.card_id, 'mana_pool');
-			this.scene.GameActions.send({ action: "change_zone", param: { player_card_id: card.player_card_id,
-					new_zone: 'mana_pool'} });
+			this.scene.GameActions.send({
+				action: action,
+				param: {
+					player_card_id: card.player_card_id,
+					current_holder_id: card.current_holder_id,
+					current_player_id: this.scene.LoadGame.players.currentPlayer.player_id,
+					new_zone: 'mana_pool'
+				}
+			});
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-play_zone').onclick = () => {
-			this.scene.GameActions.send({ action: "change_zone", param: { player_card_id: card.player_card_id,
-					new_zone: 'play_zone'} });
+			this.scene.GameActions.send({
+				action: action,
+				param: {
+					player_card_id: card.player_card_id,
+					current_holder_id: card.current_holder_id,
+					current_player_id: this.scene.LoadGame.players.currentPlayer.player_id,
+					new_zone: 'play_zone'
+				}
+			});
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-play_zone-morph').onclick = () => {
-			const response = card.zone === 'play_zone' ? !card.morphed : true;
-			this.scene.GameActions.send({ action: "morphed_from_hand", param: { player_card_id: card.player_card_id,
-					new_zone: 'play_zone', morphed: response, tapped: card.tapped, old_zone: 'hand' } });
+			this.scene.GameActions.send({
+				action: "morphed_from_hand",
+				param: {
+					player_card_id: card.player_card_id,
+					new_zone: 'play_zone',
+					morphed: card.inPlayzone() ? !card.morphed : true,
+					tapped: card.tapped,
+					old_zone: 'hand'
+				}
+			});
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-graveyard').onclick = () => {
-			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.player_card_id,
-					new_zone: 'graveyard'} });
+			this.scene.GameActions.send({
+				action: action,
+				param: {
+					player_card_id: card.player_card_id,
+					current_holder_id: card.current_holder_id,
+					current_player_id: this.scene.LoadGame.players.currentPlayer.player_id,
+					new_zone: 'graveyard'
+				}
+			});
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-hand').onclick = () => {
-			if (card.cardRobbed()){
-				this.scene.SpecialActions.send({
-					action: "player_actions",
+			console.log(`Is card robbed? = ${card.cardRobbed()}`)
+				this.scene.GameActions.send({
+					action: action,
 					param: {
 						player_card_id: card.player_card_id,
 						current_holder_id: card.current_holder_id,
 						current_player_id: this.scene.LoadGame.players.currentPlayer.player_id,
 						new_zone: 'hand'
 					}
-				});
-			} else {
-				this.scene.GameActions.send({
-					action: "change_zone",
-					param: {
-						player_card_id: card.player_card_id,
-						new_zone: 'hand'
-					}
-				});
-			}
+				})
 			contextMenu.style.display = 'none';
 		};
 
 		document.getElementById('play-in-exile').onclick = () => {
 			this.moveCardToZone(card.player_card_id, 'exile');
-			this.scene.GameActions.send({ action: "change_zone", param: {player_card_id: card.player_card_id,
-					new_zone: 'exile'} });
+			this.scene.GameActions.send({
+				action: action,
+				param: {
+					player_card_id: card.player_card_id,
+					current_holder_id: card.current_holder_id,
+					current_player_id: this.scene.LoadGame.players.currentPlayer.player_id,
+					new_zone: 'exile'
+				}
+			});
 			contextMenu.style.display = 'none';
 		};
 

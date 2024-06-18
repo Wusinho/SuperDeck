@@ -23,7 +23,12 @@ export default class GameActionSocketHandler {
 	}
 
 	onReceived(data) {
-		this.scene.events.emit("gameActionsReceived", data);
+		if (data[0] === 'own_zone') {
+			this.scene.events.emit("gameActionsReceived", data[1]);
+		} else {
+			this.scene.events.emit("acrossPlayersActionsReceived", data[1]);
+		}
+
 	}
 
 	send(data) {

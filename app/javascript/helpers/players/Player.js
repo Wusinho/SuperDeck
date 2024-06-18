@@ -184,7 +184,7 @@ export default class Player {
 		liElement.innerHTML = card.inManaPool() ? 'Robar Tierra' : `Robar ${card.card_name}`;
 
 		document.getElementById('play-in-rob').onclick = () => {
-			this.scene.SpecialActions.send({ action: "player_actions", param: {
+			this.scene.GameActions.send({ action: "player_actions", param: {
 				player_card_id: card.player_card_id,
 				current_holder_id: card.current_holder_id,
 				zone: card.zone,
