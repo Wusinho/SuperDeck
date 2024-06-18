@@ -126,7 +126,6 @@ export default class CurrentPlayer extends Player {
 		};
 
 		document.getElementById('play-in-hand').onclick = () => {
-			console.log(card)
 				this.scene.GameActions.send({
 					action: action,
 					param: {

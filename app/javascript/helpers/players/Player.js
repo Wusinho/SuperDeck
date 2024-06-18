@@ -148,6 +148,7 @@ export default class Player {
 	}
 
 	specialCardTransaction = (data, old_holder) => {
+		console.log('SPECIAL TRANSACTION')
 		const player_card_id = data.player_card_id;
 		const newZone = data.new_zone;
 		const oldZone = data.old_zone;
@@ -162,8 +163,10 @@ export default class Player {
 		old_holder.updateCardPositions(oldZone);
 		card.updateNewHolder(this.player_id,
 												 this.getCardAngle(),
+												 data.new_zone,
 												 this.getHandSize(),
-												 this.getOtherZones() )
+												 this.getOtherZones(),
+			)
 
 		this.cards[newZone].push(card);
 		card.loadCardTexture()

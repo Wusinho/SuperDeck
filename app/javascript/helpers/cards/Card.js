@@ -37,11 +37,12 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		this.on('pointerover', this.showCard, this)
 	}
 
-	updateNewHolder(holder_id, initialAngle, handSize, otherZones) {
+	updateNewHolder(holder_id, initialAngle, zone, handSize, otherZones) {
 		this.current_holder_id = holder_id;
 		this.angle = initialAngle;
 		this.initial_angle = initialAngle;
 		this.tapped_angle = initialAngle + 45;
+		this.zone = zone;
 		this.setScale(this.calculateScale(handSize, otherZones));
 	}
 
@@ -75,14 +76,18 @@ export default class Card extends Phaser.GameObjects.Sprite {
 
 	card_behaviour() {
 		if ( this.inHand() && this.opponent() ){
+			console.log('CARTA INVISBLE')
 			this.setVisible(false);
 		} else {
+			console.log('---------')
+			console.log(this.zone)
+			console.log(this.opponent())
+			console.log('---------')
 			this.setVisible(true);
 		}
 	}
 
 	loadCardTexture() {
-		this.card_behaviour();
 		this.scene.load.image(`card-${this.player_card_id}`, this.image_url);
 		this.scene.load.once('complete', () => {
 			if (this.inPlayzone() && this.morphed ) {
@@ -102,6 +107,7 @@ export default class Card extends Phaser.GameObjects.Sprite {
 		if (this.inManaPool() || this.inPlayzone()) {
 			this.angle = this.tappedLogic()
 		}
+		this.card_behaviour();
 	}
 
 	calculateScale(handSize, otherZones) {
