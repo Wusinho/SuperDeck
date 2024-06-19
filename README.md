@@ -1,7 +1,5 @@
 # 4-Player Card Game
 
-![Game Logo](path_to_logo_image) *(Replace with actual path if applicable)*
-
 ## Table of Contents
 
 - [Overview](#overview)
@@ -36,7 +34,7 @@
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/your-username/4-player-card-game.git
+   git clone https://github.com/Wusinho/cardgame.git
 
 2. **Create DB**:
     ```bash
