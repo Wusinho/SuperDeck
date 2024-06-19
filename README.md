@@ -62,6 +62,10 @@ The goal of the game is to outplay your opponents by strategically using your ca
 8. You can zoom in if you dont see the card.
 9. Currently the system works if th Card has an image_url.
 
+
+NOTE: Graveyard currently not working at 100%, the view might not be ok when stacking cards.
+      The name of players might not be seen correctly. Exile zone not yet implemented.
+
 ### Development
 
 1. **Clone the repository**:
