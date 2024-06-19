@@ -42,8 +42,9 @@
    rails db:create && rails db:migrate && rails db:seed
    
 3. **Create Cards**:
-Before anything you need to create the cards
-
+- Before anything you need to create the cards
+- You can create your cards using a CSV
+- Also if you want to see some cards for information you can use CreateCardService.
 
 ### How to Play
 
