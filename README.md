@@ -1,4 +1,4 @@
-# SuperDeck Card Game
+# SuperDeck (Card Game)
 
 ## Table of Contents
 
