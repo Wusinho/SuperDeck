@@ -76,13 +76,8 @@ export default class Card extends Phaser.GameObjects.Sprite {
 
 	card_behaviour() {
 		if ( this.inHand() && this.opponent() ){
-			console.log('CARTA INVISBLE')
 			this.setVisible(false);
 		} else {
-			console.log('---------')
-			console.log(this.zone)
-			console.log(this.opponent())
-			console.log('---------')
 			this.setVisible(true);
 		}
 	}
@@ -98,7 +93,6 @@ export default class Card extends Phaser.GameObjects.Sprite {
 				this.setTexture(`card-${this.player_card_id}`);
 			} else {
 				console.log('DONDE ESTARA??')
-				// this.setTexture(`card-${this.card_id}`);
 			}
 			this.setScale(this.calculateScale(this.handSize, this.otherZones));
 		});
@@ -142,6 +136,10 @@ export default class Card extends Phaser.GameObjects.Sprite {
 
 	inPlayzone(){
 		return this.zone === 'play_zone'
+	}
+
+	inGraveyard() {
+		return this.zone === 'graveyard'
 	}
 
 	handlePointerDown(card) {

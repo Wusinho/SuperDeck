@@ -70,9 +70,25 @@ export default class CurrentPlayer extends Player {
 		contextMenu.card = card;
 		const action = card.cardRobbed() ? "player_actions" : "change_zone"
 		const current_player_id = this.scene.LoadGame.players.currentPlayer.player_id
-		console.log(`Card is Robbed? ${card.cardRobbed()}`)
 
-		document.getElementById('play-in-mana-pool').onclick = () => {
+		let manaPoolElement = document.getElementById('play-in-mana-pool')
+		let playZoneElement = document.getElementById('play-in-play_zone')
+		let playZoneMorphElement = document.getElementById('play-in-play_zone-morph')
+		let graveYardElement = document.getElementById('play-in-graveyard')
+		let handElement = document.getElementById('play-in-hand')
+
+		let actionList = document.getElementById('action-list')
+
+		for (const child of actionList.children) {
+			child.style.display = 'block'
+		}
+
+		if (card.inPlayzone()) playZoneElement.style.display = 'none';
+		if (card.inHand()) handElement.style.display = 'none';
+		if (card.inManaPool()) manaPoolElement.style.display = 'none';
+		if (card.inGraveyard()) graveYardElement.style.display = 'none';
+
+		manaPoolElement.onclick = () => {
 			this.scene.GameActions.send({
 				action: action,
 				param: {
@@ -85,7 +101,7 @@ export default class CurrentPlayer extends Player {
 			contextMenu.style.display = 'none';
 		};
 
-		document.getElementById('play-in-play_zone').onclick = () => {
+		playZoneElement.onclick = () => {
 			this.scene.GameActions.send({
 				action: action,
 				param: {
@@ -98,7 +114,7 @@ export default class CurrentPlayer extends Player {
 			contextMenu.style.display = 'none';
 		};
 
-		document.getElementById('play-in-play_zone-morph').onclick = () => {
+		playZoneMorphElement.onclick = () => {
 			this.scene.GameActions.send({
 				action: "morphed_from_hand",
 				param: {
@@ -112,7 +128,7 @@ export default class CurrentPlayer extends Player {
 			contextMenu.style.display = 'none';
 		};
 
-		document.getElementById('play-in-graveyard').onclick = () => {
+		graveYardElement.onclick = () => {
 			this.scene.GameActions.send({
 				action: action,
 				param: {
@@ -125,7 +141,7 @@ export default class CurrentPlayer extends Player {
 			contextMenu.style.display = 'none';
 		};
 
-		document.getElementById('play-in-hand').onclick = () => {
+		handElement.onclick = () => {
 				this.scene.GameActions.send({
 					action: action,
 					param: {
