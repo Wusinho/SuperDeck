@@ -1,4 +1,4 @@
-# 4-Player Card Game
+# SuperDeck Card Game
 
 ## Table of Contents
 
