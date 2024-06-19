@@ -17,7 +17,10 @@ class DrawCardChannel < ApplicationCable::Channel
         morphed: player_card.morphed,
         tapped: player_card.tapped,
         image_url: player_card.card.image_url,
-        player_card_id: player_card.id
+        player_card_id: player_card.id,
+        owner_id: player_card.owner_id,
+        name: player_card.card.name,
+        current_holder_id: player_card.current_holder_id
       }
     }
 
