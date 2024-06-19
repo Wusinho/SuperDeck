@@ -45,7 +45,6 @@ dump.rdb
 latest.dump
 /config/cloudinary.yml
 /app/services/card_services.rb
-/app/services/clean_card_name_services.rb
 /app/services/create_cards_services.rb
 /app/assets/sheets/superdeckdiego.csv
 .env

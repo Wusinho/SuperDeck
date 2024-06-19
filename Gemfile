@@ -75,3 +75,4 @@ gem 'faker', '~> 3.3', '>= 3.3.1'
 gem 'faraday', '~> 2.7', '>= 2.7.10'
 gem 'cloudinary', '~> 1.28'
 gem 'active_model_serializers', '~> 0.10.14'
+gem 'dotenv', groups: [:development, :test]
