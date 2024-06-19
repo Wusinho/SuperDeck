@@ -26,7 +26,8 @@
 
 ### Prerequisites
 
-- **Node.js**: Ensure you have Node.js installed.
+- **Ruby**: Ensure Ruby is installed locally
+- **PostgreSQL**: Ensure PostgreSQL is installed locally
 - **Phaser**: The game uses Phaser, a fast, free, and fun open-source HTML5 game framework.
 
 ### Setup
