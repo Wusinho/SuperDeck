@@ -1,24 +1,83 @@
-# README
+# 4-Player Card Game
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+![Game Logo](path_to_logo_image) *(Replace with actual path if applicable)*
 
-Things you may want to cover:
+## Table of Contents
 
-* Ruby version
+- [Overview](#overview)
+- [Game Features](#game-features)
+- [Installation](#installation)
+- [How to Play](#how-to-play)
+- [Development](#development)
+- [Contribution](#author)
+- [License](#license)
 
-* System dependencies
+## Overview
 
-* Configuration
+**4-Player Card Game** is a multiplayer card game developed using Phaser, where up to four players can engage in strategic card play. The game combines elements of traditional card games with unique mechanics, providing an exciting and competitive experience.
 
-* Database creation
+## Game Features
 
-* Database initialization
+- **Multiplayer**: Supports up to 4 players.
+- **Unique Mechanics**: Combines traditional card gameplay with unique rules.
+- **Real-time Interaction**: Players interact with the game in real-time.
+- **Visually Engaging**: Built with Phaser for dynamic and engaging graphics.
+- **Multiple Zones**: Cards are played in different zones like hand, mana pool, play zone, etc.
 
-* How to run the test suite
+## Installation
 
-* Services (job queues, cache servers, search engines, etc.)
+### Prerequisites
 
-* Deployment instructions
+- **Node.js**: Ensure you have Node.js installed.
+- **Phaser**: The game uses Phaser, a fast, free, and fun open-source HTML5 game framework.
 
-* ...
+### Setup
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/your-username/4-player-card-game.git
+
+2. **Create DB**:
+    ```bash
+   rails db:create && rails db:migrate && rails db:seed
+   
+3. **Create Cards**:
+Before anything you need to create the cards
+
+
+### How to Play
+
+**Objective**:
+The goal of the game is to outplay your opponents by strategically using your cards.
+
+**Actions**:
+1. A player has a manaPool which will be used to cast spells or creatures
+2. there are 5 zones, currently working 3, Hand, ManaPool and PlayZone
+3. A player can also rob monsters or from the manaPool Area
+4. If a card an action is performed card owner it returns either to his/her hand or graveyard.
+
+### Development
+
+1. **Clone the repository**:
+
+**Technologies Used**
+- Phaser: For game development.
+- Ruby on Rails
+- ActionCable
+- Cloudinary: For managing game assets.
+
+### Author
+
+👤 **Heber Lazo**
+
+- Github: [@Wusinho](https://github.com/Wusinho)
+- LinkedIn: [Heber Lazo](https://www.linkedin.com/in/heber-lazo-benza-523266133/)
+
+### License
+
+This project is [MIT](LICENSE) licensed.
+
+## Show your support
+
+Give a star if you :star: like this project!
