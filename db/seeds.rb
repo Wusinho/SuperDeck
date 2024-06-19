@@ -14,5 +14,4 @@ if Rails.env.development?
   User.create!(email: 'player0@gmail.com', password: password, password_confirmation: password, username: 'Zambo')
   User.create!(email: 'player1@gmail.com', password: password, password_confirmation: password, username: 'Vash')
   User.create!(email: 'player2@gmail.com', password: password, password_confirmation: password, username: 'Tigre')
-  CreateCardsServices.perform
 end
