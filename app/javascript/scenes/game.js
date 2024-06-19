@@ -2,13 +2,12 @@ import BoardCreation from "../helpers/board_creation/BoardCreation";
 import LoadGame from "../helpers/load_game/LoadGame";
 import GameActionSocketHandler from "../helpers/sockets/GameActionSocketHandler";
 import SpecialActionSocketHandler from "../helpers/sockets/SpecialActionsSocketHandler";
-import Players from '../helpers/players/Players'
 
 export default class Game extends Phaser.Scene {
 	static players_ids = []
 	constructor() {
 		super('Game');
-		this.opponentCard = "https://res.cloudinary.com/wusinho1/image/upload/v1716614018/back_card_0_zx41zw.png"
+		this.opponentCard = "https://res.cloudinary.com/wusinho1/image/upload/v1718770276/back_card_savana_d8rfgf.png"
 	}
 
 	preload(){

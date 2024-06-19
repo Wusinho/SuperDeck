@@ -1,7 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import Phaser from "phaser"
 import Game from "../scenes/game"
-import Example from "../scenes/example"
 
 // https://www.youtube.com/watch?v=QjrVfAvxQ6w CONTINUE WATCHING
 
