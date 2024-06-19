@@ -52,9 +52,14 @@ The goal of the game is to outplay your opponents by strategically using your ca
 
 **Actions**:
 1. A player has a manaPool which will be used to cast spells or creatures
-2. there are 5 zones, currently working 3, Hand, ManaPool and PlayZone
+2. There are 5 zones, currently working 3, Hand, ManaPool and PlayZone.
 3. A player can also rob monsters or from the manaPool Area
 4. If a card an action is performed card owner it returns either to his/her hand or graveyard.
+5. The idea is that everyone draws a card from a single pile, 7 cards.
+6. Every card can be used in the manaPool. Cast spells and monsters.
+7. You hit the opponent on your right, and you get hit by the opponent on your left.
+8. You can zoom in if you dont see the card.
+9. Currently the system works if th Card has an image_url.
 
 ### Development
 
