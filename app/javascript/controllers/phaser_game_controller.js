@@ -2,8 +2,6 @@ import { Controller } from "@hotwired/stimulus"
 import Phaser from "phaser"
 import Game from "../scenes/game"
 
-// https://www.youtube.com/watch?v=QjrVfAvxQ6w CONTINUE WATCHING
-
 // Connects to data-controller="phaser-game"
 export default class extends Controller {
   static targets = [
